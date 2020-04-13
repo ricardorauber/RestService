@@ -1,0 +1,6 @@
+module RestService {
+  umbrella header "RestService-umbrella.h"
+
+  export *
+  module * { export * }
+}

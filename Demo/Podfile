@@ -1,0 +1,5 @@
+target 'Demo' do
+  platform :ios, '12.4'
+
+  pod 'RestService', :path => '../', :testspecs => ['Tests']
+end
