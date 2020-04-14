@@ -12,6 +12,7 @@
 		479D292F243BAAEE000BF2F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 479D292D243BAAEE000BF2F9 /* Main.storyboard */; };
 		479D2931243BAAF1000BF2F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 479D2930243BAAF1000BF2F9 /* Assets.xcassets */; };
 		479D2934243BAAF1000BF2F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 479D2932243BAAF1000BF2F9 /* LaunchScreen.storyboard */; };
+		47C78C4724464BB500407841 /* GitHubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C78C4624464BB500407841 /* GitHubService.swift */; };
 		F0E7A69287169FCB56786BA8 /* libPods-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B893D7D2990BF498E6251091 /* libPods-Demo.a */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,7 @@
 		479D2930243BAAF1000BF2F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		479D2933243BAAF1000BF2F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		479D2935243BAAF1000BF2F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47C78C4624464BB500407841 /* GitHubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubService.swift; sourceTree = "<group>"; };
 		685D293AC9BE183676DB54DD /* Pods-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.debug.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		B893D7D2990BF498E6251091 /* libPods-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -63,6 +65,7 @@
 			children = (
 				479D2927243BAAEE000BF2F9 /* AppDelegate.swift */,
 				479D292B243BAAEE000BF2F9 /* ViewController.swift */,
+				47C78C4624464BB500407841 /* GitHubService.swift */,
 				479D292D243BAAEE000BF2F9 /* Main.storyboard */,
 				479D2930243BAAF1000BF2F9 /* Assets.xcassets */,
 				479D2932243BAAF1000BF2F9 /* LaunchScreen.storyboard */,
@@ -186,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				479D292C243BAAEE000BF2F9 /* ViewController.swift in Sources */,
+				47C78C4724464BB500407841 /* GitHubService.swift in Sources */,
 				479D2928243BAAEE000BF2F9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 /// Protocol to make requests
-protocol RequestExecutable {
+public protocol RequestExecutable {
 	
 	/// Creates a task to run a JSON request without parameters
 	///

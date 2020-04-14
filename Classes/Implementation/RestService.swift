@@ -152,10 +152,10 @@ public class RestService {
 extension RestService: RequestExecutable {
 	
 	@discardableResult
-	func json(method: HTTPMethod,
-			  path: String,
-			  interceptor: RestRequestInterceptor?,
-			  callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+	public func json(method: HTTPMethod,
+					 path: String,
+					 interceptor: RestRequestInterceptor?,
+					 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		
 		let request = buildRequest(method: method,
 								   path: path,
@@ -167,11 +167,11 @@ extension RestService: RequestExecutable {
 	}
 	
 	@discardableResult
-	func json<T: Codable>(method: HTTPMethod,
-						  path: String,
-						  parameters: T,
-						  interceptor: RestRequestInterceptor?,
-						  callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+	public func json<T: Codable>(method: HTTPMethod,
+								 path: String,
+								 parameters: T,
+								 interceptor: RestRequestInterceptor?,
+								 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		
 		var queryItems: [URLQueryItem]? = nil
 		var body: Data? = nil
@@ -190,11 +190,11 @@ extension RestService: RequestExecutable {
 	}
 	
 	@discardableResult
-	func formData(method: HTTPMethod,
-				  path: String,
-				  parameters: [FormDataParameter],
-				  interceptor: RestRequestInterceptor?,
-				  callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+	public func formData(method: HTTPMethod,
+						 path: String,
+						 parameters: [FormDataParameter],
+						 interceptor: RestRequestInterceptor?,
+						 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		
 		let boundary = UUID().uuidString
 		let body = buildFormDataBody(boundary: boundary, parameters: parameters)

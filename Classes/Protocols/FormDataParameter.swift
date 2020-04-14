@@ -1,5 +1,5 @@
 /// Protocol to generate form data
-protocol FormDataParameter {
+public protocol FormDataParameter {
 	
 	/// Generates data for the form data request
 	///

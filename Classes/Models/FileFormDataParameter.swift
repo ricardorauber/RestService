@@ -37,7 +37,7 @@ public struct FileFormDataParameter {
 // MARK: - FormDataParameter
 extension FileFormDataParameter: FormDataParameter {
 	
-	func formData(boundary: String) -> Data? {
+	public func formData(boundary: String) -> Data? {
 		guard !name.isEmpty,
 			!filename.isEmpty,
 			!contentType.isEmpty,

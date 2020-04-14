@@ -21,7 +21,7 @@ public struct TextFormDataParameter {
 // MARK: - FormDataParameter
 extension TextFormDataParameter: FormDataParameter {
 
-	func formData(boundary: String) -> Data? {
+	public func formData(boundary: String) -> Data? {
 		guard !name.isEmpty,
 			!value.isEmpty,
 			!boundary.isEmpty
