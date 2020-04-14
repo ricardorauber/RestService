@@ -64,6 +64,11 @@ class HTTPMethodTests: QuickSpec {
 					expect(method.rawValue) == "OPTIONS"
 				}
 				
+				it("should have the PATCH method") {
+					let method: HTTPMethod = .patch
+					expect(method.rawValue) == "PATCH"
+				}
+				
 				it("should have the POST method") {
 					let method: HTTPMethod = .post
 					expect(method.rawValue) == "POST"
