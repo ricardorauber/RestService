@@ -1,4 +1,4 @@
 protocol RestRequestInterceptor {
 
-	func adapt(url: URLRequest) -> URLRequest
+	func adapt(request: URLRequest) -> URLRequest
 }

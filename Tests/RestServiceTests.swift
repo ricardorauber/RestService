@@ -1,11 +1,13 @@
 import Quick
 import Nimble
+import OHHTTPStubs
 @testable import RestService
 
 class RestServiceTests: QuickSpec {
 	override func spec() {
 		
 		var service: RestService!
+		let timeout: TimeInterval = 3
 		
 		describe("RestService") {
 			
@@ -111,6 +113,22 @@ class RestServiceTests: QuickSpec {
 				}
 			}
 			
+			context("jsonHeaders") {
+				
+				it("should have the right headers") {
+					let headers = service.jsonHeaders()
+					expect(headers["Content-Type"]) == "application/json"
+				}
+			}
+			
+			context("formDataHeaders") {
+				
+				it("should have the right headers") {
+					let headers = service.formDataHeaders(boundary: "abcde")
+					expect(headers["Content-Type"]) == "multipart/form-data; boundary=abcde"
+				}
+			}
+			
 			context("buildJsonBody") {
 				
 				it("should create a body with a string item") {
@@ -203,19 +221,354 @@ class RestServiceTests: QuickSpec {
 				}
 			}
 			
-			context("jsonHeaders") {
+			context("buildFormDataBody") {
 				
-				it("should have the right headers") {
-					let headers = service.jsonHeaders()
-					expect(headers["Content-Type"]) == "application/json"
+				it("should not build a body with an empty boundary") {
+					let parameters: [FormDataParameter] = [
+						TextFormDataParameter(name: "name", value: "value")
+					]
+					let data = service.buildFormDataBody(boundary: "", parameters: parameters)
+					expect(data).to(beNil())
+				}
+				
+				it("should not build a body with an empty parameters list") {
+					let data = service.buildFormDataBody(boundary: "abcde", parameters: [])
+					expect(data).to(beNil())
+				}
+				
+				it("should create a body with a text parameter") {
+					let parameters: [FormDataParameter] = [
+						TextFormDataParameter(name: "user", value: "john")
+					]
+					let data = service.buildFormDataBody(boundary: "abcde", parameters: parameters)
+					expect(data).toNot(beNil())
+					let string = String(data: data!, encoding: .utf8)
+					expect(string).toNot(beNil())
+					expect(string) == "--abcde\r\nContent-Disposition: form-data; name=\"user\"\r\n\r\njohn\r\n--abcde--\r\n"
+				}
+				
+				it("should create a body with a file parameter") {
+					let parameters: [FormDataParameter] = [
+						FileFormDataParameter(name: "photo", filename: "photo.jpg", contentType: "image/jpg", data: "image".data(using: .utf8)!)
+					]
+					let data = service.buildFormDataBody(boundary: "abcde", parameters: parameters)
+					expect(data).toNot(beNil())
+					let string = String(data: data!, encoding: .utf8)
+					expect(string).toNot(beNil())
+					expect(string) == "--abcde\r\nContent-Disposition: form-data; name=\"photo\"; filename=\"photo.jpg\"\r\nContent-Type: \"image/jpg\"\r\n\r\nimage\r\n--abcde--\r\n"
+				}
+				
+				it("should create a body with multiple parameters") {
+					let parameters: [FormDataParameter] = [
+						TextFormDataParameter(name: "user", value: "john"),
+						FileFormDataParameter(name: "photo", filename: "photo.jpg", contentType: "image/jpg", data: "image".data(using: .utf8)!)
+					]
+					let data = service.buildFormDataBody(boundary: "abcde", parameters: parameters)
+					expect(data).toNot(beNil())
+					let string = String(data: data!, encoding: .utf8)
+					expect(string).toNot(beNil())
+					expect(string) == "--abcde\r\nContent-Disposition: form-data; name=\"user\"\r\n\r\njohn\r\n--abcde\r\nContent-Disposition: form-data; name=\"photo\"; filename=\"photo.jpg\"\r\nContent-Type: \"image/jpg\"\r\n\r\nimage\r\n--abcde--\r\n"
 				}
 			}
 			
-			context("formDataHeaders") {
+			context("buildRequest") {
 				
-				it("should have the right headers") {
-					let headers = service.formDataHeaders(boundary: "abcde")
-					expect(headers["Content-Type"]) == "multipart/form-data; boundary=abcde"
+				it("should not create a request with an invalid path") {
+					let request = service.buildRequest(
+						method: .get,
+						path: "a",
+						queryItems: nil,
+						headers: nil,
+						body: nil,
+						interceptor: nil)
+					expect(request).to(beNil())
+				}
+				
+				it("should create a basic request") {
+					let request = service.buildRequest(
+						method: .get,
+						path: "/api",
+						queryItems: nil,
+						headers: nil,
+						body: nil,
+						interceptor: nil
+					)
+					expect(request).toNot(beNil())
+					expect(request?.httpMethod) == "GET"
+					expect(request?.url?.host) == "server.com"
+					expect(request?.url?.path) == "/api"
+				}
+				
+				it("should create a request with query items") {
+					let request = service.buildRequest(
+						method: .get,
+						path: "/api",
+						queryItems: [
+							URLQueryItem(name: "user", value: "john")
+						],
+						headers: nil,
+						body: nil,
+						interceptor: nil
+					)
+					expect(request).toNot(beNil())
+					expect(request?.url?.query) == "user=john"
+				}
+				
+				it("should create a request with headers") {
+					let request = service.buildRequest(
+						method: .get,
+						path: "/api",
+						queryItems: nil,
+						headers: [
+							"Content-Type": "application/json"
+						],
+						body: nil,
+						interceptor: nil
+					)
+					expect(request).toNot(beNil())
+					expect(request?.allHTTPHeaderFields).toNot(beNil())
+					expect(request?.allHTTPHeaderFields?.count) == 1
+					expect(request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+				}
+				
+				it("should create a request with a body") {
+					let body = "some data".data(using: .utf8)
+					let request = service.buildRequest(
+						method: .get,
+						path: "/api",
+						queryItems: nil,
+						headers: nil,
+						body: body,
+						interceptor: nil
+					)
+					expect(request).toNot(beNil())
+					expect(request?.httpBody).toNot(beNil())
+					expect(request?.httpBody) == body
+				}
+				
+				it("should create a request that was intercepted") {
+					let request = service.buildRequest(
+						method: .get,
+						path: "/api",
+						queryItems: nil,
+						headers: nil,
+						body: nil,
+						interceptor: Interceptor()
+					)
+					expect(request).toNot(beNil())
+					expect(request?.allHTTPHeaderFields).toNot(beNil())
+					expect(request?.allHTTPHeaderFields?.count) == 1
+					expect(request?.allHTTPHeaderFields?["dummy"]) == "dummy"
+				}
+				
+				it("should create a full request") {
+					let body = "some data".data(using: .utf8)
+					let request = service.buildRequest(
+						method: .get,
+						path: "/api",
+						queryItems: [
+							URLQueryItem(name: "user", value: "john")
+						],
+						headers: [
+							"Content-Type": "application/json"
+						],
+						body: body,
+						interceptor: Interceptor()
+					)
+					expect(request).toNot(beNil())
+					expect(request?.httpMethod) == "GET"
+					expect(request?.url?.host) == "server.com"
+					expect(request?.url?.path) == "/api"
+					expect(request?.url?.query) == "user=john"
+					expect(request?.allHTTPHeaderFields).toNot(beNil())
+					expect(request?.allHTTPHeaderFields?.count) == 2
+					expect(request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+					expect(request?.allHTTPHeaderFields?["dummy"]) == "dummy"
+					expect(request?.httpBody).toNot(beNil())
+					expect(request?.httpBody) == body
+				}
+			}
+			
+			context("buildTask") {
+				
+				it("should not build a task with no request") {
+					let result = service.buildTask(request: nil) { _ in }
+					expect(result).to(beNil())
+				}
+				
+				it("should build a task from a given request") {
+					let request = service.buildRequest(
+						method: .get,
+						path: "/api",
+						queryItems: nil,
+						headers: nil,
+						body: nil,
+						interceptor: nil
+					)
+					let result = service.buildTask(request: request) { _ in }
+					expect(result).toNot(beNil())
+				}
+			}
+			
+			context("HTTPService") {
+
+				beforeEach {
+					HTTPStubs.removeAllStubs()
+					stub(condition: isHost("server.com")) { _ in
+						return HTTPStubsResponse(jsonObject: ["string": "completed"], statusCode: 200, headers: nil)
+					}
+				}
+
+				context("json") {
+
+					it("should create a json request without parameters") {
+						var completed = false
+						let task = service.json(
+							method: .get,
+							path: "/api",
+							interceptor: Interceptor()) { response in
+								expect(response.data).toNot(beNil())
+								expect(response.request).toNot(beNil())
+								expect(response.response).toNot(beNil())
+								expect(response.error).to(beNil())
+								expect(response.request?.httpMethod) == "GET"
+								expect(response.request?.url?.host) == "server.com"
+								expect(response.request?.url?.path) == "/api"
+								expect(response.request?.url?.query).to(beNil())
+								expect(response.request?.allHTTPHeaderFields).toNot(beNil())
+								expect(response.request?.allHTTPHeaderFields?.count) == 2
+								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+								expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
+								expect(response.request?.httpBody).to(beNil())
+								expect(response.stringValue()).toNot(beNil())
+								expect(response.stringValue()) == "{\"string\":\"completed\"}"
+								let decodable = response.decodableValue(of: Parameters.self)
+								expect(decodable).toNot(beNil())
+								expect(decodable?.string) == "completed"
+								let dictionary = response.dictionaryValue()
+								expect(dictionary).toNot(beNil())
+								expect(dictionary?["string"] as? String) == "completed"
+								completed = true
+						}
+						expect(task).toNot(beNil())
+						expect(completed).toEventually(beTrue(), timeout: timeout)
+					}
+
+					it("should create a json request with query items") {
+						var completed = false
+						let task = service.json(
+							method: .get,
+							path: "/api",
+							parameters: Parameters(string: "completed", int: nil, stringsList: nil, intList: nil),
+							interceptor: Interceptor()) { response in
+								expect(response.data).toNot(beNil())
+								expect(response.request).toNot(beNil())
+								expect(response.response).toNot(beNil())
+								expect(response.error).to(beNil())
+								expect(response.request?.httpMethod) == "GET"
+								expect(response.request?.url?.host) == "server.com"
+								expect(response.request?.url?.path) == "/api"
+								expect(response.request?.url?.query) == "string=completed"
+								expect(response.request?.allHTTPHeaderFields).toNot(beNil())
+								expect(response.request?.allHTTPHeaderFields?.count) == 2
+								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+								expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
+								expect(response.request?.httpBody).to(beNil())
+								expect(response.stringValue()).toNot(beNil())
+								expect(response.stringValue()) == "{\"string\":\"completed\"}"
+								let decodable = response.decodableValue(of: Parameters.self)
+								expect(decodable).toNot(beNil())
+								expect(decodable?.string) == "completed"
+								let dictionary = response.dictionaryValue()
+								expect(dictionary).toNot(beNil())
+								expect(dictionary?["string"] as? String) == "completed"
+								completed = true
+						}
+						expect(task).toNot(beNil())
+						expect(completed).toEventually(beTrue(), timeout: timeout)
+					}
+
+					it("should create a json request with body") {
+						var completed = false
+						let task = service.json(
+							method: .post,
+							path: "/api",
+							parameters: Parameters(string: "completed", int: nil, stringsList: nil, intList: nil),
+							interceptor: Interceptor()) { response in
+								expect(response.data).toNot(beNil())
+								expect(response.request).toNot(beNil())
+								expect(response.response).toNot(beNil())
+								expect(response.error).to(beNil())
+								expect(response.request?.httpMethod) == "POST"
+								expect(response.request?.url?.host) == "server.com"
+								expect(response.request?.url?.path) == "/api"
+								expect(response.request?.url?.query).to(beNil())
+								expect(response.request?.allHTTPHeaderFields).toNot(beNil())
+								expect(response.request?.allHTTPHeaderFields?.count) == 2
+								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+								expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
+								expect(response.request?.httpBody).toNot(beNil())
+								let body = try? JSONDecoder().decode(Parameters.self, from: response.request!.httpBody!)
+								expect(body).toNot(beNil())
+								expect(body?.string) == "completed"
+								expect(response.stringValue()).toNot(beNil())
+								expect(response.stringValue()) == "{\"string\":\"completed\"}"
+								let decodable = response.decodableValue(of: Parameters.self)
+								expect(decodable).toNot(beNil())
+								expect(decodable?.string) == "completed"
+								let dictionary = response.dictionaryValue()
+								expect(dictionary).toNot(beNil())
+								expect(dictionary?["string"] as? String) == "completed"
+								completed = true
+						}
+						expect(task).toNot(beNil())
+						expect(completed).toEventually(beTrue(), timeout: timeout)
+					}
+				}
+				
+				context("formData") {
+					
+					it("should create a form data request") {
+						var completed = false
+						let task = service.formData(
+							method: .post,
+							path: "/api",
+							parameters: [
+								TextFormDataParameter(name: "string", value: "completed")
+							],
+							interceptor: Interceptor()) { response in
+								expect(response.data).toNot(beNil())
+								expect(response.request).toNot(beNil())
+								expect(response.response).toNot(beNil())
+								expect(response.error).to(beNil())
+								expect(response.request?.httpMethod) == "POST"
+								expect(response.request?.url?.host) == "server.com"
+								expect(response.request?.url?.path) == "/api"
+								expect(response.request?.url?.query).to(beNil())
+								expect(response.request?.allHTTPHeaderFields).toNot(beNil())
+								expect(response.request?.allHTTPHeaderFields?.count) == 2
+								let headerPrefix = "multipart/form-data; boundary="
+								let boundary = response.request?.allHTTPHeaderFields?["Content-Type"]?.dropFirst(headerPrefix.count)
+								expect(boundary).toNot(beNil())
+								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == headerPrefix + boundary!
+								expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
+								expect(response.request?.httpBody).toNot(beNil())
+								let body = String(data: response.request!.httpBody!, encoding: .utf8)
+								expect(body).toNot(beNil())
+								expect(body) == "--\(boundary!)\r\nContent-Disposition: form-data; name=\"string\"\r\n\r\ncompleted\r\n--\(boundary!)--\r\n"
+								expect(response.stringValue()).toNot(beNil())
+								expect(response.stringValue()) == "{\"string\":\"completed\"}"
+								let decodable = response.decodableValue(of: Parameters.self)
+								expect(decodable).toNot(beNil())
+								expect(decodable?.string) == "completed"
+								let dictionary = response.dictionaryValue()
+								expect(dictionary).toNot(beNil())
+								expect(dictionary?["string"] as? String) == "completed"
+								completed = true
+						}
+						expect(task).toNot(beNil())
+						expect(completed).toEventually(beTrue(), timeout: timeout)
+					}
 				}
 			}
 		}
@@ -229,4 +582,12 @@ private struct Parameters: Codable {
 	let int: Int?
 	let stringsList: [String]?
 	let intList: [Int]?
+}
+
+private struct Interceptor: RestRequestInterceptor {
+	func adapt(request: URLRequest) -> URLRequest {
+		var request = request
+		request.addValue("dummy", forHTTPHeaderField: "dummy")
+		return request
+	}
 }

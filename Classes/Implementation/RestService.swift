@@ -57,6 +57,7 @@ public class RestService {
 	}
 	
 	func buildFormDataBody(boundary: String, parameters: [FormDataParameter]) -> Data? {
+		guard !boundary.isEmpty, parameters.count > 0 else { return nil }
 		var data = Data()
 		for parameter in parameters {
 			if let formData = parameter.formData(boundary: boundary) {
@@ -87,7 +88,20 @@ public class RestService {
 		request.httpMethod = method.rawValue
 		request.allHTTPHeaderFields = headers
 		request.httpBody = body
-		return interceptor?.adapt(url: request) ?? request
+		return interceptor?.adapt(request: request) ?? request
+	}
+	
+	func buildTask(request: URLRequest?, callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+		guard let request = request else { return nil }
+		let task = session.dataTask(with: request) { [weak self, request] data, response, error in
+			if self != nil {
+				callback(RestResponse(data: data, request: request, response: response, error: error))
+			}
+		}
+		if resumeTasksAutomatically {
+			task.resume()
+		}
+		return task
 	}
 }
 
@@ -98,26 +112,15 @@ extension RestService: HTTPService {
 	func json(method: HTTPMethod,
 			  path: String,
 			  interceptor: RestRequestInterceptor?,
-			  callback: @escaping () -> Void) -> RestDataTask? {
+			  callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		
-		if let request = buildRequest(method: method,
-									  path: path,
-									  queryItems: nil,
-									  headers: jsonHeaders(),
-									  body: nil,
-									  interceptor: interceptor) {
-			
-			let task = session.dataTask(with: request) { [weak self] data, response, error in
-				if self != nil {
-					callback()
-				}
-			}
-			if resumeTasksAutomatically {
-				task.resume()
-			}
-			return task
-		}
-		return nil
+		let request = buildRequest(method: method,
+								   path: path,
+								   queryItems: nil,
+								   headers: jsonHeaders(),
+								   body: nil,
+								   interceptor: interceptor)
+		return buildTask(request: request, callback: callback)
 	}
 	
 	@discardableResult
@@ -125,32 +128,22 @@ extension RestService: HTTPService {
 						  path: String,
 						  parameters: T,
 						  interceptor: RestRequestInterceptor?,
-						  callback: @escaping () -> Void) -> RestDataTask? {
+						  callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		
 		var queryItems: [URLQueryItem]? = nil
 		var body: Data? = nil
-		if method == .get || method == .head {
+		if method == .get || method == .head || method == .delete {
 			queryItems = buildQueryItems(parameters: parameters)
 		} else {
 			body = buildJsonBody(parameters: parameters)
 		}
-		if let request = buildRequest(method: method,
-									  path: path,
-									  queryItems: queryItems,
-									  headers: jsonHeaders(),
-									  body: body,
-									  interceptor: interceptor) {
-			let task = session.dataTask(with: request) { [weak self] data, response, error in
-				if self != nil {
-					callback()
-				}
-			}
-			if resumeTasksAutomatically {
-				task.resume()
-			}
-			return task
-		}
-		return nil
+		let request = buildRequest(method: method,
+								   path: path,
+								   queryItems: queryItems,
+								   headers: jsonHeaders(),
+								   body: body,
+								   interceptor: interceptor)
+		return buildTask(request: request, callback: callback)
 	}
 	
 	@discardableResult
@@ -158,26 +151,16 @@ extension RestService: HTTPService {
 				  path: String,
 				  parameters: [FormDataParameter],
 				  interceptor: RestRequestInterceptor?,
-				  callback: @escaping () -> Void) -> RestDataTask? {
+				  callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		
 		let boundary = UUID().uuidString
 		let body = buildFormDataBody(boundary: boundary, parameters: parameters)
-		if let request = buildRequest(method: method,
-									  path: path,
-									  queryItems: nil,
-									  headers: formDataHeaders(boundary: boundary),
-									  body: body,
-									  interceptor: interceptor) {
-			let task = session.dataTask(with: request) { [weak self] data, response, error in
-				if self != nil {
-					callback()
-				}
-			}
-			if resumeTasksAutomatically {
-				task.resume()
-			}
-			return task
-		}
-		return nil
+		let request = buildRequest(method: method,
+								   path: path,
+								   queryItems: nil,
+								   headers: formDataHeaders(boundary: boundary),
+								   body: body,
+								   interceptor: interceptor)
+		return buildTask(request: request, callback: callback)
 	}
 }
