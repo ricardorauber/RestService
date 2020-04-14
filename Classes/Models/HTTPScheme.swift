@@ -1,3 +1,4 @@
+/// HTTP scheme of the requests
 public struct HTTPScheme: RawRepresentable, Equatable, Hashable {
 	
 	public typealias RawValue = String

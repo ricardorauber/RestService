@@ -410,7 +410,7 @@ class RestServiceTests: QuickSpec {
 				}
 			}
 			
-			context("HTTPService") {
+			context("RequestExecutable") {
 
 				beforeEach {
 					HTTPStubs.removeAllStubs()

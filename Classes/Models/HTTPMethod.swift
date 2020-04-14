@@ -1,3 +1,4 @@
+/// HTTP method of the requests
 public struct HTTPMethod: RawRepresentable, Equatable, Hashable {
 	
 	public typealias RawValue = String

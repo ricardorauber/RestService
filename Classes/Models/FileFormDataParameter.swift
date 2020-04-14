@@ -1,10 +1,27 @@
-public struct FileFormDataParameter: FormDataParameter {
+/// File type of parameter for a Form Data request
+public struct FileFormDataParameter {
 
-	let name: String
-	let filename: String
-	let contentType: String
-	let data: Data
+	/// Name of the parameter
+	public let name: String
 	
+	/// Name of the file
+	public let filename: String
+	
+	/// Type of content
+	public let contentType: String
+	
+	/// Data of the file
+	public let data: Data
+	
+	// MARK: - Initialization
+	
+	/// Creates a new instance of the FileFormDataParameter
+	///
+	/// - Parameters:
+	///   - name: Name of the parameter
+	///   - filename: Name of the file
+	///   - contentType: Type of content
+	///   - data: Data of the file
 	public init(name: String,
 				filename: String,
 				contentType: String,
@@ -15,7 +32,11 @@ public struct FileFormDataParameter: FormDataParameter {
 		self.contentType = contentType
 		self.data = data
 	}
+}
 
+// MARK: - FormDataParameter
+extension FileFormDataParameter: FormDataParameter {
+	
 	func formData(boundary: String) -> Data? {
 		guard !name.isEmpty,
 			!filename.isEmpty,

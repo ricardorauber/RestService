@@ -1,12 +1,25 @@
-public struct TextFormDataParameter: FormDataParameter {
+/// Text type of parameter for a Form Data request
+public struct TextFormDataParameter {
 
-	let name: String
-	let value: String
+	/// Name of the parameter
+	public let name: String
 	
+	/// Value of the parameter
+	public let value: String
+	
+	/// Creates a new instance of the TextFormDataParameter
+	///
+	/// - Parameters:
+	///   - name: Name of the parameter
+	///   - value: Value of the parameter
 	public init(name: String, value: String) {
 		self.name = name
 		self.value = value
 	}
+}
+
+// MARK: - FormDataParameter
+extension TextFormDataParameter: FormDataParameter {
 
 	func formData(boundary: String) -> Data? {
 		guard !name.isEmpty,

@@ -1,13 +1,30 @@
+/// A REST service object that can make requests to a server.
 public class RestService {
 	
-	let session: URLSession
-	let scheme: HTTPScheme
-	let host: String
-	let port: Int?
-	var resumeTasksAutomatically = true
+	/// URLSession instance for this service
+	public let session: URLSession
+	
+	/// Scheme of the server URI
+	public let scheme: HTTPScheme
+	
+	/// Host of the server URI
+	public let host: String
+	
+	// Port of the server URI
+	public let port: Int?
+	
+	/// Defines if the tasks should be executed automatically or not
+	public var resumeTasksAutomatically = true
 	
 	// MARK: - Initialization
 	
+	/// Creates a new instance of the RestService
+	///
+	/// - Parameters:
+	///   - session: URLSession instance for this service
+	///   - scheme: Scheme of the server URI
+	///   - host: Host of the server URI
+	///   - port: Port of the server URI
 	public init(session: URLSession = URLSession.shared,
 				scheme: HTTPScheme = .https,
 				host: String,
@@ -21,6 +38,9 @@ public class RestService {
 	
 	// MARK: - Request building
 	
+	/// Builds a list of query items from a given codable object
+	///
+	/// - Parameter parameters: Codable object with the parameters
 	func buildQueryItems<T: Codable>(parameters: T) -> [URLQueryItem] {
 		var queryItems: [URLQueryItem] = []
 		guard let encoded = try? JSONEncoder().encode(parameters),
@@ -40,22 +60,31 @@ public class RestService {
 		return queryItems
 	}
 	
+	/// Generates all headers needed for JSON requests
 	func jsonHeaders() -> [String: String] {
 		return [
 			"Content-Type": "application/json"
 		]
 	}
 	
+	/// Generates all headers needed for Form Data requests
 	func formDataHeaders(boundary: String) -> [String: String] {
 		return [
 			"Content-Type": "multipart/form-data; boundary=" + boundary
 		]
 	}
 	
+	/// Builds the JSON body from a given codable object
+	///
+	/// - Parameter parameters: Codable object with the parameters
 	func buildJsonBody<T: Codable>(parameters: T) -> Data? {
 		return try? JSONEncoder().encode(parameters)
 	}
 	
+	/// Builds the Form Data body from a given list of parameters
+	/// - Parameters:
+	///   - boundary: Identifier of the parts of the request
+	///   - parameters: List of parameters
 	func buildFormDataBody(boundary: String, parameters: [FormDataParameter]) -> Data? {
 		guard !boundary.isEmpty, parameters.count > 0 else { return nil }
 		var data = Data()
@@ -70,6 +99,15 @@ public class RestService {
 		return data
 	}
 	
+	/// Builds the request to be executed
+	///
+	/// - Parameters:
+	///   - method: HTTP method
+	///   - path: Path of the server URI
+	///   - queryItems: List of items for the query
+	///   - headers: List of headers
+	///   - body: Data body
+	///   - interceptor: Adapts the request after creation
 	func buildRequest(method: HTTPMethod,
 					  path: String,
 					  queryItems: [URLQueryItem]?,
@@ -91,6 +129,11 @@ public class RestService {
 		return interceptor?.adapt(request: request) ?? request
 	}
 	
+	/// Builds the task to execute requests
+	///
+	/// - Parameters:
+	///   - request: Request to be executed
+	///   - callback: Closure to be executed with the results of the request
 	func buildTask(request: URLRequest?, callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		guard let request = request else { return nil }
 		let task = session.dataTask(with: request) { [weak self, request] data, response, error in
@@ -105,8 +148,8 @@ public class RestService {
 	}
 }
 
-// MARK: - HTTPService
-extension RestService: HTTPService {
+// MARK: - RequestExecutable
+extension RestService: RequestExecutable {
 	
 	@discardableResult
 	func json(method: HTTPMethod,
