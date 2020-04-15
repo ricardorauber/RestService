@@ -1,17 +1,29 @@
 import UIKit
 import RestService
 
-class ViewController: UIViewController {
+class UserReposViewController: UIViewController {
+	
+	// MARK: - Properties
 	
 	var github: GitHubService!
+	var user: User!
 	var repositories: [Repository] = []
+	
+	// MARK: - IBOutlets
+	
 	@IBOutlet weak var tableView: UITableView!
+	
+	// MARK: - Life cycle
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let service = RestService(host: "api.github.com")
-		github = GitHubService(service: service)
-		github.loadRepos(user: "ricardorauber") { [weak self] repositories in
+		loadRepos()
+	}
+	
+	// MARK: - Service
+	
+	func loadRepos() {
+		github.loadRepos(user: user.login) { [weak self] repositories in
 			self?.repositories = repositories
 			DispatchQueue.main.async {
 				self?.tableView.reloadData()
@@ -21,7 +33,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource {
+extension UserReposViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return repositories.count
@@ -33,5 +45,13 @@ extension ViewController: UITableViewDataSource {
 		cell.textLabel?.text = repository.name
 		cell.detailTextLabel?.text = repository.description ?? "No description"
 		return cell
+	}
+}
+
+// MARK: - UITableViewDelegate
+extension UserReposViewController: UITableViewDelegate {
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }

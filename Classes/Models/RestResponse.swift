@@ -82,8 +82,8 @@ public struct RestResponse {
 	}
 	
 	/// Converts the data into an array
-	public func arrayValue() -> [[String: Any]]? {
+	public func arrayValue() -> [Any]? {
 		guard let data = data else { return nil }
-		return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
+		return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [Any]
 	}
 }

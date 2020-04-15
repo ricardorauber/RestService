@@ -153,16 +153,13 @@ class RestResponseTests: QuickSpec {
 				}
 				
 				it("should convert a array value") {
-					let users: [[String: Any]] = [
-						["name": "john"],
-						["name": "paul"]
-					]
+					let users: [String] = ["john", "paul"]
 					let data = try? JSONSerialization.data(withJSONObject: users, options: .prettyPrinted)
 					restResponse = RestResponse(data: data, request: nil, response: nil, error: nil)
 					let result = restResponse.arrayValue()
 					expect(result).toNot(beNil())
-					expect(result?.first?["name"] as? String) == "john"
-					expect(result?.last?["name"] as? String) == "paul"
+					expect(result?.first as? String) == "john"
+					expect(result?.last as? String) == "paul"
 				}
 			}
 		}

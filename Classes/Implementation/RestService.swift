@@ -146,6 +146,12 @@ public class RestService {
 		}
 		return task
 	}
+	
+	func buildPath(_ path: [RestPath]) -> String {
+		let stringPaths = path.map { $0.rawValue }
+		let fullPath = "/" + stringPaths.joined(separator: "/")
+		return fullPath
+	}
 }
 
 // MARK: - RequestExecutable
@@ -164,6 +170,18 @@ extension RestService: RequestExecutable {
 								   body: nil,
 								   interceptor: interceptor)
 		return buildTask(request: request, callback: callback)
+	}
+	
+	@discardableResult
+	public func json(method: HTTPMethod,
+					 path: [RestPath],
+					 interceptor: RestRequestInterceptor?,
+					 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+		
+		return json(method: method,
+					path: buildPath(path),
+					interceptor: interceptor,
+					callback: callback)
 	}
 	
 	@discardableResult
@@ -190,6 +208,19 @@ extension RestService: RequestExecutable {
 	}
 	
 	@discardableResult
+	public func json<T: Codable>(method: HTTPMethod,
+								 path: [RestPath],
+								 parameters: T,
+								 interceptor: RestRequestInterceptor?,
+								 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+		return json(method: method,
+					path: buildPath(path),
+					parameters: parameters,
+					interceptor: interceptor,
+					callback: callback)
+	}
+	
+	@discardableResult
 	public func formData(method: HTTPMethod,
 						 path: String,
 						 parameters: [FormDataParameter],
@@ -205,5 +236,19 @@ extension RestService: RequestExecutable {
 								   body: body,
 								   interceptor: interceptor)
 		return buildTask(request: request, callback: callback)
+	}
+	
+	@discardableResult
+	public func formData(method: HTTPMethod,
+						 path: [RestPath],
+						 parameters: [FormDataParameter],
+						 interceptor: RestRequestInterceptor?,
+						 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+		
+		return formData(method: method,
+						path: buildPath(path),
+						parameters: parameters,
+						interceptor: interceptor,
+						callback: callback)
 	}
 }

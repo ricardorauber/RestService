@@ -1,27 +1,27 @@
 import RestService
 
-struct Owner: Codable {
-	let login: String
-	let avatarUrl: String
-	
-	private enum CodingKeys: String, CodingKey {
-	  case login
-	  case avatarUrl = "avatar_url"
-	}
-}
-
-struct Repository: Codable {
-	let name: String
-	let description: String?
-	let owner: Owner
-}
-
 class GitHubService {
 	
 	let service: RestService
 	
 	init(service: RestService) {
 		self.service = service
+	}
+	
+	func findUsers(name: String, callback: @escaping ([User]) -> Void) -> RestDataTask? {
+		struct FindUserParameters: Codable {
+			let q: String
+		}
+		return service.json(
+			method: .get,
+			path: [.search, .users],
+			parameters: FindUserParameters(q: name),
+			interceptor: nil) { [weak self] response in
+				guard self != nil else { return }
+				let userList = response.decodableValue(of: UserList.self)
+				let users = userList?.users ?? []
+				callback(users)
+		}
 	}
 	
 	func loadRepos(user: String, callback: @escaping ([Repository]) -> Void) {
