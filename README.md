@@ -7,8 +7,8 @@
 
 ## REST Service
 
-Hey there, thanks for coming! If you got here is because you are looking for something to help implementing the HTTP requests for you app, right? 
-That's exactly what this framework does and I hope it fits in your project smoothly. You might be wondering why another service and what are the advantages over great frameworks, like Alamofire?
+Hey there, thanks for coming! If you got here is because you are looking for something to help implementing the HTTP requests for your app, right? 
+That's exactly what this framework does and I hope it fits in your project smoothly. You might be wondering why another service and what are the advantages over great frameworks like Alamofire, right?
 Well, indeed there are many solutions out there and they are great for sure. The only think is that they are so good that they have too much possibilities and I wanted to build something really simple, secure and easy to use.
 Let me show you how it works and you will decide if it's a good solution for you.
 
@@ -65,9 +65,9 @@ See that? It is very simple!
 
 #### Making a request with parameters
 
-Now let's make some request with parameters, but first let's clarify something about these parameters. When you make `GET`, `HEAD` and `DELETE` requests, you send parameters as query strings, but for all other methods, you send parameters in the request body. With that, the `RestService` will set the right property depending of the method you have selected for that request.
+Now let's make some request with parameters, but first let's clarify something about these parameters. When you make `GET`, `HEAD` and `DELETE` requests, you send parameters as query strings, but for all other methods, you send parameters in the request body. With that, the `RestService` will set the right properties depending on the method you have selected for that request.
 
-Another big thing here is that because of security, instead of simple dictionaries, we use `Encodable` objects as the parameters. The reason for that is that the compiler will not complain about a typo in your parameter names, for instance, and will be better to code the API logic.
+Another big thing here is that because of security, instead of simple dictionaries, we use `Encodable` objects as the parameters. The reason for that is that the compiler will complain about a typo in your parameter names, for instance, and will be better to code the API logic.
 
 So, let's make a `GET` request with some parameters:
 
@@ -89,7 +89,7 @@ service.json(
 }
 ```
 
-What just happened? Well, it did create a request for this URL without a body: `http://server.com/api/users?username=john&limit=10&offset=0`
+What just happened? Well, it did create a request for this URL without a body: `https://server.com/api/users?username=john&limit=10&offset=0`
 
 What about `POST` requests? Let's see!
 
@@ -110,7 +110,7 @@ service.json(
 }
 ```
 
-With that, it has created a `POST` request for `http://server.com/api/users` with this `JSON` body:
+With that, it has created a `POST` request for `https://server.com/api/users` with this `JSON` body:
 
 ```json
 {
@@ -123,10 +123,10 @@ Cool, right?
 
 #### Making requests with an interceptor
 
-Interceptors are a great way to change something on a request just before sending it to the server. That's a really good opportunity to add some headers like an authentication token. Let's see it in action!
+Interceptors are a great way to change something on a request just before sending it to the server. That's a really good opportunity to add some headers like an authentication token, for instance. Let's see it in action!
 
 ```swift
-struct TokenInterceptor: : RestRequestInterceptor {
+struct TokenInterceptor: RestRequestInterceptor {
 	func adapt(request: URLRequest) -> URLRequest {
 		var request = request
 		request.addValue("Bearer gahsjdGJSgdsajagA", forHTTPHeaderField: "Authorization")
@@ -148,9 +148,9 @@ This will add that token to the request just before the execution. Interceptors 
 
 ### Dealing with the response from the server
 
-One of the things that many people have issues is with the reponse from the server. Casting values, serializing, decoding... the possibilities are unlimited. What I tried to achieve with this framework was to have a nice response object that could provide me everything I want during the development (debugging) and production.
+One of the things that many people have issues is with the reponse from the server. Casting values, serializing, decoding... the possibilities are unlimited. What I tried to achieve with this framework was to have a nice response object that could provide us everything we want during the development (debugging) and release.
 
-The result is the `RestResponse` object. It has only the 3 properties `URLResponse` gives but with some nice computed properties and methods to handle the data.
+The result is the `RestResponse` object. It has only the 3 properties `URLResponse` gives, the the original `URLRequest` and some nice computed properties and methods to handle the data.
 
 #### Status Code
 
@@ -184,7 +184,7 @@ service.json(
 
 #### String Value
 
-When you receive a response from the server, it comes with a `Data?` body. If you want to convert it to a string value, just need to use the method and optionally giving a string endecoder:
+When you receive a response from the server, it comes with a `Data?` body. If you want to convert it to a string value, just need to use the method and optionally giving a string encoder:
 
 ```swift
 service.json(
@@ -198,7 +198,7 @@ service.json(
 
 #### Int Value
 
-Some responses come with a simple integer value, so you can easily get it:
+Some responses comes with a simple integer value, so you can easily get it:
 
 ```swift
 service.json(
@@ -252,7 +252,7 @@ service.json(
 
 #### Decodable Value
 
-Now here comes the real good thing. You can try to convert the response in any kind of `Decodable` object. That will make your life easier in many ways. Let's say that your server can give a response with an actual object or a generic error, both in the response body:
+Now here comes the real good thing. You can try to convert the response to any kind of `Decodable` objects. That will make your life easier in many ways. Let's say that your server can give a response with an object, a list of objects or an error object, all in the response body:
 
 ```swift
 service.json(
@@ -271,7 +271,7 @@ service.json(
 
 ## RestPath
 
-There is also a special object called `RestPath `. As you can see, it is very simple:
+There is also a special object called `RestPath`. As you can see, it is very simple:
 
 ```Swift
 struct RestPath: RawRepresentable, Equatable, Hashable {
@@ -300,6 +300,8 @@ service.json(
 		print(response.stringValue())
 }
 ```
+
+The resulting URL will be: `http://server.com/api/users/1`.
 
 This is how we can safely reuse rest paths throughout the app and it is even better in local frameworks because you can create internal extensions for each one.
 
