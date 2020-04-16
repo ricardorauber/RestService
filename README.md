@@ -43,7 +43,7 @@ It will create a service ready to be used with an `https` scheme. But let's say 
 
 ```swift
 import RestService
-let service = RestService(scheme: .http, host: "localhost", port: 3000)
+let service = RestService(session: URLSession.shared, scheme: .http, host: "localhost", port: 3000)
 ```
 
 With that, it will create a service for `http://localhost:3000/`.
