@@ -190,7 +190,7 @@ class RestServiceTests: QuickSpec {
 				
 				it("should have the right headers") {
 					let headers = service.jsonHeaders()
-					expect(headers["Content-Type"]) == "application/json"
+					expect(headers["Content-Type"]) == "application/json; charset=utf-8"
 				}
 			}
 			
@@ -611,7 +611,7 @@ class RestServiceTests: QuickSpec {
 								expect(response.request?.url?.query).to(beNil())
 								expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 								expect(response.request?.allHTTPHeaderFields?.count) == 2
-								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 								expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 								expect(response.request?.httpBody).to(beNil())
 								expect(response.stringValue()).toNot(beNil())
@@ -644,7 +644,7 @@ class RestServiceTests: QuickSpec {
 								expect(response.request?.url?.query).to(beNil())
 								expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 								expect(response.request?.allHTTPHeaderFields?.count) == 2
-								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 								expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 								expect(response.request?.httpBody).to(beNil())
 								expect(response.stringValue()).toNot(beNil())
@@ -680,7 +680,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query) == "string=completed"
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).to(beNil())
 									expect(response.stringValue()).toNot(beNil())
@@ -714,7 +714,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query) == "string=completed"
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).to(beNil())
 									expect(response.stringValue()).toNot(beNil())
@@ -748,7 +748,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query).to(beNil())
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).toNot(beNil())
 									let body = try? JSONDecoder().decode(Parameters.self, from: response.request!.httpBody!)
@@ -785,7 +785,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query).to(beNil())
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).toNot(beNil())
 									let body = try? JSONDecoder().decode(Parameters.self, from: response.request!.httpBody!)
@@ -826,7 +826,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query) == "string=completed"
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).to(beNil())
 									expect(response.stringValue()).toNot(beNil())
@@ -861,7 +861,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query) == "string=completed"
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).to(beNil())
 									expect(response.stringValue()).toNot(beNil())
@@ -896,7 +896,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query).to(beNil())
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).toNot(beNil())
 									let body = try? JSONDecoder().decode(Parameters.self, from: response.request!.httpBody!)
@@ -934,7 +934,7 @@ class RestServiceTests: QuickSpec {
 									expect(response.request?.url?.query).to(beNil())
 									expect(response.request?.allHTTPHeaderFields).toNot(beNil())
 									expect(response.request?.allHTTPHeaderFields?.count) == 2
-									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json"
+									expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == "application/json; charset=utf-8"
 									expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
 									expect(response.request?.httpBody).toNot(beNil())
 									let body = try? JSONDecoder().decode(Parameters.self, from: response.request!.httpBody!)

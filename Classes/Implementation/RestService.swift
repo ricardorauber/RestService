@@ -70,7 +70,7 @@ public class RestService {
 	/// Generates all headers needed for JSON requests
 	func jsonHeaders() -> [String: String] {
 		return [
-			"Content-Type": "application/json"
+			"Content-Type": "application/json; charset=utf-8"
 		]
 	}
 	
