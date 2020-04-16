@@ -67,18 +67,16 @@ See that? It is very simple!
 
 Now let's make some request with parameters, but first let's clarify something about these parameters. When you make `GET`, `HEAD` and `DELETE` requests, you send parameters as query strings, but for all other methods, you send parameters in the request body. With that, the `RestService` will set the right properties depending on the method you have selected for that request.
 
-Another big thing here is that because of security, instead of simple dictionaries, we use `Encodable` objects as the parameters. The reason for that is that the compiler will complain about a typo in your parameter names, for instance, and will be better to code the API logic.
+Another thing here is to decide if you want to use simple dictionaries or `Encodable` objects as the parameters. I personally prefer `Encodable` objects, because the compiler will complain about a typo in your parameter names, for instance, and it will be better to code the API logic.
 
 So, let's make a `GET` request with some parameters:
 
 ```swift
-struct SearchUserRequest: Codable {
-	let username: String?
-	let limit: Int?
-	let offset: Int?
-}
-
-let parameters = SearchUserRequest(username: "john", limit: 10, offset: 0)
+let parameters: [String: Any] = [
+	"username": "john", 
+	"limit": 10, 
+	"offset": 0
+]
 
 service.json(
 	method: .get,

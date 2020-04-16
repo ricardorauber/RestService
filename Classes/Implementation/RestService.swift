@@ -5,13 +5,13 @@ public class RestService {
 	public let session: URLSession
 	
 	/// Scheme of the server URI
-	public let scheme: HTTPScheme
+	public var scheme: HTTPScheme
 	
 	/// Host of the server URI
-	public let host: String
+	public var host: String
 	
 	// Port of the server URI
-	public let port: Int?
+	public var port: Int?
 	
 	/// Defines if the tasks should be executed automatically or not
 	public var resumeTasksAutomatically = true
@@ -42,13 +42,20 @@ public class RestService {
 	///
 	/// - Parameter parameters: Codable object with the parameters
 	func buildQueryItems<T: Codable>(parameters: T) -> [URLQueryItem] {
-		var queryItems: [URLQueryItem] = []
 		guard let encoded = try? JSONEncoder().encode(parameters),
 			let decoded = try? JSONSerialization.jsonObject(with: encoded, options: .mutableContainers) as? [String: Any]
 			else {
-				return queryItems
+				return []
 		}
-		for (key, value) in decoded {
+		return buildQueryItems(parameters: decoded)
+	}
+	
+	/// Builds a list of query items from a given dictionary
+	///
+	/// - Parameter parameters: Dictionary with the parameters
+	func buildQueryItems(parameters: [String: Any]) -> [URLQueryItem] {
+		var queryItems: [URLQueryItem] = []
+		for (key, value) in parameters {
 			if let items = value as? [Any] {
 				for item in items {
 					queryItems.append(URLQueryItem(name: key, value: String(describing: item)))
@@ -79,6 +86,13 @@ public class RestService {
 	/// - Parameter parameters: Codable object with the parameters
 	func buildJsonBody<T: Codable>(parameters: T) -> Data? {
 		return try? JSONEncoder().encode(parameters)
+	}
+	
+	/// Builds the JSON body from a given dictionary
+	///
+	/// - Parameter parameters: Dictionary with the parameters
+	func buildJsonBody(parameters: [String: Any]) -> Data? {
+		return try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
 	}
 	
 	/// Builds the Form Data body from a given list of parameters
@@ -147,6 +161,10 @@ public class RestService {
 		return task
 	}
 	
+	/// Builds the path from a list of RestPath
+	///
+	/// - Parameters:
+	///   - path: List of RestPath
 	func buildPath(_ path: [RestPath]) -> String {
 		let stringPaths = path.map { $0.rawValue }
 		let fullPath = "/" + stringPaths.joined(separator: "/")
@@ -213,6 +231,42 @@ extension RestService: RequestExecutable {
 								 parameters: T,
 								 interceptor: RestRequestInterceptor?,
 								 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+		return json(method: method,
+					path: buildPath(path),
+					parameters: parameters,
+					interceptor: interceptor,
+					callback: callback)
+	}
+	
+	@discardableResult
+	public func json(method: HTTPMethod,
+					 path: String,
+					 parameters: [String: Any],
+					 interceptor: RestRequestInterceptor?,
+					 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
+		
+		var queryItems: [URLQueryItem]? = nil
+		var body: Data? = nil
+		if method == .get || method == .head || method == .delete {
+			queryItems = buildQueryItems(parameters: parameters)
+		} else {
+			body = buildJsonBody(parameters: parameters)
+		}
+		let request = buildRequest(method: method,
+								   path: path,
+								   queryItems: queryItems,
+								   headers: jsonHeaders(),
+								   body: body,
+								   interceptor: interceptor)
+		return buildTask(request: request, callback: callback)
+	}
+	
+	@discardableResult
+	public func json(method: HTTPMethod,
+					 path: [RestPath],
+					 parameters: [String: Any],
+					 interceptor: RestRequestInterceptor?,
+					 callback: @escaping (RestResponse) -> Void) -> RestDataTask? {
 		return json(method: method,
 					path: buildPath(path),
 					parameters: parameters,
