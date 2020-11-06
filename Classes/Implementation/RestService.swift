@@ -1,3 +1,5 @@
+import Foundation
+
 /// A REST service object that can make requests to a server.
 public class RestService {
 	
@@ -14,7 +16,13 @@ public class RestService {
 	public var port: Int?
 	
 	/// Defines if the tasks should be executed automatically or not
-	public var resumeTasksAutomatically = true
+	public var startTasksAutomatically = true
+    
+    @available(*, deprecated, renamed: "startTasksAutomatically")
+    public var resumeTasksAutomatically: Bool {
+        get { startTasksAutomatically }
+        set { startTasksAutomatically = newValue }
+    }
 	
 	// MARK: - Initialization
 	
@@ -155,7 +163,7 @@ public class RestService {
 				callback(RestResponse(data: data, request: request, response: response, error: error))
 			}
 		}
-		if resumeTasksAutomatically {
+		if startTasksAutomatically {
 			task.resume()
 		}
 		return task
