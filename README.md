@@ -20,7 +20,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 1.0'
+    pod 'RestService', '~> 1.1'
 end
 ```
 
@@ -54,10 +54,10 @@ Now that you have you service crated, it's time to make some requests. Let's sta
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/users",
-	interceptor: nil) { response in
-		print(response.stringValue())
+    method: .get,
+    path: "/api/users",
+    interceptor: nil) { response in
+        print(response.stringValue())
 }
 ```
 
@@ -65,46 +65,46 @@ See that? It is very simple!
 
 #### Making a JSON request with parameters
 
-Now let's make some request with parameters, but first let's clarify something about these parameters. When you make `GET`, `HEAD` and `DELETE` requests, you send parameters as query strings, but for all other methods, you send parameters in the request body. With that, the `RestService` will set the right properties depending on the method you have selected for that request.
+Now let's make a request with parameters, but first let's clarify something about these parameters. When you make `GET`, `HEAD` and `DELETE` requests, you send parameters as query strings, but for all other methods, you send parameters in the request body. With that, the `RestService` will set the right properties depending on the method you have selected for that request.
 
 Another thing here is to decide if you want to use simple dictionaries or `Encodable` objects as the parameters. I personally prefer `Encodable` objects, because the compiler will complain about a typo in your parameter names, for instance, and it will be better to code the API logic.
 
-So, let's make a `GET` request with some parameters:
+So, let's make a `GET` request with a dictionary for parameters:
 
 ```swift
 let parameters: [String: Any] = [
-	"username": "john", 
-	"limit": 10, 
-	"offset": 0
+    "username": "john", 
+    "limit": 10, 
+    "offset": 0
 ]
 
 service.json(
-	method: .get,
-	path: "/api/users",
-	parameters: parameters,
-	interceptor: nil) { response in
-		print(response.stringValue())
+    method: .get,
+    path: "/api/users",
+    parameters: parameters,
+    interceptor: nil) { response in
+        print(response.stringValue())
 }
 ```
 
 What just happened? Well, it did create a request for this URL without a body: `https://server.com/api/users?username=john&limit=10&offset=0`
 
-What about `POST` requests? Let's see!
+What about `POST` requests? Let's see it in action using a `Encodable` object!
 
 ```swift
 struct CreateUserRequest: Codable {
-	let username: String
-	let password: String
+    let username: String
+    let password: String
 }
 
 let parameters = CreateUserRequest(username: "john", password: "safepassword")
 
 service.json(
-	method: .post,
-	path: "/api/users",
-	parameters: parameters,
-	interceptor: nil) { response in
-		print(response.stringValue())
+    method: .post,
+    path: "/api/users",
+    parameters: parameters,
+    interceptor: nil) { response in
+        print(response.stringValue())
 }
 ```
 
@@ -112,8 +112,8 @@ With that, it has created a `POST` request for `https://server.com/api/users` wi
 
 ```json
 {
-	"username": "john",
-	"password": "safepassword"
+    "username": "john",
+    "password": "safepassword"
 }
 ```
 
@@ -148,20 +148,20 @@ Interceptors are a great way to change something on a request just before sendin
 
 ```swift
 struct TokenInterceptor: RestRequestInterceptor {
-	func adapt(request: URLRequest) -> URLRequest {
-		var request = request
-		request.addValue("Bearer gahsjdGJSgdsajagA", forHTTPHeaderField: "Authorization")
-		return request
-	}
+    func adapt(request: URLRequest) -> URLRequest {
+        var request = request
+        request.addValue("Bearer gahsjdGJSgdsajagA", forHTTPHeaderField: "Authorization")
+        return request
+    }
 }
 
 let interceptor = TokenInterceptor()
 
 service.json(
-	method: .get,
-	path: "/api/me",
-	interceptor: interceptor) { response in
-		print(response.stringValue())
+    method: .get,
+    path: "/api/me",
+    interceptor: interceptor) { response in
+        print(response.stringValue())
 }
 ```
 
@@ -187,7 +187,7 @@ service.json(
 
 One of the things that many people have issues is with the reponse from the server. Casting values, serializing, decoding... the possibilities are unlimited. What I tried to achieve with this framework was to have a nice response object that could provide us everything we want during the development (debugging) and release.
 
-The result is the `RestResponse` object. It has only the 3 properties `URLResponse` gives, the the original `URLRequest` and some nice computed properties and methods to handle the data.
+The result is the `RestResponse` object. It has only the 3 properties that `URLResponse` gives us, the the original `URLRequest` and some nice computed properties and methods to handle the data.
 
 #### Status Code
 
@@ -195,14 +195,14 @@ You can easily see the status code of the response with this computed property. 
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/me",
-	interceptor: interceptor) { response in
-		if 200..<300 ~= response.statusCode {
-			print("cool!")
-		} else {
-			print("oops!")
-		}
+    method: .get,
+    path: "/api/me",
+    interceptor: interceptor) { response in
+        if 200..<300 ~= response.statusCode {
+            print("cool!")
+        } else {
+            print("oops!")
+        }
 }
 ```
 
@@ -212,10 +212,10 @@ If you need to get some information from the response's headers, you can easily 
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/me",
-	interceptor: interceptor) { response in
-		print(response.headers["Token"])
+    method: .get,
+    path: "/api/me",
+    interceptor: interceptor) { response in
+        print(response.headers["Token"])
 }
 ```
 
@@ -225,11 +225,11 @@ When you receive a response from the server, it comes with a `Data?` body. If yo
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/me",
-	interceptor: interceptor) { response in
-		print(response.stringValue())
-		print(response.stringValue(encoding: .Latin1))
+    method: .get,
+    path: "/api/me",
+    interceptor: interceptor) { response in
+        print(response.stringValue())
+        print(response.stringValue(encoding: .Latin1))
 }
 ```
 
@@ -239,10 +239,10 @@ Some responses comes with a simple integer value, so you can easily get it:
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/users/count",
-	interceptor: interceptor) { response in
-		print(response.intValue())
+    method: .get,
+    path: "/api/users/count",
+    interceptor: interceptor) { response in
+        print(response.intValue())
 }
 ```
 
@@ -252,10 +252,10 @@ You might also want to get a double value from the response:
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/fees/default",
-	interceptor: interceptor) { response in
-		print(response.doubleValue())
+    method: .get,
+    path: "/api/fees/default",
+    interceptor: interceptor) { response in
+        print(response.doubleValue())
 }
 ```
 
@@ -265,11 +265,11 @@ If you want to get a dictionary from the response, there is a method for that:
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/me",
-	interceptor: interceptor) { response in
-		let dictionary = response.dictionaryValue()
-		print(dictionary?["name"])
+    method: .get,
+    path: "/api/me",
+    interceptor: interceptor) { response in
+        let dictionary = response.dictionaryValue()
+        print(dictionary?["name"])
 }
 ```
 
@@ -279,11 +279,11 @@ You might also want to get an array from the response, so you can use this:
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/users",
-	interceptor: interceptor) { response in
-		let list = response.arrayValue()
-		print(list?.first)
+    method: .get,
+    path: "/api/users",
+    interceptor: interceptor) { response in
+        let list = response.arrayValue()
+        print(list?.first)
 }
 ```
 
@@ -293,16 +293,16 @@ Now here comes the real good thing. You can try to convert the response to any k
 
 ```swift
 service.json(
-	method: .get,
-	path: "/api/users",
-	interceptor: interceptor) { response in
-		if let user = response.decodableValue(of: User.self) {
-			showSingle(user: user)
-		} else if let users = response.decodableValue(of: [User].self) {
-			showList(of: users)
-		} else if let error = response.decodableValue(of APIError.self) {
-			showAn(error: error)
-		}
+    method: .get,
+    path: "/api/users",
+    interceptor: interceptor) { response in
+        if let user = response.decodableValue(of: User.self) {
+            showSingle(user: user)
+        } else if let users = response.decodableValue(of: [User].self) {
+            showList(of: users)
+        } else if let error = response.decodableValue(of APIError.self) {
+            showAn(error: error)
+        }
 }
 ```
 
@@ -312,11 +312,11 @@ There is also a special object called `RestPath`. As you can see, it is very sim
 
 ```Swift
 struct RestPath: RawRepresentable, Equatable, Hashable {
-	typealias RawValue = String
-	let rawValue: String
-	init(rawValue: String) {
-		self.rawValue = rawValue
-	}
+    typealias RawValue = String
+    let rawValue: String
+    init(rawValue: String) {
+        self.rawValue = rawValue
+    }
 }
 ```
 
@@ -324,17 +324,17 @@ The reason for creating that object is that you can send a list of `RestPath` in
 
 ```Swift
 extension RestPath {
-	static let api = RestPath(rawValue: "api")
-	static let users = RestPath(rawValue: "users")
+    static let api = RestPath(rawValue: "api")
+    static let users = RestPath(rawValue: "users")
 }
 
 let userIdPath = RestPath(rawValue: "1")
 
 service.json(
-	method: .get,
-	path: [.api, .users, .userIdPath],
-	interceptor: interceptor) { response in
-		print(response.stringValue())
+    method: .get,
+    path: [.api, .users, .userIdPath],
+    interceptor: interceptor) { response in
+        print(response.stringValue())
 }
 ```
 
