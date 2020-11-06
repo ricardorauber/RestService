@@ -48,7 +48,7 @@ let service = RestService(session: URLSession.shared, scheme: .http, host: "loca
 
 With that, it will create a service for `http://localhost:3000/`.
 
-#### Making a simple request
+#### Making a simple JSON request
 
 Now that you have you service crated, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
 
@@ -63,7 +63,7 @@ service.json(
 
 See that? It is very simple!
 
-#### Making a request with parameters
+#### Making a JSON request with parameters
 
 Now let's make some request with parameters, but first let's clarify something about these parameters. When you make `GET`, `HEAD` and `DELETE` requests, you send parameters as query strings, but for all other methods, you send parameters in the request body. With that, the `RestService` will set the right properties depending on the method you have selected for that request.
 
@@ -119,6 +119,29 @@ With that, it has created a `POST` request for `https://server.com/api/users` wi
 
 Cool, right?
 
+#### Making a FORM/DATA request with parameters
+
+If you need to make a request with a `form/data` format, you can easily send it with some `FormDataParameter`s. It is possible to create a `FileFormDataParameter` or a `TextFormDataParameter`.
+
+So, let's make a `POST` request with some parameters:
+
+```swift
+let parameters: [FormDataParameter] = [
+    TextFormDataParameter(name: "id", value: "10"),
+    TextFormDataParameter(name: "email", value: "john@server.com"),
+    FileFormDataParameter(name: "text", filename: "text.txt", contentType: "text/plain", data: textData),
+    FileFormDataParameter(name: "image", filename: "thumb.png", contentType: "image/png", data: imageData)
+]
+
+service.formData(
+    method: .post,
+    path: "/api/userdata",
+    parameters: parameters,
+    interceptor: nil) { response in
+        print(response.stringValue())
+}
+```
+
 #### Making requests with an interceptor
 
 Interceptors are a great way to change something on a request just before sending it to the server. That's a really good opportunity to add some headers like an authentication token, for instance. Let's see it in action!
@@ -143,6 +166,22 @@ service.json(
 ```
 
 This will add that token to the request just before the execution. Interceptors can be reused and they are great to add all those required stuff by the server.
+
+If you need to add more than one interceptor, you can use the `RestInterceptorGroup`:
+
+```swift
+let interceptor = RestInterceptorGroup(interceptors: [
+    APIKeyInterceptor(),
+    TokenInterceptor()
+])
+
+service.json(
+    method: .get,
+    path: "/api/me",
+    interceptor: interceptor) { response in
+        print(response.stringValue())
+}
+```
 
 ### Dealing with the response from the server
 
