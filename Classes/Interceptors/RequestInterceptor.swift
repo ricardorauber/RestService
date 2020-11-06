@@ -1,5 +1,5 @@
 /// Protocol to adapt requests
-public protocol RestRequestInterceptor {
+public protocol RequestInterceptor {
 	
 	/// Adapts a given request
 	///

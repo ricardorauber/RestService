@@ -1,6 +1,6 @@
 import Foundation
 
-/// An implementation of the RestRequestInterceptor that set the Content-Type to multipart/form-data
+/// An implementation of the RequestInterceptor that set the Content-Type to multipart/form-data
 public struct FormDataInterceptor {
     
     /// Boundary used in the request
@@ -13,8 +13,8 @@ public struct FormDataInterceptor {
     }
 }
 
-// MARK: - RestRequestInterceptor
-extension FormDataInterceptor: RestRequestInterceptor {
+// MARK: - RequestInterceptor
+extension FormDataInterceptor: RequestInterceptor {
     
     public func adapt(request: URLRequest) -> URLRequest {
         var request = request

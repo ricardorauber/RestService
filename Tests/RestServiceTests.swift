@@ -584,7 +584,7 @@ class RestServiceTests: QuickSpec {
 				}
 			}
 			
-			context("RequestExecutable") {
+			context("RestServiceProtocol") {
 				
 				beforeEach {
 					HTTPStubs.removeAllStubs()
@@ -1056,7 +1056,7 @@ private struct Parameters: Codable {
 	let intList: [Int]?
 }
 
-private struct Interceptor: RestRequestInterceptor {
+private struct Interceptor: RequestInterceptor {
 	func adapt(request: URLRequest) -> URLRequest {
 		var request = request
 		request.addValue("dummy", forHTTPHeaderField: "dummy")

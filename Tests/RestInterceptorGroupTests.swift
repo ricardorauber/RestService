@@ -7,16 +7,16 @@ import OHHTTPStubs
 class RestInterceptorGroupTests: QuickSpec {
     override func spec() {
         
-        var interceptor: RestInterceptorGroup!
+        var interceptor: GroupInterceptor!
         
         beforeEach {
-            interceptor = RestInterceptorGroup(interceptors: [
+            interceptor = GroupInterceptor(interceptors: [
                 APIKeyInterceptor(),
                 TokenInterceptor()
             ])
         }
         
-        describe("RestInterceptorGroup") {
+        describe("GroupInterceptor") {
             
             it("should have all the adapted data from the interceptors") {
                 let url = URL(string: "http://www.google.com")!
@@ -37,7 +37,7 @@ class RestInterceptorGroupTests: QuickSpec {
 
 // MARK: - Test Helpers
 
-private struct APIKeyInterceptor: RestRequestInterceptor {
+private struct APIKeyInterceptor: RequestInterceptor {
     func adapt(request: URLRequest) -> URLRequest {
         var request = request
         request.addValue("123", forHTTPHeaderField: "X-API-KEY")
@@ -45,7 +45,7 @@ private struct APIKeyInterceptor: RestRequestInterceptor {
     }
 }
 
-private struct TokenInterceptor: RestRequestInterceptor {
+private struct TokenInterceptor: RequestInterceptor {
     func adapt(request: URLRequest) -> URLRequest {
         var request = request
         request.addValue("Bearer ABC", forHTTPHeaderField: "Authorization")

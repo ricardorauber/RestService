@@ -1,7 +1,7 @@
 import Foundation
 
-/// An implementation of the RestRequestInterceptor that set the Content-Type to JSON
-public struct JSONInterceptor: RestRequestInterceptor {
+/// An implementation of the RequestInterceptor that set the Content-Type to JSON
+public struct JSONInterceptor: RequestInterceptor {
     
     public func adapt(request: URLRequest) -> URLRequest {
         var request = request

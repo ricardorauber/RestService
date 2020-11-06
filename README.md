@@ -20,7 +20,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 1.1'
+    pod 'RestService', '~> 2.0'
 end
 ```
 

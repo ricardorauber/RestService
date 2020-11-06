@@ -16,7 +16,8 @@ class GitHubService {
 			method: .get,
 			path: [.search, .users],
 			parameters: FindUserParameters(q: name),
-			interceptor: nil) { [weak self] response in
+			interceptor: nil,
+            progress: nil) { [weak self] response in
 				guard self != nil else { return }
 				let userList = response.decodableValue(of: UserList.self)
 				let users = userList?.users ?? []
@@ -29,7 +30,8 @@ class GitHubService {
 		service.json(
 			method: .get,
 			path: path,
-			interceptor: nil) { [weak self] response in
+			interceptor: nil,
+            progress: nil) { [weak self] response in
 				guard self != nil else { return }
 				var repositories = response.decodableValue(of: [Repository].self) ?? []
 				repositories = repositories.filter { $0.description != nil }

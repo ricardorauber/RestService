@@ -1,5 +1,5 @@
 /// Protocol to make requests
-public protocol RequestExecutable {
+public protocol RestServiceProtocol {
 	
 	/// Creates a task to run a JSON request without parameters
 	///
@@ -7,12 +7,14 @@ public protocol RequestExecutable {
 	///   - method: HTTP method
 	///   - path: Path of the server URI
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func json(method: HTTPMethod,
 			  path: String,
-			  interceptor: RestRequestInterceptor?,
-			  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+			  interceptor: RequestInterceptor?,
+              progress: ((Double) -> Void)?,
+			  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 	
 	/// Creates a task to run a JSON request without parameters
 	///
@@ -20,12 +22,14 @@ public protocol RequestExecutable {
 	///   - method: HTTP method
 	///   - path: Path of the server URI
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func json(method: HTTPMethod,
 			  path: [RestPath],
-			  interceptor: RestRequestInterceptor?,
-			  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+			  interceptor: RequestInterceptor?,
+              progress: ((Double) -> Void)?,
+			  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 	
 	/// Creates a task to run a JSON request with parameters
 	///
@@ -34,13 +38,15 @@ public protocol RequestExecutable {
 	///   - path: Path of the server URI
 	///   - parameters: Codable object with the parameters
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func json<T: Codable>(method: HTTPMethod,
 						  path: String,
 						  parameters: T,
-						  interceptor: RestRequestInterceptor?,
-						  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+						  interceptor: RequestInterceptor?,
+                          progress: ((Double) -> Void)?,
+						  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 	
 	/// Creates a task to run a JSON request with parameters
 	///
@@ -49,13 +55,15 @@ public protocol RequestExecutable {
 	///   - path: Path of the server URI
 	///   - parameters: Codable object with the parameters
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func json<T: Codable>(method: HTTPMethod,
 						  path: [RestPath],
 						  parameters: T,
-						  interceptor: RestRequestInterceptor?,
-						  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+						  interceptor: RequestInterceptor?,
+                          progress: ((Double) -> Void)?,
+						  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 	
 	/// Creates a task to run a JSON request with parameters
 	///
@@ -64,13 +72,15 @@ public protocol RequestExecutable {
 	///   - path: Path of the server URI
 	///   - parameters: Dictionary with the parameters
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func json(method: HTTPMethod,
 			  path: String,
 			  parameters: [String: Any],
-			  interceptor: RestRequestInterceptor?,
-			  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+			  interceptor: RequestInterceptor?,
+              progress: ((Double) -> Void)?,
+			  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 	
 	/// Creates a task to run a JSON request with parameters
 	///
@@ -79,13 +89,15 @@ public protocol RequestExecutable {
 	///   - path: Path of the server URI
 	///   - parameters: Dictionary with the parameters
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func json(method: HTTPMethod,
 			  path: [RestPath],
 			  parameters: [String: Any],
-			  interceptor: RestRequestInterceptor?,
-			  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+			  interceptor: RequestInterceptor?,
+              progress: ((Double) -> Void)?,
+			  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 	
 	/// Creates a task to run a Form Data request with parameters
 	/// - Parameters:
@@ -93,13 +105,15 @@ public protocol RequestExecutable {
 	///   - path: Path of the server URI
 	///   - parameters: List of parameters
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func formData(method: HTTPMethod,
 				  path: String,
 				  parameters: [FormDataParameter],
-				  interceptor: RestRequestInterceptor?,
-				  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+				  interceptor: RequestInterceptor?,
+                  progress: ((Double) -> Void)?,
+				  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 	
 	/// Creates a task to run a Form Data request with parameters
 	/// - Parameters:
@@ -107,11 +121,13 @@ public protocol RequestExecutable {
 	///   - path: Path of the server URI
 	///   - parameters: List of parameters
 	///   - interceptor: Adapts the request after creation
-	///   - callback: Closure to be executed with the results of the request
+    ///   - progress: Closure to be executed while the execution is in progress
+	///   - completion: Closure to be executed with the results of the request
 	@discardableResult
 	func formData(method: HTTPMethod,
 				  path: [RestPath],
 				  parameters: [FormDataParameter],
-				  interceptor: RestRequestInterceptor?,
-				  callback: @escaping (RestResponse) -> Void) -> RestDataTask?
+				  interceptor: RequestInterceptor?,
+                  progress: ((Double) -> Void)?,
+				  completion: @escaping (RestResponse) -> Void) -> RestDataTask?
 }

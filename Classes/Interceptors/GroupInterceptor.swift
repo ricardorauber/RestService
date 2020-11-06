@@ -1,22 +1,22 @@
 import Foundation
 
-/// An implementation of the RestRequestInterceptor that uses multiple interceptors for the same request
-public struct RestInterceptorGroup {
+/// An implementation of the GroupInterceptor that uses multiple interceptors for the same request
+public struct GroupInterceptor {
     
     /// List of interceptors
-    public let interceptors: [RestRequestInterceptor]
+    public let interceptors: [RequestInterceptor]
     
     // MARK: - Initialization
     
-    /// Creates a new instance of the RestInterceptorGroup
+    /// Creates a new instance of the GroupInterceptor
     /// - Parameter interceptors: List of interceptors
-    public init(interceptors: [RestRequestInterceptor]) {
+    public init(interceptors: [RequestInterceptor]) {
         self.interceptors = interceptors
     }
 }
 
-// MARK: - RestRequestInterceptor
-extension RestInterceptorGroup: RestRequestInterceptor {
+// MARK: - RequestInterceptor
+extension GroupInterceptor: RequestInterceptor {
     
     public func adapt(request: URLRequest) -> URLRequest {
         var request = request
