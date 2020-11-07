@@ -16,7 +16,6 @@
 		47C78C492447418900407841 /* SearchUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C78C482447418900407841 /* SearchUserViewController.swift */; };
 		47C78C4B244743F400407841 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C78C4A244743F400407841 /* User.swift */; };
 		47C78C4D2447441800407841 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C78C4C2447441800407841 /* Repository.swift */; };
-		47C78C5D2447820100407841 /* RestPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C78C5C2447820100407841 /* RestPathExtensions.swift */; };
 		47C78C5F2447822300407841 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C78C5E2447822300407841 /* UserList.swift */; };
 		F0E7A69287169FCB56786BA8 /* libPods-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B893D7D2990BF498E6251091 /* libPods-Demo.a */; };
 /* End PBXBuildFile section */
@@ -34,7 +33,6 @@
 		47C78C482447418900407841 /* SearchUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewController.swift; sourceTree = "<group>"; };
 		47C78C4A244743F400407841 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		47C78C4C2447441800407841 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		47C78C5C2447820100407841 /* RestPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestPathExtensions.swift; sourceTree = "<group>"; };
 		47C78C5E2447822300407841 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
 		685D293AC9BE183676DB54DD /* Pods-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.debug.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		B893D7D2990BF498E6251091 /* libPods-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,7 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				47C78C4624464BB500407841 /* GitHubService.swift */,
-				47C78C5C2447820100407841 /* RestPathExtensions.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -236,7 +233,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				479D292C243BAAEE000BF2F9 /* UserReposViewController.swift in Sources */,
-				47C78C5D2447820100407841 /* RestPathExtensions.swift in Sources */,
 				47C78C492447418900407841 /* SearchUserViewController.swift in Sources */,
 				47C78C4724464BB500407841 /* GitHubService.swift in Sources */,
 				47C78C5F2447822300407841 /* UserList.swift in Sources */,
