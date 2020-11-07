@@ -306,42 +306,6 @@ service.json(
 }
 ```
 
-## RestPath
-
-There is also a special object called `RestPath`. As you can see, it is very simple:
-
-```Swift
-struct RestPath: RawRepresentable, Equatable, Hashable {
-    typealias RawValue = String
-    let rawValue: String
-    init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-}
-```
-
-The reason for creating that object is that you can send a list of `RestPath` instances to build a type-safe path. Let's say you want to make a request to get a specific user:
-
-```Swift
-extension RestPath {
-    static let api = RestPath(rawValue: "api")
-    static let users = RestPath(rawValue: "users")
-}
-
-let userIdPath = RestPath(rawValue: "1")
-
-service.json(
-    method: .get,
-    path: [.api, .users, .userIdPath],
-    interceptor: interceptor) { response in
-        print(response.stringValue())
-}
-```
-
-The resulting URL will be: `http://server.com/api/users/1`.
-
-This is how we can safely reuse rest paths throughout the app and it is even better in local frameworks because you can create internal extensions for each one.
-
 ## Thanks 👍
 
 The creation of this framework was possible thanks to these awesome people:

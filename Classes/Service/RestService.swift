@@ -7,7 +7,6 @@ public class RestService {
     
     let bodyBuilder = BodyBuilder()
     let interceptorBuilder = InterceptorBuilder()
-    let pathBuilder = PathBuilder()
     let queryBuilder = QueryItemsBuilder()
     let requestBuilder = RequestBuilder()
     let taskBuilder = TaskBuilder()
@@ -80,20 +79,6 @@ extension RestService: RestServiceProtocol {
     }
     
     @discardableResult
-    public func json(method: HTTPMethod,
-                     path: [RestPath],
-                     interceptor: RequestInterceptor?,
-                     progress: ((Double) -> Void)?,
-                     completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        
-        return json(method: method,
-                    path: pathBuilder.build(path),
-                    interceptor: interceptor,
-                    progress: progress,
-                    completion: completion)
-    }
-    
-    @discardableResult
     public func json<T: Codable>(method: HTTPMethod,
                                  path: String,
                                  parameters: T,
@@ -119,21 +104,6 @@ extension RestService: RestServiceProtocol {
             progress: progress,
             completion: completion
         )
-    }
-    
-    @discardableResult
-    public func json<T: Codable>(method: HTTPMethod,
-                                 path: [RestPath],
-                                 parameters: T,
-                                 interceptor: RequestInterceptor?,
-                                 progress: ((Double) -> Void)?,
-                                 completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        return json(method: method,
-                    path: pathBuilder.build(path),
-                    parameters: parameters,
-                    interceptor: interceptor,
-                    progress: progress,
-                    completion: completion)
     }
     
     @discardableResult
@@ -165,21 +135,6 @@ extension RestService: RestServiceProtocol {
     }
     
     @discardableResult
-    public func json(method: HTTPMethod,
-                     path: [RestPath],
-                     parameters: [String: Any],
-                     interceptor: RequestInterceptor?,
-                     progress: ((Double) -> Void)?,
-                     completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        return json(method: method,
-                    path: pathBuilder.build(path),
-                    parameters: parameters,
-                    interceptor: interceptor,
-                    progress: progress,
-                    completion: completion)
-    }
-    
-    @discardableResult
     public func formData(method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
@@ -206,21 +161,5 @@ extension RestService: RestServiceProtocol {
             progress: progress,
             completion: completion
         )
-    }
-    
-    @discardableResult
-    public func formData(method: HTTPMethod,
-                         path: [RestPath],
-                         parameters: [FormDataParameter],
-                         interceptor: RequestInterceptor?,
-                         progress: ((Double) -> Void)?,
-                         completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        
-        return formData(method: method,
-                        path: pathBuilder.build(path),
-                        parameters: parameters,
-                        interceptor: interceptor,
-                        progress: progress,
-                        completion: completion)
     }
 }
