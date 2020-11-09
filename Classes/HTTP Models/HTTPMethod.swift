@@ -1,5 +1,8 @@
-/// HTTP method of the requests
+import Foundation
+
 public struct HTTPMethod: RawRepresentable, Equatable, Hashable {
+    
+    // MARK: - Properties
 	
 	public typealias RawValue = String
 	public let rawValue: String

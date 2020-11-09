@@ -1,3 +1,5 @@
+import Foundation
+
 struct Repository: Codable {
 	
 	let name: String

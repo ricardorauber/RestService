@@ -1,23 +1,21 @@
 import Foundation
 
-class TaskBuilder {
+struct TaskBuilder {
     
     func build(session: URLSession,
                request: URLRequest,
                autoResume: Bool,
                progress: ((Double) -> Void)?,
-               completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
+               completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
         let task = RestTask(session: session)
-        task.request(
+        task.prepare(
             request: request,
-            progress: { [weak self] progressValue in
-                guard self != nil else { return }
+            progress: { progressValue in
                 progress?(progressValue)
             },
-            completion: { [weak self] data, response, error in
-                guard self != nil else { return }
-                completion(RestResponse(data: data, request: request, response: response, error: error))
+            completion: { response in
+                completion(response)
             }
         )
         if autoResume {

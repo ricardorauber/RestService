@@ -2,8 +2,8 @@ import Foundation
 
 struct RequestBuilder {
     
-    func build(scheme: HTTPScheme,
-               method: HTTPMethod,
+    func build(scheme: HTTPScheme = .https,
+               method: HTTPMethod = .get,
                host: String,
                path: String,
                port: Int? = nil,

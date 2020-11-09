@@ -1,3 +1,5 @@
+import Foundation
+
 struct UserList: Codable {
 	
 	let total: Int

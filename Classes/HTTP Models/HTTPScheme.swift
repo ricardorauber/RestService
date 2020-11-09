@@ -1,5 +1,8 @@
-/// HTTP scheme of the requests
+import Foundation
+
 public struct HTTPScheme: RawRepresentable, Equatable, Hashable {
+    
+    // MARK: - Properties
 	
 	public typealias RawValue = String
 	public let rawValue: String

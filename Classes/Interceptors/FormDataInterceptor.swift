@@ -1,13 +1,13 @@
 import Foundation
 
-/// An implementation of the RequestInterceptor that set the Content-Type to multipart/form-data
 public struct FormDataInterceptor {
     
-    /// Boundary used in the request
-    let boundary: String
+    // MARK: - Properties
     
-    /// creates a new instance og the FormDataInterceptor
-    /// - Parameter boundary: Boundary used in the request
+    public let boundary: String
+    
+    // MARK: - Initialization
+    
     public init(boundary: String) {
         self.boundary = boundary
     }

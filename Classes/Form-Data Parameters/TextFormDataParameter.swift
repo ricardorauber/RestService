@@ -1,17 +1,14 @@
-/// Text type of parameter for a Form Data request
+import Foundation
+
 public struct TextFormDataParameter {
 
-	/// Name of the parameter
-	public let name: String
-	
-	/// Value of the parameter
+    // MARK: - Properties
+
+    public let name: String
 	public let value: String
+    
+    // MARK: - Initialization
 	
-	/// Creates a new instance of the TextFormDataParameter
-	///
-	/// - Parameters:
-	///   - name: Name of the parameter
-	///   - value: Value of the parameter
 	public init(name: String, value: String) {
 		self.name = name
 		self.value = value

@@ -1,7 +1,6 @@
 import Foundation
 
-/// A REST service object that can make requests to a server.
-public class RestService {
+open class RestService {
     
     // MARK: - Dependencies
     
@@ -13,30 +12,14 @@ public class RestService {
     
     // MARK: - Properties
     
-    /// URLSession instance for this service
     public var session: URLSession
-    
-    /// Scheme of the server URI
     public var scheme: HTTPScheme
-    
-    /// Host of the server URI
     public var host: String
-    
-    // Port of the server URI
     public var port: Int?
-    
-    /// Defines if the tasks should be executed automatically or not
     public var startTasksAutomatically = true
     
     // MARK: - Initialization
     
-    /// Creates a new instance of the RestService
-    ///
-    /// - Parameters:
-    ///   - session: URLSession instance for this service
-    ///   - scheme: Scheme of the server URI
-    ///   - host: Host of the server URI
-    ///   - port: Port of the server URI
     public init(session: URLSession = URLSession.shared,
                 scheme: HTTPScheme = .https,
                 host: String,
@@ -47,119 +30,53 @@ public class RestService {
         self.host = host
         self.port = port
     }
-    
 }
 
-// MARK: - RestServiceProtocol
-extension RestService: RestServiceProtocol {
+// MARK: - Responses
+extension RestService {
     
-    @discardableResult
-    public func json(method: HTTPMethod,
-                     path: String,
-                     interceptor: RequestInterceptor?,
-                     progress: ((Double) -> Void)?,
-                     completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        
-        guard let request = requestBuilder.build(
-                scheme: scheme,
-                method: method,
-                host: host,
-                path: path,
-                queryItems: nil,
-                body: nil,
-                interceptor: interceptorBuilder.buildJson(interceptor: interceptor))
-        else {
-            return nil
-        }
-        return taskBuilder.build(session: session,
-                                 request: request,
-                                 autoResume: startTasksAutomatically,
-                                 progress: progress,
-                                 completion: completion)
+    func isValid(response: RestResponse) -> Bool {
+        response.error == nil && 200..<300 ~= response.statusCode
     }
     
-    @discardableResult
-    public func json<T: Codable>(method: HTTPMethod,
-                                 path: String,
-                                 parameters: T,
-                                 interceptor: RequestInterceptor?,
-                                 progress: ((Double) -> Void)?,
-                                 completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        
-        guard let request = requestBuilder.build(
-                scheme: scheme,
-                method: method,
-                host: host,
-                path: path,
-                queryItems: queryBuilder.build(method: method, parameters: parameters),
-                body: bodyBuilder.buildJson(method: method, parameters: parameters),
-                interceptor: interceptorBuilder.buildJson(interceptor: interceptor))
-        else {
-            return nil
+    func prepare(response: RestResponse) -> RestTaskResult {
+        if isValid(response: response) {
+            return .success
+        } else {
+            return .failure
         }
-        return taskBuilder.build(
-            session: session,
-            request: request,
-            autoResume: startTasksAutomatically,
-            progress: progress,
-            completion: completion
-        )
     }
     
-    @discardableResult
-    public func json(method: HTTPMethod,
-                     path: String,
-                     parameters: [String: Any],
-                     interceptor: RequestInterceptor?,
-                     progress: ((Double) -> Void)?,
-                     completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        
-        guard let request = requestBuilder.build(
-                scheme: scheme,
-                method: method,
-                host: host,
-                path: path,
-                queryItems: queryBuilder.build(method: method, parameters: parameters),
-                body: bodyBuilder.buildJson(method: method, parameters: parameters),
-                interceptor: interceptorBuilder.buildJson(interceptor: interceptor))
-        else {
-            return nil
+    func prepare<D: Decodable>(response: RestResponse,
+                               responseType: D.Type) -> RestTaskResultWithData<D> {
+        if let data = response.decodableValue(of: D.self) {
+            return .success(data)
+        } else {
+            return .failure
         }
-        return taskBuilder.build(
-            session: session,
-            request: request,
-            autoResume: startTasksAutomatically,
-            progress: progress,
-            completion: completion
-        )
     }
     
-    @discardableResult
-    public func formData(method: HTTPMethod,
-                         path: String,
-                         parameters: [FormDataParameter],
-                         interceptor: RequestInterceptor?,
-                         progress: ((Double) -> Void)?,
-                         completion: @escaping (RestResponse) -> Void) -> RestDataTask? {
-        
-        let boundary = UUID().uuidString
-        guard let request = requestBuilder.build(
-                scheme: scheme,
-                method: method,
-                host: host,
-                path: path,
-                queryItems: nil,
-                body: bodyBuilder.buildFormData(method: method, boundary: boundary, parameters: parameters),
-                interceptor: interceptorBuilder.buildFormData(boundary: boundary, interceptor: interceptor))
-        else {
-            return nil
+    func prepare<E: Decodable>(response: RestResponse,
+                               customError: E.Type) -> RestTaskResultWithCustomError<E> {
+        if let data = response.decodableValue(of: E.self) {
+            return .customError(data)
+        } else if isValid(response: response) {
+            return .success
+        } else {
+            return .failure
         }
-        return taskBuilder.build(
-            session: session,
-            request: request,
-            autoResume: startTasksAutomatically,
-            progress: progress,
-            completion: completion
-        )
+    }
+    
+    func prepare<D: Decodable,
+                 E: Decodable>(response: RestResponse,
+                               responseType: D.Type,
+                               customError: E.Type) -> RestTaskResultWithDataAndCustomError<D, E> {
+        if let data = response.decodableValue(of: D.self) {
+            return .success(data)
+        } else if let data = response.decodableValue(of: E.self) {
+            return .customError(data)
+        } else {
+            return .failure
+        }
     }
 }
