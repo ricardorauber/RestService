@@ -4,11 +4,11 @@ public class RestTask {
     
     // MARK: - Properties
     
-    let session: URLSession
-    var dataTask: URLSessionDataTask?
+    public var session: URLSession
+    public private(set) var dataTask: URLSessionDataTask?
+    public private(set) var request: URLRequest?
+    public private(set) var response: RestResponse?
     var observation: NSKeyValueObservation?
-    var request: URLRequest?
-    var response: RestResponse?
     
     // MARK: - Initialization
     
