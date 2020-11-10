@@ -16,19 +16,21 @@ open class RestService {
     public var scheme: HTTPScheme
     public var host: String
     public var port: Int?
-    public var startTasksAutomatically = true
+    public var startTasksAutomatically: Bool
     
     // MARK: - Initialization
     
     public init(session: URLSession = URLSession.shared,
                 scheme: HTTPScheme = .https,
                 host: String,
-                port: Int? = nil) {
+                port: Int? = nil,
+                startTasksAutomatically: Bool = true) {
         
         self.session = session
         self.scheme = scheme
         self.host = host
         self.port = port
+        self.startTasksAutomatically = startTasksAutomatically
     }
 }
 
@@ -42,18 +44,16 @@ extension RestService {
     func prepare(response: RestResponse) -> RestTaskResult {
         if isValid(response: response) {
             return .success
-        } else {
-            return .failure
         }
+        return .failure
     }
     
     func prepare<D: Decodable>(response: RestResponse,
                                responseType: D.Type) -> RestTaskResultWithData<D> {
         if let data = response.decodableValue(of: D.self) {
             return .success(data)
-        } else {
-            return .failure
         }
+        return .failure
     }
     
     func prepare<E: Decodable>(response: RestResponse,
@@ -62,9 +62,8 @@ extension RestService {
             return .customError(data)
         } else if isValid(response: response) {
             return .success
-        } else {
-            return .failure
         }
+        return .failure
     }
     
     func prepare<D: Decodable,
@@ -75,8 +74,7 @@ extension RestService {
             return .success(data)
         } else if let data = response.decodableValue(of: E.self) {
             return .customError(data)
-        } else {
-            return .failure
         }
+        return .failure
     }
 }
