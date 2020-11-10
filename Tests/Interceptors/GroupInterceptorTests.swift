@@ -1,10 +1,9 @@
 import Foundation
 import Quick
 import Nimble
-import OHHTTPStubs
 @testable import RestService
 
-class RestInterceptorGroupTests: QuickSpec {
+class GroupInterceptorTests: QuickSpec {
     override func spec() {
         
         var interceptor: GroupInterceptor!
