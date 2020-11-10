@@ -2,14 +2,14 @@ import Foundation
 
 extension RestService {
     
-    func prepareFormData(method: HTTPMethod,
+    func prepareFormData(boundary: String = UUID().uuidString,
+                         method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
                          interceptor: RequestInterceptor?,
                          progress: ((Double) -> Void)?,
                          completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
-        let boundary = UUID().uuidString
         guard let request = requestBuilder.build(
                 scheme: scheme,
                 method: method,

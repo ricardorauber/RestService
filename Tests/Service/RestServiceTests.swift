@@ -1,3 +1,4 @@
+import Foundation
 import Quick
 import Nimble
 import OHHTTPStubs
@@ -460,52 +461,6 @@ class RestServiceTests: QuickSpec {
 //						}
 //					}
 //				}
-//
-//				context("formData") {
-//
-//					it("should create a form data request for a string path") {
-//						var completed = false
-//						let task = service.formData(
-//							method: .post,
-//							path: "/api",
-//							parameters: [
-//								TextFormDataParameter(name: "string", value: "completed")
-//							],
-//							interceptor: Interceptor()) { response in
-//								expect(response.data).toNot(beNil())
-//								expect(response.request).toNot(beNil())
-//								expect(response.response).toNot(beNil())
-//								expect(response.error).to(beNil())
-//								expect(response.request?.httpMethod) == "POST"
-//								expect(response.request?.url?.host) == "server.com"
-//								expect(response.request?.url?.path) == "/api"
-//								expect(response.request?.url?.query).to(beNil())
-//								expect(response.request?.allHTTPHeaderFields).toNot(beNil())
-//								expect(response.request?.allHTTPHeaderFields?.count) == 2
-//								let headerPrefix = "multipart/form-data; boundary="
-//								let boundary = response.request?.allHTTPHeaderFields?["Content-Type"]?.dropFirst(headerPrefix.count)
-//								expect(boundary).toNot(beNil())
-//								expect(response.request?.allHTTPHeaderFields?["Content-Type"]) == headerPrefix + boundary!
-//								expect(response.request?.allHTTPHeaderFields?["dummy"]) == "dummy"
-//								expect(response.request?.httpBody).toNot(beNil())
-//								let body = String(data: response.request!.httpBody!, encoding: .utf8)
-//								expect(body).toNot(beNil())
-//								expect(body) == "--\(boundary!)\r\nContent-Disposition: form-data; name=\"string\"\r\n\r\ncompleted\r\n--\(boundary!)--\r\n"
-//								expect(response.stringValue()).toNot(beNil())
-//								expect(response.stringValue()) == "{\"string\":\"completed\"}"
-//								let decodable = response.decodableValue(of: Parameters.self)
-//								expect(decodable).toNot(beNil())
-//								expect(decodable?.string) == "completed"
-//								let dictionary = response.dictionaryValue()
-//								expect(dictionary).toNot(beNil())
-//								expect(dictionary?["string"] as? String) == "completed"
-//								completed = true
-//						}
-//						expect(task).toNot(beNil())
-//						expect(completed).toEventually(beTrue(), timeout: timeout)
-//					}
-//				}
-//			}
 		}
 	}
 }
