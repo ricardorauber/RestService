@@ -13,6 +13,7 @@ open class RestService {
     // MARK: - Properties
     
     public var session: URLSession
+    public var debug: Bool
     public var scheme: HTTPScheme
     public var host: String
     public var port: Int?
@@ -21,12 +22,14 @@ open class RestService {
     // MARK: - Initialization
     
     public init(session: URLSession = URLSession.shared,
+                debug: Bool = false,
                 scheme: HTTPScheme = .https,
                 host: String,
                 port: Int? = nil,
                 startTasksAutomatically: Bool = true) {
         
         self.session = session
+        self.debug = debug
         self.scheme = scheme
         self.host = host
         self.port = port

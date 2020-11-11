@@ -23,6 +23,7 @@ extension RestService {
         }
         return taskBuilder.build(
             session: session,
+            debug: debug,
             request: request,
             autoResume: startTasksAutomatically,
             progress: progress,
@@ -61,7 +62,8 @@ extension RestService {
                                parameters: parameters,
                                interceptor: interceptor,
                                progress: progress) { response in
-            completion(self.prepare(response: response, responseType: responseType))
+            completion(self.prepare(response: response,
+                                    responseType: responseType))
         }
     }
     
@@ -79,7 +81,8 @@ extension RestService {
                                parameters: parameters,
                                interceptor: interceptor,
                                progress: progress) { response in
-            completion(self.prepare(response: response, customError: customError))
+            completion(self.prepare(response: response,
+                                    customError: customError))
         }
     }
     
@@ -99,7 +102,9 @@ extension RestService {
                                parameters: parameters,
                                interceptor: interceptor,
                                progress: progress) { response in
-            completion(self.prepare(response: response, responseType: responseType, customError: customError))
+            completion(self.prepare(response: response,
+                                    responseType: responseType,
+                                    customError: customError))
         }
     }
 }

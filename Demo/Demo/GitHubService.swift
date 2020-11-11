@@ -1,17 +1,17 @@
 import RestService
 
 class GitHubService {
-	
-	let service: RestService
-	
-	init(service: RestService) {
-		self.service = service
-	}
-	
-	func findUsers(name: String, callback: @escaping ([User]) -> Void) -> RestTask? {
-		struct FindUserParameters: Codable {
-			let q: String
-		}
+    
+    let service: RestService
+    
+    init(service: RestService) {
+        self.service = service
+    }
+    
+    func findUsers(name: String, callback: @escaping ([User]) -> Void) -> RestTask? {
+        struct FindUserParameters: Codable {
+            let q: String
+        }
         return service.json(
             method: .get,
             path: "/search/users",
@@ -29,17 +29,17 @@ class GitHubService {
             }
             
         }
-	}
-	
-	func loadRepos(user: String, callback: @escaping ([Repository]) -> Void) {
-		let path = "/users/\(user)/repos"
-		service.json(
-			method: .get,
-			path: path,
-			interceptor: nil,
+    }
+    
+    func loadRepos(user: String, callback: @escaping ([Repository]) -> Void) -> RestTask? {
+        let path = "/users/\(user)/repos"
+        return service.json(
+            method: .get,
+            path: path,
+            interceptor: nil,
             responseType: [Repository].self,
             progress: nil) { [weak self] response in
-				
+            
             guard self != nil else { return }
             switch response {
             case .success(var repositories):
@@ -48,6 +48,6 @@ class GitHubService {
             default:
                 break
             }
-		}
-	}
+        }
+    }
 }

@@ -67,6 +67,13 @@ class RestTaskTests: QuickSpec {
                     expect(task.dataTask?.state) == .suspended
                 }
             }
+            
+            context("edge cases") {
+                
+                it("should log a nil url from request") {
+                    task.log(request: nil)
+                }
+            }
         }
     }
 }

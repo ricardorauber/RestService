@@ -13,7 +13,7 @@ class RestServiceFormDataTests: QuickSpec {
         describe("RestService+FormData") {
             
             beforeEach {
-                service = RestService(host: "server.com")
+                service = RestService(debug: true, host: "server.com")
                 HTTPStubs.removeAllStubs()
                 stub(condition: isHost("server.com")) { _ in
                     return HTTPStubsResponse(jsonObject: ["string": "completed"], statusCode: 200, headers: nil)

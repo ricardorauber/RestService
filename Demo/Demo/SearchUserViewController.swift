@@ -6,8 +6,8 @@ class SearchUserViewController: UIViewController {
 	// MARK: - Properties
 	
 	var github: GitHubService!
+    var task: RestTask?
 	var users: [User] = []
-	var task: RestTask?
 	
 	// MARK: - IBOutlets
 	

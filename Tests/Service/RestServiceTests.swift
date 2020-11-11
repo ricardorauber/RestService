@@ -12,7 +12,7 @@ class RestServiceTests: QuickSpec {
 		describe("RestService") {
 			
 			beforeEach {
-				service = RestService(host: "server.com")
+                service = RestService(debug: true, host: "server.com")
 			}
 
 			context("initialization") {
@@ -263,6 +263,66 @@ class RestServiceTests: QuickSpec {
                     default:
                         fail()
                     }
+                }
+            }
+            
+            context("integration") {
+                
+                var completed: Bool!
+                var task: RestTask!
+                var timeout: TimeInterval!
+                
+                beforeEach {
+                    completed = false
+                    service = RestService(debug: true, host: "api.github.com")
+                    timeout = 3
+                }
+                
+                it("should get a valid response") {
+                    task = service.json(
+                        method: .get,
+                        path: "/users/ricardorauber/repos",
+                        interceptor: nil,
+                        progress: nil,
+                        completion: { response in
+                            completed = true
+                            expect(task.response?.statusCode) == 200
+                        }
+                    )
+                    expect(task).toNot(beNil())
+                    expect(completed).toEventually(beTrue(), timeout: timeout)
+                }
+                
+                it("should get an error from the server") {
+                    var task: RestTask!
+                    task = service.json(
+                        method: .get,
+                        path: "/thisisanicetest",
+                        interceptor: nil,
+                        progress: nil,
+                        completion: { response in
+                            completed = true
+                            expect(task.response?.statusCode) >= 400
+                        }
+                    )
+                    expect(task).toNot(beNil())
+                    expect(completed).toEventually(beTrue(), timeout: timeout)
+                }
+                
+                it("should get an error from a local error") {
+                    task = service.json(
+                        method: .get,
+                        path: "/thisisanicetest",
+                        interceptor: nil,
+                        progress: nil,
+                        completion: { response in
+                            completed = true
+                            expect(task.response?.statusCode) == -1
+                        }
+                    )
+                    task.cancel()
+                    expect(task).toNot(beNil())
+                    expect(completed).toEventually(beTrue(), timeout: timeout)
                 }
             }
 		}

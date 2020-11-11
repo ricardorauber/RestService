@@ -10,7 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
 		let scene = storyboard.instantiateInitialViewController() as? SearchUserViewController
-		let service = RestService(host: "api.github.com")
+		let service = RestService(debug: true, host: "api.github.com")
 		let github = GitHubService(service: service)
 		scene?.github = github
 		window = UIWindow(frame: UIScreen.main.bounds)
