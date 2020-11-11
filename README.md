@@ -162,7 +162,7 @@ Cool, right?
 
 #### Making a FORM/DATA request with parameters
 
-If you need to make a request with a `form/data` format, you can easily send it with some `FormDataParameter`s. It is possible to create a `FileFormDataParameter` or a `TextFormDataParameter`.
+If you need to make a request with a `form/data` format, you can easily send it with some `FormDataParameters`. It is possible to create a `FileFormDataParameter` or a `TextFormDataParameter`.
 
 So, let's make a `POST` request with some parameters:
 

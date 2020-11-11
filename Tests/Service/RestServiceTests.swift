@@ -279,14 +279,15 @@ class RestServiceTests: QuickSpec {
                 }
                 
                 it("should get a valid response") {
+                    service = RestService(debug: true, host: "github.com")
                     task = service.json(
                         method: .get,
-                        path: "/users/ricardorauber/repos",
+                        path: "/ricardorauber/RestService",
                         interceptor: nil,
                         progress: nil,
                         completion: { response in
                             completed = true
-                            expect(task.response?.statusCode) == 200
+                            expect(task.response?.statusCode) < 300
                         }
                     )
                     expect(task).toNot(beNil())
