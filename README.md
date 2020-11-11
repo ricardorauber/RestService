@@ -7,7 +7,7 @@
 
 ## TL; DR
 
-`RestService` is a light REST service based on the `URLRequest` with some vanila on top. Check this out:
+`RestService` is a light REST service based on the `URLRequest` with some vanilla on top. Check this out:
 
 ```swift
 let service = RestService(host: "api.github.com")
@@ -73,7 +73,7 @@ All of those properties can be changed later.
 
 #### Making a simple JSON request
 
-Now that you have you service crated, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
+Now that you have your service crated, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
 
 ```swift
 service.json(
@@ -305,7 +305,7 @@ service.json(
 
 #### With a Response Type
 
-Now let's say you need to convert the response body into a `Codable` object when the request has succedded:
+Now let's say you need to convert the response body into a `Codable` object when the request has succeeded:
 
 ```swift
 struct Person: Codable {
@@ -330,7 +330,7 @@ service.json(
 
 #### With a Custom Error from the server
 
-If your webservice has a custom way to reply with an error, let's say, a json object with the error details, you can use another parameter to get the response decoded to a `Codable` object like this:
+If your web service has a custom way to reply with an error, let's say, a json object with the error details, you can use another parameter to get the response decoded to a `Codable` object like this:
 
 ```swift
 struct ServerError: Codable {
@@ -420,7 +420,7 @@ Last but not least, as developers we often need to debug some requests and usual
 let service = RestService(debug: true, host: "api.github.com")
 ```
 
-Just by adding the `debug` parameter when creating the service and setting it to `true`, you will see all requests being loggged in the Xcode Console. Nice right? But that's not all, you could set the debug for a single request:
+Just by adding the `debug` parameter when creating the service and setting it to `true`, you will see all requests being loggged in the Xcode's Console. Nice right? But that's not all, you could set the debug for a single request:
 
 ```swift
 service.json(
