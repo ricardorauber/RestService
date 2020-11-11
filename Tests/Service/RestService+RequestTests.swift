@@ -4,13 +4,13 @@ import Nimble
 import OHHTTPStubs
 @testable import RestService
 
-class RestServiceJSONTests: QuickSpec {
+class RestServiceRequestTests: QuickSpec {
     override func spec() {
         
         var service: RestService!
         let timeout: TimeInterval = 3
         
-        describe("RestService+JSON") {
+        describe("RestService+Request") {
             
             beforeEach {
                 service = RestService(debug: true, host: "server.com")
@@ -20,12 +20,12 @@ class RestServiceJSONTests: QuickSpec {
                 }
             }
             
-            context("Without parameters") {
+            context("Without body") {
             
-                context("prepareJson") {
+                context("prepareRequest") {
                     
                     it("should build a task for valid input") {
-                        let task = service.prepareJson(
+                        let task = service.prepareRequest(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -36,7 +36,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input") {
-                        let task = service.prepareJson(
+                        let task = service.prepareRequest(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -47,11 +47,11 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json") {
+                context("request") {
                     
                     it("should build a task for valid input with progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -67,7 +67,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -79,7 +79,7 @@ class RestServiceJSONTests: QuickSpec {
                     
                     it("should build a task for valid input without progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -94,7 +94,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -104,11 +104,11 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json<D: Decodable>") {
+                context("request<D: Decodable>") {
                     
                     it("should build a task for valid input with progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -125,7 +125,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -138,7 +138,7 @@ class RestServiceJSONTests: QuickSpec {
                     
                     it("should build a task for valid input without progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -154,7 +154,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -165,11 +165,11 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json<E: Decodable>") {
+                context("request<E: Decodable>") {
                     
                     it("should build a task for valid input with progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -186,7 +186,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -199,7 +199,7 @@ class RestServiceJSONTests: QuickSpec {
                     
                     it("should build a task for valid input without progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -215,7 +215,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -226,11 +226,11 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json<D: Decodable, E: Decodable>") {
+                context("request<D: Decodable, E: Decodable>") {
                     
                     it("should build a task for valid input with progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -248,7 +248,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -262,7 +262,7 @@ class RestServiceJSONTests: QuickSpec {
                     
                     it("should build a task for valid input without progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
                             interceptor: nil,
@@ -279,7 +279,7 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
                             interceptor: nil,
@@ -292,15 +292,15 @@ class RestServiceJSONTests: QuickSpec {
                 }
             }
             
-            context("Codable parameters") {
+            context("With body") {
             
-                context("prepareJson") {
+                context("prepareRequest") {
                     
                     it("should build a task for valid input") {
-                        let task = service.prepareJson(
+                        let task = service.prepareRequest(
                             method: .post,
                             path: "/path",
-                            parameters: Person(name: "John"),
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             progress: nil,
                             completion: { _ in }
@@ -309,10 +309,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input") {
-                        let task = service.prepareJson(
+                        let task = service.prepareRequest(
                             method: .get,
                             path: "path",
-                            parameters: Person(name: "John"),
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             progress: nil,
                             completion: { _ in }
@@ -321,14 +321,14 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json") {
+                context("request") {
                     
                     it("should build a task for valid input with progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: Person(name: "John"),
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             progress: nil,
                             completion: { _ in
@@ -342,10 +342,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: Person(name: "John"),
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             progress: nil,
                             completion: { _ in }
@@ -355,10 +355,10 @@ class RestServiceJSONTests: QuickSpec {
                     
                     it("should build a task for valid input without progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: Person(name: "John"),
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             completion: { _ in
                                 completed = true
@@ -371,10 +371,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: Person(name: "John"),
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             completion: { _ in }
                         )
@@ -382,311 +382,14 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json<D: Decodable>") {
+                context("request<D: Decodable>") {
                     
                     it("should build a task for valid input with progress") {
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input without progress") {
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                }
-                
-                context("json<E: Decodable>") {
-                    
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            customError: SimpleError.self,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input without progress") {
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            customError: SimpleError.self,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                }
-                
-                context("json<D: Decodable, E: Decodable>") {
-                    
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input without progress") {
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            interceptor: nil,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                }
-            }
-            
-            context("Dictionary parameters") {
-            
-                context("prepareJson") {
-                    
-                    it("should build a task for valid input") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.prepareJson(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
-                            interceptor: nil,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).toNot(beNil())
-                    }
-                    
-                    it("should not build a task for invalid input") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.prepareJson(
-                            method: .get,
-                            path: "path",
-                            parameters: parameters,
-                            interceptor: nil,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                }
-                
-                context("json") {
-                    
-                    it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
-                            interceptor: nil,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: parameters,
-                            interceptor: nil,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
-                            interceptor: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
-                            method: .get,
-                            path: "path",
-                            parameters: parameters,
-                            interceptor: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                }
-                
-                context("json<D: Decodable>") {
-                    
-                    it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        var completed = false
-                        let task = service.json(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
@@ -701,11 +404,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
@@ -715,12 +417,11 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should build a task for valid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in
@@ -734,11 +435,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in }
@@ -747,15 +447,14 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json<E: Decodable>") {
+                context("request<E: Decodable>") {
                     
                     it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
@@ -770,11 +469,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
@@ -784,12 +482,11 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should build a task for valid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in
@@ -803,11 +500,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in }
@@ -816,15 +512,14 @@ class RestServiceJSONTests: QuickSpec {
                     }
                 }
                 
-                context("json<D: Decodable, E: Decodable>") {
+                context("request<D: Decodable, E: Decodable>") {
                     
                     it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
@@ -840,11 +535,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
@@ -855,12 +549,11 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should build a task for valid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
                         var completed = false
-                        let task = service.json(
+                        let task = service.request(
                             method: .post,
                             path: "/path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
@@ -875,11 +568,10 @@ class RestServiceJSONTests: QuickSpec {
                     }
                     
                     it("should not build a task for invalid input without progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.json(
+                        let task = service.request(
                             method: .get,
                             path: "path",
-                            parameters: parameters,
+                            body: "John".data(using: .utf8)!,
                             interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,

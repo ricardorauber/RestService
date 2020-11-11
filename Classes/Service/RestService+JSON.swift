@@ -1,8 +1,9 @@
 import Foundation
 
+// MARK: - JSON Without Parameters
 extension RestService {
     
-    // MARK: - No Parameters
+    // MARK: Prepare
     
     func prepareJson(method: HTTPMethod,
                      path: String,
@@ -31,6 +32,8 @@ extension RestService {
         )
     }
     
+    // MARK: Simple
+    
     @discardableResult
     public func json(method: HTTPMethod,
                      path: String,
@@ -45,6 +48,21 @@ extension RestService {
             completion(self.prepare(response: response))
         }
     }
+    
+    @discardableResult
+    public func json(method: HTTPMethod,
+                     path: String,
+                     interceptor: RequestInterceptor?,
+                     completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    interceptor: interceptor,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Response Type
     
     @discardableResult
     public func json<D: Decodable>(method: HTTPMethod,
@@ -64,6 +82,23 @@ extension RestService {
     }
     
     @discardableResult
+    public func json<D: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   interceptor: RequestInterceptor?,
+                                   responseType: D.Type,
+                                   completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    interceptor: interceptor,
+                    responseType: responseType,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Custom Error
+    
+    @discardableResult
     public func json<E: Decodable>(method: HTTPMethod,
                                    path: String,
                                    interceptor: RequestInterceptor?,
@@ -79,6 +114,23 @@ extension RestService {
                                     customError: customError))
         }
     }
+    
+    @discardableResult
+    public func json<E: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   interceptor: RequestInterceptor?,
+                                   customError: E.Type,
+                                   completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    interceptor: interceptor,
+                    customError: customError,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Response Type and Custom Error
     
     @discardableResult
     public func json<D: Decodable,
@@ -100,7 +152,29 @@ extension RestService {
         }
     }
     
-    // MARK: - Codable Parameters
+    @discardableResult
+    public func json<D: Decodable,
+                     E: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   interceptor: RequestInterceptor?,
+                                   responseType: D.Type,
+                                   customError: E.Type,
+                                   completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    interceptor: interceptor,
+                    responseType: responseType,
+                    customError: customError,
+                    progress: nil,
+                    completion: completion)
+    }
+}
+
+// MARK: - JSON With Codable Parameters
+extension RestService {
+    
+    // MARK: Prepare
     
     func prepareJson<P: Codable>(method: HTTPMethod,
                                  path: String,
@@ -130,6 +204,8 @@ extension RestService {
         )
     }
     
+    // MARK: Simple
+    
     @discardableResult
     public func json<P: Codable>(method: HTTPMethod,
                                  path: String,
@@ -146,6 +222,23 @@ extension RestService {
             completion(self.prepare(response: response))
         }
     }
+    
+    @discardableResult
+    public func json<P: Codable>(method: HTTPMethod,
+                                 path: String,
+                                 parameters: P,
+                                 interceptor: RequestInterceptor?,
+                                 completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Response Type
     
     @discardableResult
     public func json<P: Codable,
@@ -169,6 +262,26 @@ extension RestService {
     
     @discardableResult
     public func json<P: Codable,
+                     D: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   parameters: P,
+                                   interceptor: RequestInterceptor?,
+                                   responseType: D.Type,
+                                   completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    responseType: responseType,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Custom Error
+    
+    @discardableResult
+    public func json<P: Codable,
                      E: Decodable>(method: HTTPMethod,
                                    path: String,
                                    parameters: P,
@@ -186,6 +299,26 @@ extension RestService {
                                     customError: customError))
         }
     }
+    
+    @discardableResult
+    public func json<P: Codable,
+                     E: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   parameters: P,
+                                   interceptor: RequestInterceptor?,
+                                   customError: E.Type,
+                                   completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    customError: customError,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Response Type and Custom Error
     
     @discardableResult
     public func json<P: Codable,
@@ -210,7 +343,32 @@ extension RestService {
         }
     }
     
-    // MARK: - Dictionary Parameters
+    @discardableResult
+    public func json<P: Codable,
+                     D: Decodable,
+                     E: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   parameters: P,
+                                   interceptor: RequestInterceptor?,
+                                   responseType: D.Type,
+                                   customError: E.Type,
+                                   completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    responseType: responseType,
+                    customError: customError,
+                    progress: nil,
+                    completion: completion)
+    }
+}
+
+// MARK: - JSON With Dictionary Parameters
+extension RestService {
+    
+    // MARK: Prepare
     
     func prepareJson(method: HTTPMethod,
                      path: String,
@@ -240,6 +398,8 @@ extension RestService {
         )
     }
     
+    // MARK: Simple
+    
     @discardableResult
     public func json(method: HTTPMethod,
                      path: String,
@@ -256,6 +416,23 @@ extension RestService {
             completion(self.prepare(response: response))
         }
     }
+    
+    @discardableResult
+    public func json(method: HTTPMethod,
+                     path: String,
+                     parameters: [String: Any],
+                     interceptor: RequestInterceptor?,
+                     completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Response Type
     
     @discardableResult
     public func json<D: Decodable>(method: HTTPMethod,
@@ -277,6 +454,25 @@ extension RestService {
     }
     
     @discardableResult
+    public func json<D: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   parameters: [String: Any],
+                                   interceptor: RequestInterceptor?,
+                                   responseType: D.Type,
+                                   completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    responseType: responseType,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Custom Error
+    
+    @discardableResult
     public func json<E: Decodable>(method: HTTPMethod,
                                    path: String,
                                    parameters: [String: Any],
@@ -294,6 +490,25 @@ extension RestService {
                                     customError: customError))
         }
     }
+    
+    @discardableResult
+    public func json<E: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   parameters: [String: Any],
+                                   interceptor: RequestInterceptor?,
+                                   customError: E.Type,
+                                   completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    customError: customError,
+                    progress: nil,
+                    completion: completion)
+    }
+    
+    // MARK: With Response Type and Custom Error
     
     @discardableResult
     public func json<D: Decodable,
@@ -315,5 +530,25 @@ extension RestService {
                                     responseType: responseType,
                                     customError: customError))
         }
+    }
+    
+    @discardableResult
+    public func json<D: Decodable,
+                     E: Decodable>(method: HTTPMethod,
+                                   path: String,
+                                   parameters: [String: Any],
+                                   interceptor: RequestInterceptor?,
+                                   responseType: D.Type,
+                                   customError: E.Type,
+                                   completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
+        
+        return json(method: method,
+                    path: path,
+                    parameters: parameters,
+                    interceptor: interceptor,
+                    responseType: responseType,
+                    customError: customError,
+                    progress: nil,
+                    completion: completion)
     }
 }
