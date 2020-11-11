@@ -73,7 +73,7 @@ All of those properties can be changed later.
 
 #### Making a simple JSON request
 
-Now that you have your service crated, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
+Now that you have your service created, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
 
 ```swift
 service.json(
@@ -280,7 +280,7 @@ service.json(
 
 ### Dealing with the response from the server
 
-One of the things that many people have issues is with the reponse from the server. Casting values, serializing, decoding... the possibilities are unlimited. What I tried to achieve with this framework was to have a nice response in the way you need the data.
+One of the things that many people have issues is with the response from the server. Casting values, serializing, decoding... the possibilities are unlimited. What I tried to achieve with this framework was to have a nice response in the way you need the data.
 
 There are 4 possibilities of response:
 
