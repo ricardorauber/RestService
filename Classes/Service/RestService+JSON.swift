@@ -5,7 +5,8 @@ extension RestService {
     
     // MARK: Prepare
     
-    func prepareJson(method: HTTPMethod,
+    func prepareJson(debug: Bool? = nil,
+                     method: HTTPMethod,
                      path: String,
                      interceptor: RequestInterceptor?,
                      progress: ((Double) -> Void)?,
@@ -24,7 +25,7 @@ extension RestService {
         }
         return taskBuilder.build(
             session: session,
-            debug: debug,
+            debug: debug ?? self.debug,
             request: request,
             autoResume: startTasksAutomatically,
             progress: progress,
@@ -35,13 +36,15 @@ extension RestService {
     // MARK: Simple
     
     @discardableResult
-    public func json(method: HTTPMethod,
+    public func json(debug: Bool? = nil,
+                     method: HTTPMethod,
                      path: String,
                      interceptor: RequestInterceptor?,
                      progress: ((Double) -> Void)?,
                      completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            interceptor: interceptor,
                            progress: progress) { response in
@@ -50,12 +53,14 @@ extension RestService {
     }
     
     @discardableResult
-    public func json(method: HTTPMethod,
+    public func json(debug: Bool? = nil,
+                     method: HTTPMethod,
                      path: String,
                      interceptor: RequestInterceptor?,
                      completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     interceptor: interceptor,
                     progress: nil,
@@ -65,14 +70,16 @@ extension RestService {
     // MARK: With Response Type
     
     @discardableResult
-    public func json<D: Decodable>(method: HTTPMethod,
+    public func json<D: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    interceptor: RequestInterceptor?,
                                    responseType: D.Type,
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            interceptor: interceptor,
                            progress: progress) { response in
@@ -82,13 +89,15 @@ extension RestService {
     }
     
     @discardableResult
-    public func json<D: Decodable>(method: HTTPMethod,
+    public func json<D: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    interceptor: RequestInterceptor?,
                                    responseType: D.Type,
                                    completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     interceptor: interceptor,
                     responseType: responseType,
@@ -99,14 +108,16 @@ extension RestService {
     // MARK: With Custom Error
     
     @discardableResult
-    public func json<E: Decodable>(method: HTTPMethod,
+    public func json<E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    interceptor: RequestInterceptor?,
                                    customError: E.Type,
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            interceptor: interceptor,
                            progress: progress) { response in
@@ -116,13 +127,15 @@ extension RestService {
     }
     
     @discardableResult
-    public func json<E: Decodable>(method: HTTPMethod,
+    public func json<E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    interceptor: RequestInterceptor?,
                                    customError: E.Type,
                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     interceptor: interceptor,
                     customError: customError,
@@ -134,7 +147,8 @@ extension RestService {
     
     @discardableResult
     public func json<D: Decodable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    interceptor: RequestInterceptor?,
                                    responseType: D.Type,
@@ -142,7 +156,8 @@ extension RestService {
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            interceptor: interceptor,
                            progress: progress) { response in
@@ -154,14 +169,16 @@ extension RestService {
     
     @discardableResult
     public func json<D: Decodable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    interceptor: RequestInterceptor?,
                                    responseType: D.Type,
                                    customError: E.Type,
                                    completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     interceptor: interceptor,
                     responseType: responseType,
@@ -176,7 +193,8 @@ extension RestService {
     
     // MARK: Prepare
     
-    func prepareJson<P: Codable>(method: HTTPMethod,
+    func prepareJson<P: Codable>(debug: Bool? = nil,
+                                 method: HTTPMethod,
                                  path: String,
                                  parameters: P,
                                  interceptor: RequestInterceptor?,
@@ -196,7 +214,7 @@ extension RestService {
         }
         return taskBuilder.build(
             session: session,
-            debug: debug,
+            debug: debug ?? self.debug,
             request: request,
             autoResume: startTasksAutomatically,
             progress: progress,
@@ -207,14 +225,16 @@ extension RestService {
     // MARK: Simple
     
     @discardableResult
-    public func json<P: Codable>(method: HTTPMethod,
+    public func json<P: Codable>(debug: Bool? = nil,
+                                 method: HTTPMethod,
                                  path: String,
                                  parameters: P,
                                  interceptor: RequestInterceptor?,
                                  progress: ((Double) -> Void)?,
                                  completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -224,13 +244,15 @@ extension RestService {
     }
     
     @discardableResult
-    public func json<P: Codable>(method: HTTPMethod,
+    public func json<P: Codable>(debug: Bool? = nil,
+                                 method: HTTPMethod,
                                  path: String,
                                  parameters: P,
                                  interceptor: RequestInterceptor?,
                                  completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,
@@ -242,7 +264,8 @@ extension RestService {
     
     @discardableResult
     public func json<P: Codable,
-                     D: Decodable>(method: HTTPMethod,
+                     D: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: P,
                                    interceptor: RequestInterceptor?,
@@ -250,7 +273,8 @@ extension RestService {
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -262,14 +286,16 @@ extension RestService {
     
     @discardableResult
     public func json<P: Codable,
-                     D: Decodable>(method: HTTPMethod,
+                     D: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: P,
                                    interceptor: RequestInterceptor?,
                                    responseType: D.Type,
                                    completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,
@@ -282,7 +308,8 @@ extension RestService {
     
     @discardableResult
     public func json<P: Codable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: P,
                                    interceptor: RequestInterceptor?,
@@ -290,7 +317,8 @@ extension RestService {
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -302,14 +330,16 @@ extension RestService {
     
     @discardableResult
     public func json<P: Codable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: P,
                                    interceptor: RequestInterceptor?,
                                    customError: E.Type,
                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,
@@ -323,7 +353,8 @@ extension RestService {
     @discardableResult
     public func json<P: Codable,
                      D: Decodable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: P,
                                    interceptor: RequestInterceptor?,
@@ -332,7 +363,8 @@ extension RestService {
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -346,7 +378,8 @@ extension RestService {
     @discardableResult
     public func json<P: Codable,
                      D: Decodable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: P,
                                    interceptor: RequestInterceptor?,
@@ -354,7 +387,8 @@ extension RestService {
                                    customError: E.Type,
                                    completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,
@@ -370,7 +404,8 @@ extension RestService {
     
     // MARK: Prepare
     
-    func prepareJson(method: HTTPMethod,
+    func prepareJson(debug: Bool? = nil,
+                     method: HTTPMethod,
                      path: String,
                      parameters: [String: Any],
                      interceptor: RequestInterceptor?,
@@ -390,7 +425,7 @@ extension RestService {
         }
         return taskBuilder.build(
             session: session,
-            debug: debug,
+            debug: debug ?? self.debug,
             request: request,
             autoResume: startTasksAutomatically,
             progress: progress,
@@ -401,14 +436,16 @@ extension RestService {
     // MARK: Simple
     
     @discardableResult
-    public func json(method: HTTPMethod,
+    public func json(debug: Bool? = nil,
+                     method: HTTPMethod,
                      path: String,
                      parameters: [String: Any],
                      interceptor: RequestInterceptor?,
                      progress: ((Double) -> Void)?,
                      completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -418,13 +455,15 @@ extension RestService {
     }
     
     @discardableResult
-    public func json(method: HTTPMethod,
+    public func json(debug: Bool? = nil,
+                     method: HTTPMethod,
                      path: String,
                      parameters: [String: Any],
                      interceptor: RequestInterceptor?,
                      completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,
@@ -435,7 +474,8 @@ extension RestService {
     // MARK: With Response Type
     
     @discardableResult
-    public func json<D: Decodable>(method: HTTPMethod,
+    public func json<D: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: [String: Any],
                                    interceptor: RequestInterceptor?,
@@ -443,7 +483,8 @@ extension RestService {
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -454,14 +495,16 @@ extension RestService {
     }
     
     @discardableResult
-    public func json<D: Decodable>(method: HTTPMethod,
+    public func json<D: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: [String: Any],
                                    interceptor: RequestInterceptor?,
                                    responseType: D.Type,
                                    completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,
@@ -473,7 +516,8 @@ extension RestService {
     // MARK: With Custom Error
     
     @discardableResult
-    public func json<E: Decodable>(method: HTTPMethod,
+    public func json<E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: [String: Any],
                                    interceptor: RequestInterceptor?,
@@ -481,7 +525,8 @@ extension RestService {
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -492,14 +537,16 @@ extension RestService {
     }
     
     @discardableResult
-    public func json<E: Decodable>(method: HTTPMethod,
+    public func json<E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: [String: Any],
                                    interceptor: RequestInterceptor?,
                                    customError: E.Type,
                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,
@@ -512,7 +559,8 @@ extension RestService {
     
     @discardableResult
     public func json<D: Decodable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: [String: Any],
                                    interceptor: RequestInterceptor?,
@@ -521,7 +569,8 @@ extension RestService {
                                    progress: ((Double) -> Void)?,
                                    completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return prepareJson(method: method,
+        return prepareJson(debug: debug,
+                           method: method,
                            path: path,
                            parameters: parameters,
                            interceptor: interceptor,
@@ -534,7 +583,8 @@ extension RestService {
     
     @discardableResult
     public func json<D: Decodable,
-                     E: Decodable>(method: HTTPMethod,
+                     E: Decodable>(debug: Bool? = nil,
+                                   method: HTTPMethod,
                                    path: String,
                                    parameters: [String: Any],
                                    interceptor: RequestInterceptor?,
@@ -542,7 +592,8 @@ extension RestService {
                                    customError: E.Type,
                                    completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return json(method: method,
+        return json(debug: debug,
+                    method: method,
                     path: path,
                     parameters: parameters,
                     interceptor: interceptor,

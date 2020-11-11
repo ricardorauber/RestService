@@ -4,7 +4,8 @@ extension RestService {
     
     // MARK: Prepare
     
-    func prepareFormData(boundary: String = UUID().uuidString,
+    func prepareFormData(debug: Bool? = nil,
+                         boundary: String = UUID().uuidString,
                          method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
@@ -25,7 +26,7 @@ extension RestService {
         }
         return taskBuilder.build(
             session: session,
-            debug: debug,
+            debug: debug ?? self.debug,
             request: request,
             autoResume: startTasksAutomatically,
             progress: progress,
@@ -36,14 +37,16 @@ extension RestService {
     // MARK: Simple
     
     @discardableResult
-    public func formData(method: HTTPMethod,
+    public func formData(debug: Bool? = nil,
+                         method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
                          interceptor: RequestInterceptor?,
                          progress: ((Double) -> Void)?,
                          completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return prepareFormData(method: method,
+        return prepareFormData(debug: debug,
+                               method: method,
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
@@ -53,13 +56,15 @@ extension RestService {
     }
     
     @discardableResult
-    public func formData(method: HTTPMethod,
+    public func formData(debug: Bool? = nil,
+                         method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
                          interceptor: RequestInterceptor?,
                          completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
-        return formData(method: method,
+        return formData(debug: debug,
+                        method: method,
                         path: path,
                         parameters: parameters,
                         interceptor: interceptor,
@@ -70,7 +75,8 @@ extension RestService {
     // MARK: With Response Type
     
     @discardableResult
-    public func formData<D: Decodable>(method: HTTPMethod,
+    public func formData<D: Decodable>(debug: Bool? = nil,
+                                       method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor?,
@@ -78,7 +84,8 @@ extension RestService {
                                        progress: ((Double) -> Void)?,
                                        completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return prepareFormData(method: method,
+        return prepareFormData(debug: debug,
+                               method: method,
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
@@ -89,14 +96,16 @@ extension RestService {
     }
     
     @discardableResult
-    public func formData<D: Decodable>(method: HTTPMethod,
+    public func formData<D: Decodable>(debug: Bool? = nil,
+                                       method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor?,
                                        responseType: D.Type,
                                        completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
-        return formData(method: method,
+        return formData(debug: debug,
+                        method: method,
                         path: path,
                         parameters: parameters,
                         interceptor: interceptor,
@@ -108,7 +117,8 @@ extension RestService {
     // MARK: With Custom Error
     
     @discardableResult
-    public func formData<E: Decodable>(method: HTTPMethod,
+    public func formData<E: Decodable>(debug: Bool? = nil,
+                                       method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor?,
@@ -116,7 +126,8 @@ extension RestService {
                                        progress: ((Double) -> Void)?,
                                        completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return prepareFormData(method: method,
+        return prepareFormData(debug: debug,
+                               method: method,
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
@@ -127,14 +138,16 @@ extension RestService {
     }
     
     @discardableResult
-    public func formData<E: Decodable>(method: HTTPMethod,
+    public func formData<E: Decodable>(debug: Bool? = nil,
+                                       method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor?,
                                        customError: E.Type,
                                        completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
-        return formData(method: method,
+        return formData(debug: debug,
+                        method: method,
                         path: path,
                         parameters: parameters,
                         interceptor: interceptor,
@@ -147,7 +160,8 @@ extension RestService {
     
     @discardableResult
     public func formData<D: Decodable,
-                         E: Decodable>(method: HTTPMethod,
+                         E: Decodable>(debug: Bool? = nil,
+                                       method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor?,
@@ -156,7 +170,8 @@ extension RestService {
                                        progress: ((Double) -> Void)?,
                                        completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return prepareFormData(method: method,
+        return prepareFormData(debug: debug,
+                               method: method,
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
@@ -169,7 +184,8 @@ extension RestService {
     
     @discardableResult
     public func formData<D: Decodable,
-                         E: Decodable>(method: HTTPMethod,
+                         E: Decodable>(debug: Bool? = nil,
+                                       method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor?,
@@ -177,7 +193,8 @@ extension RestService {
                                        customError: E.Type,
                                        completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
-        return formData(method: method,
+        return formData(debug: debug,
+                        method: method,
                         path: path,
                         parameters: parameters,
                         interceptor: interceptor,

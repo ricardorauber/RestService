@@ -5,6 +5,27 @@
 [![License](https://img.shields.io/cocoapods/l/RestService.svg?style=flat)](http://cocoadocs.org/docsets/RestService)
 [![Platform](https://img.shields.io/cocoapods/p/RestService.svg?style=flat)](http://cocoadocs.org/docsets/RestService)
 
+## TL; DR
+
+`RestService` is a light REST service based on the `URLRequest` with some vanila on top. Check this out:
+
+```swift
+let service = RestService(host: "api.github.com")
+
+let task = service.json(
+    method: .get,
+    path: "/users/ricardorauber/repos",
+    interceptor: nil,
+    responseType: [Repository].self) { response in
+        switch response {
+        case .success(let repositories):
+            print("cool!", repositories)
+        case .failure:
+            print("oh no!")
+        }
+}
+```
+
 ## REST Service
 
 Hey there, thanks for coming! If you got here is because you are looking for something to help implementing the HTTP requests for your app, right? 
@@ -48,6 +69,8 @@ let service = RestService(session: URLSession.shared, scheme: .http, host: "loca
 
 With that, it will create a service for `http://localhost:3000/`.
 
+All of those properties can be changed later.
+
 #### Making a simple JSON request
 
 Now that you have you service crated, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
@@ -57,7 +80,13 @@ service.json(
     method: .get,
     path: "/api/users",
     interceptor: nil) { response in
-        print(response.stringValue())
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
 }
 ```
 
@@ -73,8 +102,8 @@ So, let's make a `GET` request with a dictionary for parameters:
 
 ```swift
 let parameters: [String: Any] = [
-    "username": "john", 
-    "limit": 10, 
+    "username": "john",
+    "limit": 10,
     "offset": 0
 ]
 
@@ -83,7 +112,13 @@ service.json(
     path: "/api/users",
     parameters: parameters,
     interceptor: nil) { response in
-        print(response.stringValue())
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
 }
 ```
 
@@ -104,7 +139,13 @@ service.json(
     path: "/api/users",
     parameters: parameters,
     interceptor: nil) { response in
-        print(response.stringValue())
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
 }
 ```
 
@@ -138,7 +179,33 @@ service.formData(
     path: "/api/userdata",
     parameters: parameters,
     interceptor: nil) { response in
-        print(response.stringValue())
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
+}
+```
+
+#### Making a simple request with a Data body
+
+Ok, you are not using `JSON` or `FORM/DATA`, but you still want to send a request using `RestService`? Sure, that's very simple, just need to send the body as `Data`:
+
+```swift
+service.request(
+    method: .post,
+    path: "/api/upload",
+    body: body,
+    interceptor: nil) { response in
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
 }
 ```
 
@@ -147,7 +214,7 @@ service.formData(
 Interceptors are a great way to change something on a request just before sending it to the server. That's a really good opportunity to add some headers like an authentication token, for instance. Let's see it in action!
 
 ```swift
-struct TokenInterceptor: RestRequestInterceptor {
+struct TokenInterceptor: RequestInterceptor {
     func adapt(request: URLRequest) -> URLRequest {
         var request = request
         request.addValue("Bearer gahsjdGJSgdsajagA", forHTTPHeaderField: "Authorization")
@@ -161,7 +228,13 @@ service.json(
     method: .get,
     path: "/api/me",
     interceptor: interceptor) { response in
-        print(response.stringValue())
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
 }
 ```
 
@@ -170,7 +243,23 @@ This will add that token to the request just before the execution. Interceptors 
 If you need to add more than one interceptor, you can use the `RestInterceptorGroup`:
 
 ```swift
-let interceptor = RestInterceptorGroup(interceptors: [
+struct APIKeyInterceptor: RequestInterceptor {
+    func adapt(request: URLRequest) -> URLRequest {
+        var request = request
+        request.addValue("12345", forHTTPHeaderField: "X-API-KEY")
+        return request
+    }
+}
+    
+struct TokenInterceptor: RequestInterceptor {
+    func adapt(request: URLRequest) -> URLRequest {
+        var request = request
+        request.addValue("Bearer gahsjdGJSgdsajagA", forHTTPHeaderField: "Authorization")
+        return request
+    }
+}
+    
+let interceptor = GroupInterceptor(interceptors: [
     APIKeyInterceptor(),
     TokenInterceptor()
 ])
@@ -179,131 +268,206 @@ service.json(
     method: .get,
     path: "/api/me",
     interceptor: interceptor) { response in
-        print(response.stringValue())
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
 }
 ```
 
 ### Dealing with the response from the server
 
-One of the things that many people have issues is with the reponse from the server. Casting values, serializing, decoding... the possibilities are unlimited. What I tried to achieve with this framework was to have a nice response object that could provide us everything we want during the development (debugging) and release.
+One of the things that many people have issues is with the reponse from the server. Casting values, serializing, decoding... the possibilities are unlimited. What I tried to achieve with this framework was to have a nice response in the way you need the data.
 
-The result is the `RestResponse` object. It has only the 3 properties that `URLResponse` gives us, the the original `URLRequest` and some nice computed properties and methods to handle the data.
+There are 4 possibilities of response:
 
-#### Status Code
+#### Without Body
 
-You can easily see the status code of the response with this computed property. It will return `-1` if there was some error in the response.
+If you just need to send a request and you are not expecting any object as a response, then you just need to make the call as we saw before:
 
 ```swift
 service.json(
     method: .get,
     path: "/api/me",
-    interceptor: interceptor) { response in
-        if 200..<300 ~= response.statusCode {
-            print("cool!")
-        } else {
-            print("oops!")
+    interceptor: nil) { response in
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
+}
+```
+
+#### With a Response Type
+
+Now let's say you need to convert the response body into a `Codable` object when the request has succedded:
+
+```swift
+struct Person: Codable {
+    let id: Int
+    let name: String
+}
+
+service.json(
+    method: .get,
+    path: "/api/me",
+    interceptor: nil,
+    responseType: Person.self) { response in
+    
+    switch response {
+    case .success(let person):
+        print("success!", person)
+    case .failure:
+        print("failure")
+    }
+}
+```
+
+#### With a Custom Error from the server
+
+If your webservice has a custom way to reply with an error, let's say, a json object with the error details, you can use another parameter to get the response decoded to a `Codable` object like this:
+
+```swift
+struct ServerError: Codable {
+    let code: Int
+    let message: String
+}
+
+service.json(
+    method: .get,
+    path: "/api/me",
+    interceptor: nil,
+    customError: ServerError.self) { response in
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .customError(let error):
+        print("server error", error)
+    case .failure:
+        print("failure")
+    }
+}
+```
+
+#### All Inclusive: Response Type + Custom Error from the server
+
+Finally, you can have everything together, the successful response type, the custom error from the server and the generic failure:
+
+```swift
+struct Person: Codable {
+    let id: Int
+    let name: String
+}
+    
+struct ServerError: Codable {
+    let code: Int
+    let message: String
+}
+
+service.json(
+    method: .get,
+    path: "/api/me",
+    interceptor: nil,
+    responseType: Person.self,
+    customError: ServerError.self) { response in
+    
+    switch response {
+    case .success(let person):
+        print("success!", person)
+    case .customError(let error):
+        print("server error", error)
+    case .failure:
+        print("failure")
+    }
+}
+```
+
+### Handling the Task's Progress
+
+A cool thing is that with `RestService` you can handle the progress of any kind of task (not just JSON), so you could update the UI, for instance:
+
+```swift
+service.json(
+    method: .get,
+    path: "/api/me",
+    interceptor: nil,
+    progress: { value in
+        print("progress:", value)
+    },
+    completion: { response in
+    
+        switch response {
+        case .success:
+            print("success!")
+        case .failure:
+            print("failure")
         }
-}
+    }
+)
 ```
 
-#### Headers
+### Debug / Log
 
-If you need to get some information from the response's headers, you can easily get it by acessing the property:
+Last but not least, as developers we often need to debug some requests and usually it needs some effort to make it nice, so I have done something cool to make your life much easier:
+
+```swift
+let service = RestService(debug: true, host: "api.github.com")
+```
+
+Just by adding the `debug` parameter when creating the service and setting it to `true`, you will see all requests being loggged in the Xcode Console. Nice right? But that's not all, you could set the debug for a single request:
 
 ```swift
 service.json(
+    debug: true,
     method: .get,
     path: "/api/me",
-    interceptor: interceptor) { response in
-        print(response.headers["Token"])
-}
-```
-
-#### String Value
-
-When you receive a response from the server, it comes with a `Data?` body. If you want to convert it to a string value, just need to use the method and optionally giving a string encoder:
-
-```swift
-service.json(
-    method: .get,
-    path: "/api/me",
-    interceptor: interceptor) { response in
-        print(response.stringValue())
-        print(response.stringValue(encoding: .Latin1))
-}
-```
-
-#### Int Value
-
-Some responses comes with a simple integer value, so you can easily get it:
-
-```swift
-service.json(
-    method: .get,
-    path: "/api/users/count",
-    interceptor: interceptor) { response in
-        print(response.intValue())
-}
-```
-
-#### Double Value
-
-You might also want to get a double value from the response:
-
-```swift
-service.json(
-    method: .get,
-    path: "/api/fees/default",
-    interceptor: interceptor) { response in
-        print(response.doubleValue())
-}
-```
-
-#### Dictionary Value
-
-If you want to get a dictionary from the response, there is a method for that:
-
-```swift
-service.json(
-    method: .get,
-    path: "/api/me",
-    interceptor: interceptor) { response in
-        let dictionary = response.dictionaryValue()
-        print(dictionary?["name"])
-}
-```
-
-#### Array Value
-
-You might also want to get an array from the response, so you can use this:
-
-```swift
-service.json(
-    method: .get,
-    path: "/api/users",
-    interceptor: interceptor) { response in
-        let list = response.arrayValue()
-        print(list?.first)
-}
-```
-
-#### Decodable Value
-
-Now here comes the real good thing. You can try to convert the response to any kind of `Decodable` objects. That will make your life easier in many ways. Let's say that your server can give a response with an object, a list of objects or an error object, all in the response body:
-
-```swift
-service.json(
-    method: .get,
-    path: "/api/users",
-    interceptor: interceptor) { response in
-        if let user = response.decodableValue(of: User.self) {
-            showSingle(user: user)
-        } else if let users = response.decodableValue(of: [User].self) {
-            showList(of: users)
-        } else if let error = response.decodableValue(of APIError.self) {
-            showAn(error: error)
+    interceptor: nil,
+    completion: { response in
+    
+        switch response {
+        case .success:
+            print("success!")
+        case .failure:
+            print("failure")
         }
-}
+    }
+)
+```
+
+And how does it look like? Here is a little sample:
+
+```
+==============================================
+ ⚪️ REQUEST: https://api.github.com/users/ricardorauber/repos 
+
+> Headers:
+[
+    "Content-Type": "application/json; charset=utf-8"
+] 
+
+> Body:
+nil 
+
+ 🟢 RESPONSE: 200 
+
+> Headers:
+[
+    "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+    "x-github-media-type": "github.v3; format=json",
+    "Status": "200 OK",
+    ...
+]
+
+> Body:
+[{"id":253579430,"node_id":"MDEwOlJlcG9zaXRvcnkyNTM1Nzk0MzA="}]
+
+------------------------------
 ```
 
 ## Thanks 👍
