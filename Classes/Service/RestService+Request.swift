@@ -16,7 +16,7 @@ extension RestService {
                 scheme: scheme,
                 method: method,
                 host: host,
-                path: path,
+                path: fullPath(with: path),
                 queryItems: nil,
                 body: nil,
                 interceptor: interceptor)
@@ -205,7 +205,7 @@ extension RestService {
                 scheme: scheme,
                 method: method,
                 host: host,
-                path: path,
+                path: fullPath(with: path),
                 queryItems: nil,
                 body: body,
                 interceptor: interceptor)

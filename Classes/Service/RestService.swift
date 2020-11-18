@@ -17,6 +17,7 @@ open class RestService {
     public var scheme: HTTPScheme
     public var host: String
     public var port: Int?
+    public var basePath: String?
     public var startTasksAutomatically: Bool
     
     // MARK: - Initialization
@@ -26,6 +27,7 @@ open class RestService {
                 scheme: HTTPScheme = .https,
                 host: String,
                 port: Int? = nil,
+                basePath: String? = nil,
                 startTasksAutomatically: Bool = true) {
         
         self.session = session
@@ -33,7 +35,19 @@ open class RestService {
         self.scheme = scheme
         self.host = host
         self.port = port
+        self.basePath = basePath
         self.startTasksAutomatically = startTasksAutomatically
+    }
+}
+
+// MARK: - Path
+extension RestService {
+    
+    func fullPath(with path: String) -> String {
+        if let basePath = self.basePath {
+            return basePath + path
+        }
+        return path
     }
 }
 

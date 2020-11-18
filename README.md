@@ -41,7 +41,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 2.0'
+    pod 'RestService', '~> 2.1'
 end
 ```
 
@@ -64,12 +64,14 @@ It will create a service ready to be used with an `https` scheme. But let's say 
 
 ```swift
 import RestService
-let service = RestService(session: URLSession.shared, scheme: .http, host: "localhost", port: 3000)
+let service = RestService(session: URLSession.shared, scheme: .http, host: "localhost", port: 3000, basePath: "/api")
 ```
 
-With that, it will create a service for `http://localhost:3000/`.
+With that, it will create a service for `http://localhost:3000/api`.
 
-All of those properties can be changed later.
+Note that all of those properties can be changed later. 
+
+The `basePath` parameter set's the base path for all requests, so if you make a request for a `/users` path, for instance, it will send it to `http://localhost:3000/api/users`.
 
 #### Making a simple JSON request
 

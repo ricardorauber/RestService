@@ -16,7 +16,7 @@ extension RestService {
                 scheme: scheme,
                 method: method,
                 host: host,
-                path: path,
+                path: fullPath(with: path),
                 queryItems: nil,
                 body: nil,
                 interceptor: interceptorBuilder.buildJson(interceptor: interceptor))
@@ -205,7 +205,7 @@ extension RestService {
                 scheme: scheme,
                 method: method,
                 host: host,
-                path: path,
+                path: fullPath(with: path),
                 queryItems: queryBuilder.build(method: method, parameters: parameters),
                 body: bodyBuilder.buildJson(method: method, parameters: parameters),
                 interceptor: interceptorBuilder.buildJson(interceptor: interceptor))
@@ -416,7 +416,7 @@ extension RestService {
                 scheme: scheme,
                 method: method,
                 host: host,
-                path: path,
+                path: fullPath(with: path),
                 queryItems: queryBuilder.build(method: method, parameters: parameters),
                 body: bodyBuilder.buildJson(method: method, parameters: parameters),
                 interceptor: interceptorBuilder.buildJson(interceptor: interceptor))

@@ -38,6 +38,21 @@ class RestServiceTests: QuickSpec {
 				}
 			}
             
+            context("fullPath") {
+                
+                it("should have a path without base path") {
+                    service = RestService(debug: true, host: "server.com")
+                    let result = service.fullPath(with: "/users")
+                    expect(result) == "/users"
+                }
+                
+                it("should have a full path with base path and path") {
+                    service = RestService(debug: true, host: "server.com", basePath: "/api/v1")
+                    let result = service.fullPath(with: "/users")
+                    expect(result) == "/api/v1/users"
+                }
+            }
+            
             context("isValid") {
                 
                 it("should be true for valid responses") {

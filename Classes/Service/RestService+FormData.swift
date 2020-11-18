@@ -17,7 +17,7 @@ extension RestService {
                 scheme: scheme,
                 method: method,
                 host: host,
-                path: path,
+                path: fullPath(with: path),
                 queryItems: nil,
                 body: bodyBuilder.buildFormData(method: method, boundary: boundary, parameters: parameters),
                 interceptor: interceptorBuilder.buildFormData(boundary: boundary, interceptor: interceptor))
