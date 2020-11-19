@@ -122,7 +122,7 @@ class RestServiceTests: QuickSpec {
             
             context("prepare<D: Decodable>") {
                 
-                it("should be success for a valid response") {
+                it("should be success for a valid json object") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
                         url: url,
@@ -134,6 +134,86 @@ class RestServiceTests: QuickSpec {
                     let data = try? JSONEncoder().encode(object)
                     let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
                     let result = service.prepare(response: response, responseType: Person.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid data") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object = "mark"
+                    let data = object.data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Data.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == data
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid string") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object = "mark"
+                    let data = object.data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: String.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid int") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: Int = 10
+                    let data = "\(object)".data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Int.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid double") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: Double = 10.5
+                    let data = "\(object)".data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Double.self)
                     switch result {
                     case .success(let responseObject):
                         expect(responseObject) == object
@@ -222,7 +302,7 @@ class RestServiceTests: QuickSpec {
             
             context("prepare<D: Decodable,E: Decodable>") {
                 
-                it("should be success for a valid response") {
+                it("should be success for a valid json object") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
                         url: url,
@@ -234,6 +314,86 @@ class RestServiceTests: QuickSpec {
                     let data = try? JSONEncoder().encode(object)
                     let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
                     let result = service.prepare(response: response, responseType: Person.self, customError: SimpleError.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid data") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object = "mark"
+                    let data = object.data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Data.self, customError: SimpleError.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == data
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid string") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object = "mark"
+                    let data = object.data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: String.self, customError: SimpleError.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid int") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: Int = 10
+                    let data = "\(object)".data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Int.self, customError: SimpleError.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be success for a valid double") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: Double = 10.5
+                    let data = "\(object)".data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Double.self, customError: SimpleError.self)
                     switch result {
                     case .success(let responseObject):
                         expect(responseObject) == object

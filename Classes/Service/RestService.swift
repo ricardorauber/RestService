@@ -70,6 +70,12 @@ extension RestService {
         if let data = response.decodableValue(of: D.self) {
             return .success(data)
         }
+        if responseType == Data.self, let data = response.data as? D {
+            return .success(data)
+        }
+        if responseType == String.self, let data = response.stringValue() as? D {
+            return .success(data)
+        }
         return .failure
     }
     
@@ -77,7 +83,8 @@ extension RestService {
                                customError: E.Type) -> RestTaskResultWithCustomError<E> {
         if let data = response.decodableValue(of: E.self) {
             return .customError(data)
-        } else if isValid(response: response) {
+        }
+        if isValid(response: response) {
             return .success
         }
         return .failure
@@ -89,7 +96,14 @@ extension RestService {
                                customError: E.Type) -> RestTaskResultWithDataAndCustomError<D, E> {
         if let data = response.decodableValue(of: D.self) {
             return .success(data)
-        } else if let data = response.decodableValue(of: E.self) {
+        }
+        if responseType == Data.self, let data = response.data as? D {
+            return .success(data)
+        }
+        if responseType == String.self, let data = response.stringValue() as? D {
+            return .success(data)
+        }
+        if let data = response.decodableValue(of: E.self) {
             return .customError(data)
         }
         return .failure
