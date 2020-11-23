@@ -2,6 +2,10 @@ import Foundation
 
 public struct RestResponse {
     
+    // MARK: - Dependencies
+    
+    let decoder: JSONDecoder
+    
     // MARK: - Properties
 	
 	public let data: Data?
@@ -11,11 +15,13 @@ public struct RestResponse {
 	
 	// MARK: - Initialization
 	
-	public init(data: Data?,
+	public init(decoder: JSONDecoder = JSONDecoder(),
+                data: Data?,
 				request: URLRequest?,
 				response: URLResponse?,
 				error: Error?) {
 		
+        self.decoder = decoder
 		self.data = data
 		self.request = request
 		self.response = response
@@ -55,7 +61,7 @@ extension RestResponse {
 	
 	public func decodableValue<T: Decodable>(of type: T.Type) -> T? {
 		guard let data = data else { return nil }
-		return try? JSONDecoder().decode(type, from: data)
+		return try? decoder.decode(type, from: data)
 	}
 	
 	public func dictionaryValue() -> [String: Any]? {

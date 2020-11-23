@@ -1,6 +1,6 @@
 import Foundation
 
-public struct GroupInterceptor {
+open class GroupInterceptor {
     
     // MARK: - Properties
     

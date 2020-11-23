@@ -3,13 +3,18 @@ import Foundation
 struct TaskBuilder {
     
     func build(session: URLSession,
+               decoder: JSONDecoder = JSONDecoder(),
                debug: Bool = false,
                request: URLRequest,
                autoResume: Bool,
                progress: ((Double) -> Void)?,
                completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
-        let task = RestTask(session: session, debug: debug)
+        let task = RestTask(
+            session: session,
+            decoder: decoder,
+            debug: debug
+        )
         task.prepare(
             request: request,
             progress: { progressValue in

@@ -5,6 +5,7 @@ public class RestTask {
     // MARK: - Properties
     
     public var session: URLSession
+    public var decoder: JSONDecoder
     public var debug: Bool
     public private(set) var dataTask: URLSessionDataTask?
     public private(set) var request: URLRequest?
@@ -13,8 +14,12 @@ public class RestTask {
     
     // MARK: - Initialization
     
-    public init(session: URLSession = .shared, debug: Bool = false) {
+    public init(session: URLSession = .shared,
+                decoder: JSONDecoder = JSONDecoder(),
+                debug: Bool = false) {
+        
         self.session = session
+        self.decoder = decoder
         self.debug = debug
     }
     
@@ -25,7 +30,13 @@ public class RestTask {
                         completion: @escaping (RestResponse) -> Void) {
         cancel()
         dataTask = session.dataTask(with: request) { data, response, error in
-            let response = RestResponse(data: data, request: request, response: response, error: error)
+            let response = RestResponse(
+                decoder: self.decoder,
+                data: data,
+                request: request,
+                response: response,
+                error: error
+            )
             self.response = response
             if self.debug {
                 self.log(response: response)

@@ -26,6 +26,7 @@ extension RestService {
         }
         return taskBuilder.build(
             session: session,
+            decoder: decoder,
             debug: debug ?? self.debug,
             request: request,
             autoResume: startTasksAutomatically,

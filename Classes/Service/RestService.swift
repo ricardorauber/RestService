@@ -13,6 +13,7 @@ open class RestService {
     // MARK: - Properties
     
     public var session: URLSession
+    public var decoder: JSONDecoder
     public var debug: Bool
     public var scheme: HTTPScheme
     public var host: String
@@ -23,6 +24,7 @@ open class RestService {
     // MARK: - Initialization
     
     public init(session: URLSession = URLSession.shared,
+                decoder: JSONDecoder = JSONDecoder(),
                 debug: Bool = false,
                 scheme: HTTPScheme = .https,
                 host: String,
@@ -31,6 +33,7 @@ open class RestService {
                 startTasksAutomatically: Bool = true) {
         
         self.session = session
+        self.decoder = decoder
         self.debug = debug
         self.scheme = scheme
         self.host = host

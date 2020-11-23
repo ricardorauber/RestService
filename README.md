@@ -41,7 +41,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 2.1'
+    pod 'RestService', '~> 2.2'
 end
 ```
 
@@ -65,7 +65,8 @@ It will create a service ready to be used with an `https` scheme. But let's say 
 ```swift
 import RestService
 let service = RestService(
-    session: URLSession.shared, 
+    session: URLSession.shared,
+    decoder: JSONDecoder(),
     scheme: .http, 
     host: "localhost", 
     port: 3000,
