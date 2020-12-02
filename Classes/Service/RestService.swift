@@ -73,10 +73,10 @@ extension RestService {
         if let data = response.decodableValue(of: D.self) {
             return .success(data)
         }
-        if responseType == Data.self, let data = response.data as? D {
+        if responseType == String.self, let data = response.stringValue() as? D {
             return .success(data)
         }
-        if responseType == String.self, let data = response.stringValue() as? D {
+        if responseType == Data.self, let data = response.data as? D {
             return .success(data)
         }
         return .failure
@@ -100,14 +100,14 @@ extension RestService {
         if let data = response.decodableValue(of: D.self) {
             return .success(data)
         }
-        if responseType == Data.self, let data = response.data as? D {
-            return .success(data)
+        if let data = response.decodableValue(of: E.self) {
+            return .customError(data)
         }
         if responseType == String.self, let data = response.stringValue() as? D {
             return .success(data)
         }
-        if let data = response.decodableValue(of: E.self) {
-            return .customError(data)
+        if responseType == Data.self, let data = response.data as? D {
+            return .success(data)
         }
         return .failure
     }
