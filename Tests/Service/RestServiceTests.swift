@@ -445,12 +445,11 @@ class RestServiceTests: QuickSpec {
                 
                 var completed: Bool!
                 var task: RestTask!
-                var timeout: TimeInterval!
+                let timeout: DispatchTimeInterval = .seconds(3)
                 
                 beforeEach {
                     completed = false
                     service = RestService(debug: true, host: "api.github.com")
-                    timeout = 3
                 }
                 
                 it("should get a valid response") {

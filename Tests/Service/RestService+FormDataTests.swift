@@ -8,7 +8,7 @@ class RestServiceFormDataTests: QuickSpec {
     override func spec() {
         
         var service: RestService!
-        let timeout: TimeInterval = 3
+        let timeout: DispatchTimeInterval = .seconds(3)
         
         describe("RestService+FormData") {
             

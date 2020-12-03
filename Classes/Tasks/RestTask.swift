@@ -23,6 +23,10 @@ public class RestTask {
         self.debug = debug
     }
     
+    deinit {
+        observation?.invalidate()
+    }
+    
     // MARK: - Request Execution
     
     public func prepare(request: URLRequest,
