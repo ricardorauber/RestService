@@ -4,15 +4,21 @@ open class RestService {
     
     // MARK: - Dependencies
     
-    let bodyBuilder = BodyBuilder()
-    let interceptorBuilder = InterceptorBuilder()
-    let queryBuilder = QueryItemsBuilder()
-    let requestBuilder = RequestBuilder()
-    let taskBuilder = TaskBuilder()
+    var bodyBuilder = BodyBuilder()
+    var interceptorBuilder = InterceptorBuilder()
+    var queryBuilder = QueryItemsBuilder()
+    var requestBuilder = RequestBuilder()
+    var taskBuilder = TaskBuilder()
     
     // MARK: - Properties
     
     public var session: URLSession
+    public var encoder: JSONEncoder {
+        didSet {
+            bodyBuilder.encoder = encoder
+            queryBuilder.encoder = encoder
+        }
+    }
     public var decoder: JSONDecoder
     public var debug: Bool
     public var scheme: HTTPScheme
@@ -24,6 +30,7 @@ open class RestService {
     // MARK: - Initialization
     
     public init(session: URLSession = URLSession.shared,
+                encoder: JSONEncoder = JSONEncoder(),
                 decoder: JSONDecoder = JSONDecoder(),
                 debug: Bool = false,
                 scheme: HTTPScheme = .https,
@@ -33,6 +40,7 @@ open class RestService {
                 startTasksAutomatically: Bool = true) {
         
         self.session = session
+        self.encoder = encoder
         self.decoder = decoder
         self.debug = debug
         self.scheme = scheme
@@ -40,6 +48,9 @@ open class RestService {
         self.port = port
         self.basePath = basePath
         self.startTasksAutomatically = startTasksAutomatically
+        
+        bodyBuilder.encoder = encoder
+        queryBuilder.encoder = encoder
     }
 }
 

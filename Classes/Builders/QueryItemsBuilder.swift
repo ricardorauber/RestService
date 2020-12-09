@@ -1,13 +1,15 @@
 import Foundation
 
 struct QueryItemsBuilder {
+
+    var encoder: JSONEncoder = JSONEncoder()
     
     func isAllowed(method: HTTPMethod) -> Bool {
         method == .get || method == .head || method == .delete
     }
     
     func build<T: Codable>(method: HTTPMethod, parameters: T) -> [URLQueryItem]? {
-        guard let encoded = try? JSONEncoder().encode(parameters),
+        guard let encoded = try? encoder.encode(parameters),
               let decoded = try? JSONSerialization.jsonObject(with: encoded, options: .mutableContainers) as? [String: Any]
         else {
             return nil

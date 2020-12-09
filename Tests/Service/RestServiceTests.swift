@@ -13,6 +13,8 @@ class RestServiceTests: QuickSpec {
 			
 			beforeEach {
                 service = RestService(debug: true, host: "server.com")
+                service.encoder = JSONEncoder()
+                service.decoder = JSONDecoder()
 			}
 
 			context("initialization") {

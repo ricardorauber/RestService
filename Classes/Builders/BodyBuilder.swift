@@ -1,6 +1,8 @@
 import Foundation
 
 struct BodyBuilder {
+
+    var encoder: JSONEncoder = JSONEncoder()
     
     func isAllowed(method: HTTPMethod) -> Bool {
         method != .get && method != .head && method != .delete
@@ -8,7 +10,7 @@ struct BodyBuilder {
     
     func buildJson<T: Codable>(method: HTTPMethod, parameters: T) -> Data? {
         guard isAllowed(method: method) else { return nil }
-        return try? JSONEncoder().encode(parameters)
+        return try? encoder.encode(parameters)
     }
     
     func buildJson(method: HTTPMethod, parameters: [String: Any]) -> Data? {
