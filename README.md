@@ -66,6 +66,7 @@ It will create a service ready to be used with an `https` scheme. But let's say 
 import RestService
 let service = RestService(
     session: URLSession.shared,
+    encoder: JSONEncoder(),
     decoder: JSONDecoder(),
     scheme: .http, 
     host: "localhost", 
