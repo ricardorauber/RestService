@@ -29,7 +29,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        progress: nil,
                         completion: { _ in }
                     )
                     expect(task).toNot(beNil())
@@ -40,7 +39,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        progress: nil,
                         completion: { _ in }
                     )
                     expect(task).to(beNil())
@@ -49,37 +47,7 @@ class RestServiceFormDataTests: QuickSpec {
             
             context("formData") {
                 
-                it("should build a task for valid input with progress") {
-                    var completed = false
-                    let task = service.formData(
-                        method: .post,
-                        path: "/path",
-                        parameters: [
-                            TextFormDataParameter(name: "user", value: "john")
-                        ],
-                        progress: nil,
-                        completion: { _ in
-                            completed = true
-                        }
-                    )
-                    expect(task).toNot(beNil())
-                    task?.resume()
-                    expect(completed).toEventually(beTrue(), timeout: timeout)
-                    
-                }
-                
-                it("should not build a task for invalid input with progress") {
-                    let task = service.formData(
-                        method: .get,
-                        path: "path",
-                        parameters: [],
-                        progress: nil,
-                        completion: { _ in }
-                    )
-                    expect(task).to(beNil())
-                }
-                
-                it("should build a task for valid input without progress") {
+                it("should build a task for valid input") {
                     var completed = false
                     let task = service.formData(
                         method: .post,
@@ -97,7 +65,7 @@ class RestServiceFormDataTests: QuickSpec {
                     
                 }
                 
-                it("should not build a task for invalid input without progress") {
+                it("should not build a task for invalid input") {
                     let task = service.formData(
                         method: .get,
                         path: "path",
@@ -110,39 +78,7 @@ class RestServiceFormDataTests: QuickSpec {
             
             context("formData<D: Decodable>") {
                 
-                it("should build a task for valid input with progress") {
-                    var completed = false
-                    let task = service.formData(
-                        method: .post,
-                        path: "/path",
-                        parameters: [
-                            TextFormDataParameter(name: "user", value: "john")
-                        ],
-                        responseType: Person.self,
-                        progress: nil,
-                        completion: { _ in
-                            completed = true
-                        }
-                    )
-                    expect(task).toNot(beNil())
-                    task?.resume()
-                    expect(completed).toEventually(beTrue(), timeout: timeout)
-                    
-                }
-                
-                it("should not build a task for invalid input with progress") {
-                    let task = service.formData(
-                        method: .get,
-                        path: "path",
-                        parameters: [],
-                        responseType: Person.self,
-                        progress: nil,
-                        completion: { _ in }
-                    )
-                    expect(task).to(beNil())
-                }
-                
-                it("should build a task for valid input without progress") {
+                it("should build a task for valid input") {
                     var completed = false
                     let task = service.formData(
                         method: .post,
@@ -161,7 +97,7 @@ class RestServiceFormDataTests: QuickSpec {
                     
                 }
                 
-                it("should not build a task for invalid input without progress") {
+                it("should not build a task for invalid input") {
                     let task = service.formData(
                         method: .get,
                         path: "path",
@@ -175,39 +111,7 @@ class RestServiceFormDataTests: QuickSpec {
             
             context("formData<E: Decodable>") {
                 
-                it("should build a task for valid input with progress") {
-                    var completed = false
-                    let task = service.formData(
-                        method: .post,
-                        path: "/path",
-                        parameters: [
-                            TextFormDataParameter(name: "user", value: "john")
-                        ],
-                        customError: SimpleError.self,
-                        progress: nil,
-                        completion: { _ in
-                            completed = true
-                        }
-                    )
-                    expect(task).toNot(beNil())
-                    task?.resume()
-                    expect(completed).toEventually(beTrue(), timeout: timeout)
-                    
-                }
-                
-                it("should not build a task for invalid input with progress") {
-                    let task = service.formData(
-                        method: .get,
-                        path: "path",
-                        parameters: [],
-                        customError: SimpleError.self,
-                        progress: nil,
-                        completion: { _ in }
-                    )
-                    expect(task).to(beNil())
-                }
-                
-                it("should build a task for valid input without progress") {
+                it("should build a task for valid input") {
                     var completed = false
                     let task = service.formData(
                         method: .post,
@@ -226,7 +130,7 @@ class RestServiceFormDataTests: QuickSpec {
                     
                 }
                 
-                it("should not build a task for invalid input without progress") {
+                it("should not build a task for invalid input") {
                     let task = service.formData(
                         method: .get,
                         path: "path",
@@ -240,41 +144,7 @@ class RestServiceFormDataTests: QuickSpec {
             
             context("formData<D: Decodable, E: Decodable>") {
                 
-                it("should build a task for valid input with progress") {
-                    var completed = false
-                    let task = service.formData(
-                        method: .post,
-                        path: "/path",
-                        parameters: [
-                            TextFormDataParameter(name: "user", value: "john")
-                        ],
-                        responseType: Person.self,
-                        customError: SimpleError.self,
-                        progress: nil,
-                        completion: { _ in
-                            completed = true
-                        }
-                    )
-                    expect(task).toNot(beNil())
-                    task?.resume()
-                    expect(completed).toEventually(beTrue(), timeout: timeout)
-                    
-                }
-                
-                it("should not build a task for invalid input with progress") {
-                    let task = service.formData(
-                        method: .get,
-                        path: "path",
-                        parameters: [],
-                        responseType: Person.self,
-                        customError: SimpleError.self,
-                        progress: nil,
-                        completion: { _ in }
-                    )
-                    expect(task).to(beNil())
-                }
-                
-                it("should build a task for valid input without progress") {
+                it("should build a task for valid input") {
                     var completed = false
                     let task = service.formData(
                         method: .post,
@@ -294,7 +164,7 @@ class RestServiceFormDataTests: QuickSpec {
                     
                 }
                 
-                it("should not build a task for invalid input without progress") {
+                it("should not build a task for invalid input") {
                     let task = service.formData(
                         method: .get,
                         path: "path",

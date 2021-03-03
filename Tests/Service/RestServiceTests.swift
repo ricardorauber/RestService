@@ -459,7 +459,6 @@ class RestServiceTests: QuickSpec {
                     task = service.json(
                         method: .get,
                         path: "/ricardorauber/RestService",
-                        progress: nil,
                         completion: { response in
                             completed = true
                             expect(task.response?.statusCode) < 300
@@ -474,7 +473,6 @@ class RestServiceTests: QuickSpec {
                     task = service.json(
                         method: .get,
                         path: "/thisisanicetest",
-                        progress: nil,
                         completion: { response in
                             completed = true
                             expect(task.response?.statusCode) >= 400
@@ -488,7 +486,6 @@ class RestServiceTests: QuickSpec {
                     task = service.json(
                         method: .get,
                         path: "/thisisanicetest",
-                        progress: nil,
                         completion: { response in
                             completed = true
                             expect(task.response?.statusCode) == -1

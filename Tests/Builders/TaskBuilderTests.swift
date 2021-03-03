@@ -24,7 +24,6 @@ class TaskBuilderTests: QuickSpec {
                         session: session,
                         request: request,
                         autoResume: false,
-                        progress: nil,
                         completion: { _ in })
                     expect(task).toNot(beNil())
                     expect(task?.dataTask?.state) == .suspended
@@ -38,7 +37,6 @@ class TaskBuilderTests: QuickSpec {
                         session: session,
                         request: request,
                         autoResume: true,
-                        progress: nil,
                         completion: { _ in })
                     expect(task).toNot(beNil())
                     expect(task?.dataTask?.state) == .running

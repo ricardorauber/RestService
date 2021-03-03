@@ -10,7 +10,7 @@ extension RestService {
                          path: String,
                          parameters: [FormDataParameter],
                          interceptor: RequestInterceptor? = nil,
-                         progress: ((Double) -> Void)?,
+                         progress: ((Double) -> Void)? = nil,
                          completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
         guard let request = requestBuilder.build(
@@ -43,7 +43,7 @@ extension RestService {
                          path: String,
                          parameters: [FormDataParameter],
                          interceptor: RequestInterceptor? = nil,
-                         progress: ((Double) -> Void)?,
+                         progress: ((Double) -> Void)? = nil,
                          completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
         return prepareFormData(debug: debug,
@@ -56,23 +56,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formData(debug: Bool? = nil,
-                         method: HTTPMethod,
-                         path: String,
-                         parameters: [FormDataParameter],
-                         interceptor: RequestInterceptor? = nil,
-                         completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
-        
-        return formData(debug: debug,
-                        method: method,
-                        path: path,
-                        parameters: parameters,
-                        interceptor: interceptor,
-                        progress: nil,
-                        completion: completion)
-    }
-    
     // MARK: With Response Type
     
     @discardableResult
@@ -82,7 +65,7 @@ extension RestService {
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor? = nil,
                                        responseType: D.Type,
-                                       progress: ((Double) -> Void)?,
+                                       progress: ((Double) -> Void)? = nil,
                                        completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
         return prepareFormData(debug: debug,
@@ -96,25 +79,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formData<D: Decodable>(debug: Bool? = nil,
-                                       method: HTTPMethod,
-                                       path: String,
-                                       parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor? = nil,
-                                       responseType: D.Type,
-                                       completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
-        
-        return formData(debug: debug,
-                        method: method,
-                        path: path,
-                        parameters: parameters,
-                        interceptor: interceptor,
-                        responseType: responseType,
-                        progress: nil,
-                        completion: completion)
-    }
-    
     // MARK: With Custom Error
     
     @discardableResult
@@ -124,7 +88,7 @@ extension RestService {
                                        parameters: [FormDataParameter],
                                        interceptor: RequestInterceptor? = nil,
                                        customError: E.Type,
-                                       progress: ((Double) -> Void)?,
+                                       progress: ((Double) -> Void)? = nil,
                                        completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
         return prepareFormData(debug: debug,
@@ -136,25 +100,6 @@ extension RestService {
             completion(self.prepare(response: response,
                                     customError: customError))
         }
-    }
-    
-    @discardableResult
-    public func formData<E: Decodable>(debug: Bool? = nil,
-                                       method: HTTPMethod,
-                                       path: String,
-                                       parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor? = nil,
-                                       customError: E.Type,
-                                       completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
-        
-        return formData(debug: debug,
-                        method: method,
-                        path: path,
-                        parameters: parameters,
-                        interceptor: interceptor,
-                        customError: customError,
-                        progress: nil,
-                        completion: completion)
     }
     
     // MARK: With Response Type and Custom Error
@@ -168,7 +113,7 @@ extension RestService {
                                        interceptor: RequestInterceptor? = nil,
                                        responseType: D.Type,
                                        customError: E.Type,
-                                       progress: ((Double) -> Void)?,
+                                       progress: ((Double) -> Void)? = nil,
                                        completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
         return prepareFormData(debug: debug,
@@ -181,27 +126,5 @@ extension RestService {
                                     responseType: responseType,
                                     customError: customError))
         }
-    }
-    
-    @discardableResult
-    public func formData<D: Decodable,
-                         E: Decodable>(debug: Bool? = nil,
-                                       method: HTTPMethod,
-                                       path: String,
-                                       parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor? = nil,
-                                       responseType: D.Type,
-                                       customError: E.Type,
-                                       completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
-        
-        return formData(debug: debug,
-                        method: method,
-                        path: path,
-                        parameters: parameters,
-                        interceptor: interceptor,
-                        responseType: responseType,
-                        customError: customError,
-                        progress: nil,
-                        completion: completion)
     }
 }

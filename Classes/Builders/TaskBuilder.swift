@@ -7,7 +7,7 @@ struct TaskBuilder {
                debug: Bool = false,
                request: URLRequest,
                autoResume: Bool,
-               progress: ((Double) -> Void)?,
+               progress: ((Double) -> Void)? = nil,
                completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
         let task = RestTask(

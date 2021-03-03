@@ -9,7 +9,7 @@ extension RestService {
                                method: HTTPMethod,
                                path: String,
                                interceptor: RequestInterceptor? = nil,
-                               progress: ((Double) -> Void)?,
+                               progress: ((Double) -> Void)? = nil,
                                completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
         guard let request = requestBuilder.build(
@@ -41,7 +41,7 @@ extension RestService {
                                method: HTTPMethod,
                                path: String,
                                interceptor: RequestInterceptor? = nil,
-                               progress: ((Double) -> Void)?,
+                               progress: ((Double) -> Void)? = nil,
                                completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -53,21 +53,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formUrlEncoded(debug: Bool? = nil,
-                               method: HTTPMethod,
-                               path: String,
-                               interceptor: RequestInterceptor? = nil,
-                               completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              interceptor: interceptor,
-                              progress: nil,
-                              completion: completion)
-    }
-    
     // MARK: With Response Type
     
     @discardableResult
@@ -76,7 +61,7 @@ extension RestService {
                                              path: String,
                                              interceptor: RequestInterceptor? = nil,
                                              responseType: D.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -89,23 +74,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formUrlEncoded<D: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             interceptor: RequestInterceptor? = nil,
-                                             responseType: D.Type,
-                                             completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              interceptor: interceptor,
-                              responseType: responseType,
-                              progress: nil,
-                              completion: completion)
-    }
-    
     // MARK: With Custom Error
     
     @discardableResult
@@ -114,7 +82,7 @@ extension RestService {
                                              path: String,
                                              interceptor: RequestInterceptor? = nil,
                                              customError: E.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -125,23 +93,6 @@ extension RestService {
             completion(self.prepare(response: response,
                                     customError: customError))
         }
-    }
-    
-    @discardableResult
-    public func formUrlEncoded<E: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             interceptor: RequestInterceptor? = nil,
-                                             customError: E.Type,
-                                             completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              interceptor: interceptor,
-                              customError: customError,
-                              progress: nil,
-                              completion: completion)
     }
     
     // MARK: With Response Type and Custom Error
@@ -154,7 +105,7 @@ extension RestService {
                                              interceptor: RequestInterceptor? = nil,
                                              responseType: D.Type,
                                              customError: E.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -166,26 +117,6 @@ extension RestService {
                                     responseType: responseType,
                                     customError: customError))
         }
-    }
-    
-    @discardableResult
-    public func formUrlEncoded<D: Decodable,
-                               E: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             interceptor: RequestInterceptor? = nil,
-                                             responseType: D.Type,
-                                             customError: E.Type,
-                                             completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              interceptor: interceptor,
-                              responseType: responseType,
-                              customError: customError,
-                              progress: nil,
-                              completion: completion)
     }
 }
 
@@ -199,7 +130,7 @@ extension RestService {
                                            path: String,
                                            parameters: P,
                                            interceptor: RequestInterceptor? = nil,
-                                           progress: ((Double) -> Void)?,
+                                           progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
         guard let request = requestBuilder.build(
@@ -232,7 +163,7 @@ extension RestService {
                                            path: String,
                                            parameters: P,
                                            interceptor: RequestInterceptor? = nil,
-                                           progress: ((Double) -> Void)?,
+                                           progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -245,23 +176,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formUrlEncoded<P: Codable>(debug: Bool? = nil,
-                                           method: HTTPMethod,
-                                           path: String,
-                                           parameters: P,
-                                           interceptor: RequestInterceptor? = nil,
-                                           completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              progress: nil,
-                              completion: completion)
-    }
-    
     // MARK: With Response Type
     
     @discardableResult
@@ -272,7 +186,7 @@ extension RestService {
                                              parameters: P,
                                              interceptor: RequestInterceptor? = nil,
                                              responseType: D.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -286,26 +200,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formUrlEncoded<P: Codable,
-                               D: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             parameters: P,
-                                             interceptor: RequestInterceptor? = nil,
-                                             responseType: D.Type,
-                                             completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              responseType: responseType,
-                              progress: nil,
-                              completion: completion)
-    }
-    
     // MARK: With Custom Error
     
     @discardableResult
@@ -316,7 +210,7 @@ extension RestService {
                                              parameters: P,
                                              interceptor: RequestInterceptor? = nil,
                                              customError: E.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -328,26 +222,6 @@ extension RestService {
             completion(self.prepare(response: response,
                                     customError: customError))
         }
-    }
-    
-    @discardableResult
-    public func formUrlEncoded<P: Codable,
-                               E: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             parameters: P,
-                                             interceptor: RequestInterceptor? = nil,
-                                             customError: E.Type,
-                                             completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              customError: customError,
-                              progress: nil,
-                              completion: completion)
     }
     
     // MARK: With Response Type and Custom Error
@@ -362,7 +236,7 @@ extension RestService {
                                              interceptor: RequestInterceptor? = nil,
                                              responseType: D.Type,
                                              customError: E.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -376,29 +250,6 @@ extension RestService {
                                     customError: customError))
         }
     }
-    
-    @discardableResult
-    public func formUrlEncoded<P: Codable,
-                               D: Decodable,
-                               E: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             parameters: P,
-                                             interceptor: RequestInterceptor? = nil,
-                                             responseType: D.Type,
-                                             customError: E.Type,
-                                             completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              responseType: responseType,
-                              customError: customError,
-                              progress: nil,
-                              completion: completion)
-    }
 }
 
 // MARK: - Form Url Encoded With Dictionary Parameters
@@ -411,7 +262,7 @@ extension RestService {
                                path: String,
                                parameters: [String: Any],
                                interceptor: RequestInterceptor? = nil,
-                               progress: ((Double) -> Void)?,
+                               progress: ((Double) -> Void)? = nil,
                                completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
         guard let request = requestBuilder.build(
@@ -444,7 +295,7 @@ extension RestService {
                                path: String,
                                parameters: [String: Any],
                                interceptor: RequestInterceptor? = nil,
-                               progress: ((Double) -> Void)?,
+                               progress: ((Double) -> Void)? = nil,
                                completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -457,23 +308,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formUrlEncoded(debug: Bool? = nil,
-                               method: HTTPMethod,
-                               path: String,
-                               parameters: [String: Any],
-                               interceptor: RequestInterceptor? = nil,
-                               completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              progress: nil,
-                              completion: completion)
-    }
-    
     // MARK: With Response Type
     
     @discardableResult
@@ -483,7 +317,7 @@ extension RestService {
                                              parameters: [String: Any],
                                              interceptor: RequestInterceptor? = nil,
                                              responseType: D.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -497,25 +331,6 @@ extension RestService {
         }
     }
     
-    @discardableResult
-    public func formUrlEncoded<D: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             parameters: [String: Any],
-                                             interceptor: RequestInterceptor? = nil,
-                                             responseType: D.Type,
-                                             completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              responseType: responseType,
-                              progress: nil,
-                              completion: completion)
-    }
-    
     // MARK: With Custom Error
     
     @discardableResult
@@ -525,7 +340,7 @@ extension RestService {
                                              parameters: [String: Any],
                                              interceptor: RequestInterceptor? = nil,
                                              customError: E.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -537,25 +352,6 @@ extension RestService {
             completion(self.prepare(response: response,
                                     customError: customError))
         }
-    }
-    
-    @discardableResult
-    public func formUrlEncoded<E: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             parameters: [String: Any],
-                                             interceptor: RequestInterceptor? = nil,
-                                             customError: E.Type,
-                                             completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              customError: customError,
-                              progress: nil,
-                              completion: completion)
     }
     
     // MARK: With Response Type and Custom Error
@@ -569,7 +365,7 @@ extension RestService {
                                              interceptor: RequestInterceptor? = nil,
                                              responseType: D.Type,
                                              customError: E.Type,
-                                             progress: ((Double) -> Void)?,
+                                             progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
         return prepareFormUrlEncoded(debug: debug,
@@ -582,27 +378,5 @@ extension RestService {
                                     responseType: responseType,
                                     customError: customError))
         }
-    }
-    
-    @discardableResult
-    public func formUrlEncoded<D: Decodable,
-                               E: Decodable>(debug: Bool? = nil,
-                                             method: HTTPMethod,
-                                             path: String,
-                                             parameters: [String: Any],
-                                             interceptor: RequestInterceptor? = nil,
-                                             responseType: D.Type,
-                                             customError: E.Type,
-                                             completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
-        
-        return formUrlEncoded(debug: debug,
-                              method: method,
-                              path: path,
-                              parameters: parameters,
-                              interceptor: interceptor,
-                              responseType: responseType,
-                              customError: customError,
-                              progress: nil,
-                              completion: completion)
     }
 }

@@ -28,7 +28,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.prepareFormUrlEncoded(
                             method: .post,
                             path: "/path",
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).toNot(beNil())
@@ -38,7 +37,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.prepareFormUrlEncoded(
                             method: .get,
                             path: "path",
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -47,33 +45,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -88,7 +60,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -100,35 +72,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<D: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -144,7 +88,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -157,35 +101,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -201,7 +117,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -214,37 +130,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<D: Decodable, E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -261,7 +147,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -283,7 +169,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).toNot(beNil())
@@ -294,7 +179,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -303,35 +187,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -347,7 +203,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -360,37 +216,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<D: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -407,7 +233,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -421,37 +247,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -468,7 +264,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -482,39 +278,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<D: Decodable, E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: Person(name: "John"),
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: Person(name: "John"),
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.formUrlEncoded(
                             method: .post,
@@ -532,7 +296,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
@@ -556,7 +320,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).toNot(beNil())
@@ -568,7 +331,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -577,37 +339,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded") {
                     
-                    it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: parameters,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         var completed = false
                         let task = service.formUrlEncoded(
@@ -624,7 +356,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         let task = service.formUrlEncoded(
                             method: .get,
@@ -638,39 +370,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<D: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: parameters,
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         var completed = false
                         let task = service.formUrlEncoded(
@@ -688,7 +388,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         let task = service.formUrlEncoded(
                             method: .get,
@@ -703,39 +403,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: parameters,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         var completed = false
                         let task = service.formUrlEncoded(
@@ -753,7 +421,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         let task = service.formUrlEncoded(
                             method: .get,
@@ -768,41 +436,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                 
                 context("formUrlEncoded<D: Decodable, E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        var completed = false
-                        let task = service.formUrlEncoded(
-                            method: .post,
-                            path: "/path",
-                            parameters: parameters,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let parameters: [String: Any] = ["name": "John"]
-                        let task = service.formUrlEncoded(
-                            method: .get,
-                            path: "path",
-                            parameters: parameters,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         var completed = false
                         let task = service.formUrlEncoded(
@@ -821,7 +455,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let parameters: [String: Any] = ["name": "John"]
                         let task = service.formUrlEncoded(
                             method: .get,

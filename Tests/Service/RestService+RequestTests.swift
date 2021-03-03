@@ -28,7 +28,6 @@ class RestServiceRequestTests: QuickSpec {
                         let task = service.prepareRequest(
                             method: .post,
                             path: "/path",
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).toNot(beNil())
@@ -38,7 +37,6 @@ class RestServiceRequestTests: QuickSpec {
                         let task = service.prepareRequest(
                             method: .get,
                             path: "path",
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -47,33 +45,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -88,7 +60,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
@@ -100,35 +72,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request<D: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -144,7 +88,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
@@ -157,35 +101,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request<E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -201,7 +117,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
@@ -214,37 +130,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request<D: Decodable, E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -261,7 +147,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
@@ -283,7 +169,6 @@ class RestServiceRequestTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             body: "John".data(using: .utf8)!,
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).toNot(beNil())
@@ -294,7 +179,6 @@ class RestServiceRequestTests: QuickSpec {
                             method: .get,
                             path: "path",
                             body: "John".data(using: .utf8)!,
-                            progress: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -303,35 +187,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            body: "John".data(using: .utf8)!,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            body: "John".data(using: .utf8)!,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -347,7 +203,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
@@ -360,37 +216,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request<D: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            body: "John".data(using: .utf8)!,
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            body: "John".data(using: .utf8)!,
-                            responseType: Person.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -407,7 +233,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
@@ -421,37 +247,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request<E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            body: "John".data(using: .utf8)!,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            body: "John".data(using: .utf8)!,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -468,7 +264,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
@@ -482,39 +278,7 @@ class RestServiceRequestTests: QuickSpec {
                 
                 context("request<D: Decodable, E: Decodable>") {
                     
-                    it("should build a task for valid input with progress") {
-                        var completed = false
-                        let task = service.request(
-                            method: .post,
-                            path: "/path",
-                            body: "John".data(using: .utf8)!,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in
-                                completed = true
-                            }
-                        )
-                        expect(task).toNot(beNil())
-                        task?.resume()
-                        expect(completed).toEventually(beTrue(), timeout: timeout)
-                        
-                    }
-                    
-                    it("should not build a task for invalid input with progress") {
-                        let task = service.request(
-                            method: .get,
-                            path: "path",
-                            body: "John".data(using: .utf8)!,
-                            responseType: Person.self,
-                            customError: SimpleError.self,
-                            progress: nil,
-                            completion: { _ in }
-                        )
-                        expect(task).to(beNil())
-                    }
-                    
-                    it("should build a task for valid input without progress") {
+                    it("should build a task for valid input") {
                         var completed = false
                         let task = service.request(
                             method: .post,
@@ -532,7 +296,7 @@ class RestServiceRequestTests: QuickSpec {
                         
                     }
                     
-                    it("should not build a task for invalid input without progress") {
+                    it("should not build a task for invalid input") {
                         let task = service.request(
                             method: .get,
                             path: "path",
