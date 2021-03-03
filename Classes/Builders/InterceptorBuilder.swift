@@ -17,4 +17,12 @@ struct InterceptorBuilder {
         }
         return GroupInterceptor(interceptors: interceptors)
     }
+    
+    func buildFormUrlEncoded(interceptor: RequestInterceptor? = nil) -> RequestInterceptor {
+        var interceptors: [RequestInterceptor] = [FormUrlEncodedInterceptor()]
+        if let interceptor = interceptor {
+            interceptors.append(interceptor)
+        }
+        return GroupInterceptor(interceptors: interceptors)
+    }
 }

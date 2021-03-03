@@ -107,6 +107,41 @@ class BodyBuilderTests: QuickSpec {
                     expect(data).toNot(beNil())
                 }
             }
+            
+            context("buildFormUrlEncoded") {
+                
+                context("codable") {
+                    
+                    it("should be nil for a not allowed method") {
+                        let parameters = Person(name: "John")
+                        let data = builder.buildFormUrlEncoded(method: .get, parameters: parameters)
+                        expect(data).to(beNil())
+                    }
+                    
+                    it("should create a Data value for an allowed method") {
+                        let parameters = Person(name: "John")
+                        let data = builder.buildFormUrlEncoded(method: .post, parameters: parameters)
+                        expect(data).toNot(beNil())
+                    }
+                }
+                
+                context("dictionary") {
+                    
+                    it("should be nil for a not allowed method") {
+                        let method: HTTPMethod = .get
+                        let parameters: [String: Any] = ["name": "John"]
+                        let data = builder.buildFormUrlEncoded(method: method, parameters: parameters)
+                        expect(data).to(beNil())
+                    }
+                    
+                    it("should create a Data value for an allowed method") {
+                        let method: HTTPMethod = .post
+                        let parameters: [String: Any] = ["name": "John"]
+                        let data = builder.buildFormUrlEncoded(method: method, parameters: parameters)
+                        expect(data).toNot(beNil())
+                    }
+                }
+            }
         }
     }
 }

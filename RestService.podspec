@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
 
   s.name                  = 'RestService'
-  s.version               = '2.2.2'
+  s.version               = '2.3.0'
   s.ios.deployment_target = '12.4'
-  s.swift_versions        = ['5.0', '5.1', '5.2', '5.3']
+  s.swift_versions        = ['5.0', '5.1', '5.2', '5.3', '5.4']
   s.author                = 'Ricardo Rauber Pereira'
   s.license               = 'MIT'
   s.homepage              = 'http://ricardorauber.com'

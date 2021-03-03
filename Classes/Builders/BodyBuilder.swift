@@ -36,4 +36,22 @@ struct BodyBuilder {
         }
         return data
     }
+    
+    func buildFormUrlEncoded<T: Codable>(method: HTTPMethod, parameters: T) -> Data? {
+        guard isAllowed(method: method),
+            let data = try? encoder.encode(parameters),
+            let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+        else { return nil }
+        return buildFormUrlEncoded(method: method, parameters: dictionary)
+    }
+    
+    func buildFormUrlEncoded(method: HTTPMethod, parameters: [String: Any]) -> Data? {
+        guard isAllowed(method: method) else { return nil }
+        var body = ""
+        for (key, value) in parameters {
+            body = body + key + "=\(value)&"
+        }
+        body.removeLast()
+        return body.data(using: .utf8)
+    }
 }

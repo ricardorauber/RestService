@@ -55,6 +55,27 @@ class InterceptorBuilderTests: QuickSpec {
                     expect(last).toNot(beNil())
                 }
             }
+            
+            context("buildFormUrlEncoded") {
+                
+                it("should build a group interceptor with a FormUrlEncodedInterceptor") {
+                    let result = builder.buildFormUrlEncoded() as? GroupInterceptor
+                    expect(result).toNot(beNil())
+                    expect(result?.interceptors.count) == 1
+                    let first = result?.interceptors.first as? FormUrlEncodedInterceptor
+                    expect(first).toNot(beNil())
+                }
+                
+                it("should build a group interceptor with some other interceptor") {
+                    let result = builder.buildFormUrlEncoded(interceptor: FormDataInterceptor(boundary: "")) as? GroupInterceptor
+                    expect(result).toNot(beNil())
+                    expect(result?.interceptors.count) == 2
+                    let first = result?.interceptors.first as? FormUrlEncodedInterceptor
+                    expect(first).toNot(beNil())
+                    let last = result?.interceptors.last as? FormDataInterceptor
+                    expect(last).toNot(beNil())
+                }
+            }
         }
     }
 }
