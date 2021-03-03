@@ -16,7 +16,6 @@ class GitHubService {
             method: .get,
             path: "/search/users",
             parameters: FindUserParameters(q: name),
-            interceptor: nil,
             responseType: UserList.self,
             progress: nil) { [weak self] response in
             
@@ -36,7 +35,6 @@ class GitHubService {
         return service.json(
             method: .get,
             path: path,
-            interceptor: nil,
             responseType: [Repository].self,
             progress: nil) { [weak self] response in
             

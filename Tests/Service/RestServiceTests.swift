@@ -459,7 +459,6 @@ class RestServiceTests: QuickSpec {
                     task = service.json(
                         method: .get,
                         path: "/ricardorauber/RestService",
-                        interceptor: nil,
                         progress: nil,
                         completion: { response in
                             completed = true
@@ -475,7 +474,6 @@ class RestServiceTests: QuickSpec {
                     task = service.json(
                         method: .get,
                         path: "/thisisanicetest",
-                        interceptor: nil,
                         progress: nil,
                         completion: { response in
                             completed = true
@@ -490,7 +488,6 @@ class RestServiceTests: QuickSpec {
                     task = service.json(
                         method: .get,
                         path: "/thisisanicetest",
-                        interceptor: nil,
                         progress: nil,
                         completion: { response in
                             completed = true

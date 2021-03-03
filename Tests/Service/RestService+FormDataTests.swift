@@ -29,7 +29,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         progress: nil,
                         completion: { _ in }
                     )
@@ -41,7 +40,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         progress: nil,
                         completion: { _ in }
                     )
@@ -59,7 +57,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         progress: nil,
                         completion: { _ in
                             completed = true
@@ -76,7 +73,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         progress: nil,
                         completion: { _ in }
                     )
@@ -91,7 +87,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         completion: { _ in
                             completed = true
                         }
@@ -107,7 +102,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         completion: { _ in }
                     )
                     expect(task).to(beNil())
@@ -124,7 +118,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         responseType: Person.self,
                         progress: nil,
                         completion: { _ in
@@ -142,7 +135,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         responseType: Person.self,
                         progress: nil,
                         completion: { _ in }
@@ -158,7 +150,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         responseType: Person.self,
                         completion: { _ in
                             completed = true
@@ -175,7 +166,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         responseType: Person.self,
                         completion: { _ in }
                     )
@@ -193,7 +183,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         customError: SimpleError.self,
                         progress: nil,
                         completion: { _ in
@@ -211,7 +200,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         customError: SimpleError.self,
                         progress: nil,
                         completion: { _ in }
@@ -227,7 +215,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         customError: SimpleError.self,
                         completion: { _ in
                             completed = true
@@ -244,7 +231,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         customError: SimpleError.self,
                         completion: { _ in }
                     )
@@ -262,7 +248,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         responseType: Person.self,
                         customError: SimpleError.self,
                         progress: nil,
@@ -281,7 +266,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         responseType: Person.self,
                         customError: SimpleError.self,
                         progress: nil,
@@ -298,7 +282,6 @@ class RestServiceFormDataTests: QuickSpec {
                         parameters: [
                             TextFormDataParameter(name: "user", value: "john")
                         ],
-                        interceptor: nil,
                         responseType: Person.self,
                         customError: SimpleError.self,
                         completion: { _ in
@@ -316,7 +299,6 @@ class RestServiceFormDataTests: QuickSpec {
                         method: .get,
                         path: "path",
                         parameters: [],
-                        interceptor: nil,
                         responseType: Person.self,
                         customError: SimpleError.self,
                         completion: { _ in }

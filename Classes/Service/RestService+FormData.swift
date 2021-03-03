@@ -9,7 +9,7 @@ extension RestService {
                          method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
-                         interceptor: RequestInterceptor?,
+                         interceptor: RequestInterceptor? = nil,
                          progress: ((Double) -> Void)?,
                          completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -42,7 +42,7 @@ extension RestService {
                          method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
-                         interceptor: RequestInterceptor?,
+                         interceptor: RequestInterceptor? = nil,
                          progress: ((Double) -> Void)?,
                          completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
@@ -61,7 +61,7 @@ extension RestService {
                          method: HTTPMethod,
                          path: String,
                          parameters: [FormDataParameter],
-                         interceptor: RequestInterceptor?,
+                         interceptor: RequestInterceptor? = nil,
                          completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
         return formData(debug: debug,
@@ -80,7 +80,7 @@ extension RestService {
                                        method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor?,
+                                       interceptor: RequestInterceptor? = nil,
                                        responseType: D.Type,
                                        progress: ((Double) -> Void)?,
                                        completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
@@ -101,7 +101,7 @@ extension RestService {
                                        method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor?,
+                                       interceptor: RequestInterceptor? = nil,
                                        responseType: D.Type,
                                        completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
@@ -122,7 +122,7 @@ extension RestService {
                                        method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor?,
+                                       interceptor: RequestInterceptor? = nil,
                                        customError: E.Type,
                                        progress: ((Double) -> Void)?,
                                        completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
@@ -143,7 +143,7 @@ extension RestService {
                                        method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor?,
+                                       interceptor: RequestInterceptor? = nil,
                                        customError: E.Type,
                                        completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
@@ -165,7 +165,7 @@ extension RestService {
                                        method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor?,
+                                       interceptor: RequestInterceptor? = nil,
                                        responseType: D.Type,
                                        customError: E.Type,
                                        progress: ((Double) -> Void)?,
@@ -189,7 +189,7 @@ extension RestService {
                                        method: HTTPMethod,
                                        path: String,
                                        parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor?,
+                                       interceptor: RequestInterceptor? = nil,
                                        responseType: D.Type,
                                        customError: E.Type,
                                        completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {

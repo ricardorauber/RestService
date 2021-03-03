@@ -8,7 +8,7 @@ extension RestService {
     func prepareRequest(debug: Bool? = nil,
                         method: HTTPMethod,
                         path: String,
-                        interceptor: RequestInterceptor?,
+                        interceptor: RequestInterceptor? = nil,
                         progress: ((Double) -> Void)?,
                         completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -40,7 +40,7 @@ extension RestService {
     public func request(debug: Bool? = nil,
                         method: HTTPMethod,
                         path: String,
-                        interceptor: RequestInterceptor?,
+                        interceptor: RequestInterceptor? = nil,
                         progress: ((Double) -> Void)?,
                         completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
@@ -57,7 +57,7 @@ extension RestService {
     public func request(debug: Bool? = nil,
                         method: HTTPMethod,
                         path: String,
-                        interceptor: RequestInterceptor?,
+                        interceptor: RequestInterceptor? = nil,
                         completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
         return request(debug: debug,
@@ -74,7 +74,7 @@ extension RestService {
     public func request<D: Decodable>(debug: Bool? = nil,
                                       method: HTTPMethod,
                                       path: String,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       progress: ((Double) -> Void)?,
                                       completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
@@ -93,7 +93,7 @@ extension RestService {
     public func request<D: Decodable>(debug: Bool? = nil,
                                       method: HTTPMethod,
                                       path: String,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
@@ -112,7 +112,7 @@ extension RestService {
     public func request<E: Decodable>(debug: Bool? = nil,
                                       method: HTTPMethod,
                                       path: String,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       customError: E.Type,
                                       progress: ((Double) -> Void)?,
                                       completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
@@ -131,7 +131,7 @@ extension RestService {
     public func request<E: Decodable>(debug: Bool? = nil,
                                       method: HTTPMethod,
                                       path: String,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       customError: E.Type,
                                       completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
@@ -151,7 +151,7 @@ extension RestService {
                         E: Decodable>(debug: Bool? = nil,
                                       method: HTTPMethod,
                                       path: String,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       customError: E.Type,
                                       progress: ((Double) -> Void)?,
@@ -173,7 +173,7 @@ extension RestService {
                         E: Decodable>(debug: Bool? = nil,
                                       method: HTTPMethod,
                                       path: String,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       customError: E.Type,
                                       completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
@@ -198,7 +198,7 @@ extension RestService {
                         method: HTTPMethod,
                         path: String,
                         body: Data,
-                        interceptor: RequestInterceptor?,
+                        interceptor: RequestInterceptor? = nil,
                         progress: ((Double) -> Void)?,
                         completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -231,7 +231,7 @@ extension RestService {
                         method: HTTPMethod,
                         path: String,
                         body: Data,
-                        interceptor: RequestInterceptor?,
+                        interceptor: RequestInterceptor? = nil,
                         progress: ((Double) -> Void)?,
                         completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
@@ -250,7 +250,7 @@ extension RestService {
                         method: HTTPMethod,
                         path: String,
                         body: Data,
-                        interceptor: RequestInterceptor?,
+                        interceptor: RequestInterceptor? = nil,
                         completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
         return request(debug: debug,
@@ -269,7 +269,7 @@ extension RestService {
                                       method: HTTPMethod,
                                       path: String,
                                       body: Data,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       progress: ((Double) -> Void)?,
                                       completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
@@ -290,7 +290,7 @@ extension RestService {
                                       method: HTTPMethod,
                                       path: String,
                                       body: Data,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
@@ -311,7 +311,7 @@ extension RestService {
                                       method: HTTPMethod,
                                       path: String,
                                       body: Data,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       customError: E.Type,
                                       progress: ((Double) -> Void)?,
                                       completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
@@ -332,7 +332,7 @@ extension RestService {
                                       method: HTTPMethod,
                                       path: String,
                                       body: Data,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       customError: E.Type,
                                       completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
@@ -354,7 +354,7 @@ extension RestService {
                                       method: HTTPMethod,
                                       path: String,
                                       body: Data,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       customError: E.Type,
                                       progress: ((Double) -> Void)?,
@@ -378,7 +378,7 @@ extension RestService {
                                       method: HTTPMethod,
                                       path: String,
                                       body: Data,
-                                      interceptor: RequestInterceptor?,
+                                      interceptor: RequestInterceptor? = nil,
                                       responseType: D.Type,
                                       customError: E.Type,
                                       completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {

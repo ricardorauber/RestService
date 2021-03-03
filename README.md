@@ -15,7 +15,6 @@ let service = RestService(host: "api.github.com")
 let task = service.json(
     method: .get,
     path: "/users/ricardorauber/repos",
-    interceptor: nil,
     responseType: [Repository].self) { response in
         switch response {
         case .success(let repositories):
@@ -88,8 +87,7 @@ Now that you have your service created, it's time to make some requests. Let's s
 ```swift
 service.json(
     method: .get,
-    path: "/api/users",
-    interceptor: nil) { response in
+    path: "/api/users") { response in
     
     switch response {
     case .success:
@@ -120,8 +118,7 @@ let parameters: [String: Any] = [
 service.json(
     method: .get,
     path: "/api/users",
-    parameters: parameters,
-    interceptor: nil) { response in
+    parameters: parameters) { response in
     
     switch response {
     case .success:
@@ -147,8 +144,7 @@ let parameters = CreateUserRequest(username: "john", password: "safepassword")
 service.json(
     method: .post,
     path: "/api/users",
-    parameters: parameters,
-    interceptor: nil) { response in
+    parameters: parameters) { response in
     
     switch response {
     case .success:
@@ -187,8 +183,7 @@ let parameters: [FormDataParameter] = [
 service.formData(
     method: .post,
     path: "/api/userdata",
-    parameters: parameters,
-    interceptor: nil) { response in
+    parameters: parameters) { response in
     
     switch response {
     case .success:
@@ -207,8 +202,7 @@ Ok, you are not using `JSON` or `FORM/DATA`, but you still want to send a reques
 service.request(
     method: .post,
     path: "/api/upload",
-    body: body,
-    interceptor: nil) { response in
+    body: body) { response in
     
     switch response {
     case .success:
@@ -301,8 +295,7 @@ If you just need to send a request and you are not expecting any object as a res
 ```swift
 service.json(
     method: .get,
-    path: "/api/me",
-    interceptor: nil) { response in
+    path: "/api/me") { response in
     
     switch response {
     case .success:
@@ -326,7 +319,6 @@ struct Person: Codable {
 service.json(
     method: .get,
     path: "/api/me",
-    interceptor: nil,
     responseType: Person.self) { response in
     
     switch response {
@@ -351,7 +343,6 @@ struct ServerError: Codable {
 service.json(
     method: .get,
     path: "/api/me",
-    interceptor: nil,
     customError: ServerError.self) { response in
     
     switch response {
@@ -383,7 +374,6 @@ struct ServerError: Codable {
 service.json(
     method: .get,
     path: "/api/me",
-    interceptor: nil,
     responseType: Person.self,
     customError: ServerError.self) { response in
     
@@ -406,7 +396,6 @@ A cool thing is that with `RestService` you can handle the progress of any kind 
 service.json(
     method: .get,
     path: "/api/me",
-    interceptor: nil,
     progress: { value in
         print("progress:", value)
     },
@@ -437,7 +426,6 @@ service.json(
     debug: true,
     method: .get,
     path: "/api/me",
-    interceptor: nil,
     completion: { response in
     
         switch response {

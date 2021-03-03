@@ -28,7 +28,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.prepareFormUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -39,7 +38,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.prepareFormUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -54,7 +52,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in
                                 completed = true
@@ -70,7 +67,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -82,7 +78,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             completion: { _ in
                                 completed = true
                             }
@@ -97,7 +92,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -111,7 +105,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
                             completion: { _ in
@@ -128,7 +121,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
                             completion: { _ in }
@@ -141,7 +133,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in
                                 completed = true
@@ -157,7 +148,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in }
                         )
@@ -172,7 +162,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
                             completion: { _ in
@@ -189,7 +178,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
                             completion: { _ in }
@@ -202,7 +190,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in
                                 completed = true
@@ -218,7 +205,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in }
                         )
@@ -233,7 +219,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             progress: nil,
@@ -251,7 +236,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             progress: nil,
@@ -265,7 +249,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .post,
                             path: "/path",
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             completion: { _ in
@@ -282,7 +265,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                         let task = service.formUrlEncoded(
                             method: .get,
                             path: "path",
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             completion: { _ in }
@@ -301,7 +283,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -313,7 +294,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -329,7 +309,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in
                                 completed = true
@@ -346,7 +325,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -359,7 +337,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             completion: { _ in
                                 completed = true
                             }
@@ -375,7 +352,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -390,7 +366,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
                             completion: { _ in
@@ -408,7 +383,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
                             completion: { _ in }
@@ -422,7 +396,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in
                                 completed = true
@@ -439,7 +412,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in }
                         )
@@ -455,7 +427,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
                             completion: { _ in
@@ -473,7 +444,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
                             completion: { _ in }
@@ -487,7 +457,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in
                                 completed = true
@@ -504,7 +473,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in }
                         )
@@ -520,7 +488,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             progress: nil,
@@ -539,7 +506,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             progress: nil,
@@ -554,7 +520,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             completion: { _ in
@@ -572,7 +537,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: Person(name: "John"),
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             completion: { _ in }
@@ -592,7 +556,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -605,7 +568,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -622,7 +584,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in
                                 completed = true
@@ -640,7 +601,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             progress: nil,
                             completion: { _ in }
                         )
@@ -654,7 +614,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             completion: { _ in
                                 completed = true
                             }
@@ -671,7 +630,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             completion: { _ in }
                         )
                         expect(task).to(beNil())
@@ -687,7 +645,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
                             completion: { _ in
@@ -706,7 +663,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             progress: nil,
                             completion: { _ in }
@@ -721,7 +677,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in
                                 completed = true
@@ -739,7 +694,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             completion: { _ in }
                         )
@@ -756,7 +710,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
                             completion: { _ in
@@ -775,7 +728,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             customError: SimpleError.self,
                             progress: nil,
                             completion: { _ in }
@@ -790,7 +742,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in
                                 completed = true
@@ -808,7 +759,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             customError: SimpleError.self,
                             completion: { _ in }
                         )
@@ -825,7 +775,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             progress: nil,
@@ -845,7 +794,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             progress: nil,
@@ -861,7 +809,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .post,
                             path: "/path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             completion: { _ in
@@ -880,7 +827,6 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                             method: .get,
                             path: "path",
                             parameters: parameters,
-                            interceptor: nil,
                             responseType: Person.self,
                             customError: SimpleError.self,
                             completion: { _ in }
