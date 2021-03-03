@@ -80,6 +80,15 @@ Note that all of those properties can be changed later.
 
 The `basePath` parameter set's the base path for all requests, so if you make a request for a `/users` path, for instance, it will send it to `http://localhost:3000/api/users`.
 
+You can also use an `URL` value or even a `String` as the url:
+
+```swift
+import RestService
+
+let urlService = RestService(url: URL(string: "https://server.com:3000")!)
+let stringService = RestService(url: "https://server.com:3000")
+```
+
 #### Making a simple JSON request
 
 Now that you have your service created, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
@@ -194,9 +203,33 @@ service.formData(
 }
 ```
 
+#### Making a Form URL Encoded request with parameters
+
+Another kind if the `x-www-form-urlencoded` request, it is easy as a `JSON` request:
+
+```swift
+let parameters: [String: Any] = [
+    "username": "john",
+    "password": "12345"
+]
+
+service.formUrlEncoded(
+    method: .post,
+    path: "/api/login",
+    parameters: parameters) { response in
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure:
+        print("failure")
+    }
+}
+```
+
 #### Making a simple request with a Data body
 
-Ok, you are not using `JSON` or `FORM/DATA`, but you still want to send a request using `RestService`? Sure, that's very simple, just need to send the body as `Data`:
+Ok, you are not using any of the listed request types, but you still want to send a request using `RestService`? Sure, that's very simple, just need to send the body as `Data`:
 
 ```swift
 service.request(

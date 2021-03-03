@@ -38,6 +38,48 @@ class RestServiceTests: QuickSpec {
 					expect(service.port) == 3000
                     expect(service.startTasksAutomatically).to(beFalse())
 				}
+    
+                it("should create an instance from an URL") {
+                    let url = URL(string: "https://server.com:3000")!
+                    service = RestService(url: url)
+                    expect(service.scheme) == .https
+					expect(service.host) == "server.com"
+					expect(service.port) == 3000
+                    expect(service.startTasksAutomatically).to(beTrue())
+                }
+    
+                it("should create an instance from an invalid URL") {
+                    service = RestService(url: nil)
+                    expect(service.scheme) == .https
+					expect(service.host) == ""
+					expect(service.port).to(beNil())
+                    expect(service.startTasksAutomatically).to(beTrue())
+                }
+    
+                it("should create an instance from a string URL") {
+                    service = RestService(url: "https://server.com:3000")
+                    expect(service.scheme) == .https
+					expect(service.host) == "server.com"
+					expect(service.port) == 3000
+                    expect(service.startTasksAutomatically).to(beTrue())
+                }
+    
+                it("should create an instance from a string URL without scheme and host") {
+                    let url = "//:3000"
+                    service = RestService(url: url, startTasksAutomatically: false)
+                    expect(service.scheme) == .https
+					expect(service.host) == ""
+					expect(service.port) == 3000
+                    expect(service.startTasksAutomatically).to(beFalse())
+                }
+    
+                it("should create an instance from an invalid string URL") {
+                    service = RestService(url: "")
+                    expect(service.scheme) == .https
+					expect(service.host) == ""
+					expect(service.port).to(beNil())
+                    expect(service.startTasksAutomatically).to(beTrue())
+                }
 			}
             
             context("fullPath") {

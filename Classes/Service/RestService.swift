@@ -52,6 +52,58 @@ open class RestService {
         bodyBuilder.encoder = encoder
         queryBuilder.encoder = encoder
     }
+    
+    public convenience init(session: URLSession = URLSession.shared,
+                            encoder: JSONEncoder = JSONEncoder(),
+                            decoder: JSONDecoder = JSONDecoder(),
+                            debug: Bool = false,
+                            url: URL?,
+                            resolvingAgainstBaseURL: Bool = true,
+                            startTasksAutomatically: Bool = true) {
+        
+        if let url = url, let components = URLComponents(url: url, resolvingAgainstBaseURL: resolvingAgainstBaseURL) {
+            self.init(session: session,
+                      encoder: encoder,
+                      decoder: decoder,
+                      debug: debug,
+                      scheme: HTTPScheme(rawValue: components.scheme ?? "https"),
+                      host: components.host ?? "",
+                      port: components.port,
+                      basePath: components.path,
+                      startTasksAutomatically: startTasksAutomatically)
+        } else {
+            self.init(session: session,
+                      encoder: encoder,
+                      decoder: decoder,
+                      debug: debug,
+                      host: "",
+                      startTasksAutomatically: startTasksAutomatically)
+        }
+    }
+    
+    public convenience init(session: URLSession = URLSession.shared,
+                            encoder: JSONEncoder = JSONEncoder(),
+                            decoder: JSONDecoder = JSONDecoder(),
+                            debug: Bool = false,
+                            url: String,
+                            startTasksAutomatically: Bool = true) {
+        
+        if let urlFromString = URL(string: url) {
+            self.init(session: session,
+                      encoder: encoder,
+                      decoder: decoder,
+                      debug: debug,
+                      url: urlFromString,
+                      startTasksAutomatically: startTasksAutomatically)
+        } else {
+            self.init(session: session,
+                      encoder: encoder,
+                      decoder: decoder,
+                      debug: debug,
+                      host: "",
+                      startTasksAutomatically: startTasksAutomatically)
+        }
+    }
 }
 
 // MARK: - Path
