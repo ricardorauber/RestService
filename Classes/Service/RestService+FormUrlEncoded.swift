@@ -17,8 +17,6 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
-                queryItems: nil,
-                body: nil,
                 interceptor: interceptorBuilder.buildFormUrlEncoded(interceptor: interceptor))
         else {
             return nil

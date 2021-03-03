@@ -17,8 +17,6 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
-                queryItems: nil,
-                body: nil,
                 interceptor: interceptor)
         else {
             return nil
@@ -138,7 +136,6 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
-                queryItems: nil,
                 body: body,
                 interceptor: interceptor)
         else {
