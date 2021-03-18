@@ -40,7 +40,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 2.3'
+    pod 'RestService', '~> 2.4'
 end
 ```
 
@@ -177,16 +177,22 @@ Cool, right?
 
 #### Making a FORM/DATA request with parameters
 
-If you need to make a request with a `form/data` format, you can easily send it with some `FormDataParameters`. It is possible to create a `FileFormDataParameter` or a `TextFormDataParameter`.
+If you need to make a request with a `form/data` format, you can easily send it with some `FormDataParameters`. It is possible to create a `FileFormDataParameter`, a `TextFormDataParameter` and even a `JSONFormDataParameter`.
 
 So, let's make a `POST` request with some parameters:
 
 ```swift
+struct Person: Codable {
+    var name: String
+    var age: Int
+}
+
 let parameters: [FormDataParameter] = [
     TextFormDataParameter(name: "id", value: "10"),
     TextFormDataParameter(name: "email", value: "john@server.com"),
     FileFormDataParameter(name: "text", filename: "text.txt", contentType: "text/plain", data: textData),
-    FileFormDataParameter(name: "image", filename: "thumb.png", contentType: "image/png", data: imageData)
+    FileFormDataParameter(name: "image", filename: "thumb.png", contentType: "image/png", data: imageData),
+    JSONFormDataParameter(name: "person", object: Person(name: "Ricardo", age: 35))
 ]
 
 service.formData(
