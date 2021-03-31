@@ -99,7 +99,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                     }
                 }
                 
-                context("formUrlEncoded<E: Decodable>") {
+                context("formUrlEncoded<E: Decodable & Error>") {
                     
                     it("should build a task for valid input") {
                         var completed = false
@@ -245,7 +245,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                     }
                 }
                 
-                context("formUrlEncoded<E: Decodable>") {
+                context("formUrlEncoded<E: Decodable & Error>") {
                     
                     it("should build a task for valid input") {
                         var completed = false
@@ -401,7 +401,7 @@ class RestServiceFormUrlEncodedTests: QuickSpec {
                     }
                 }
                 
-                context("formUrlEncoded<E: Decodable>") {
+                context("formUrlEncoded<E: Decodable & Error>") {
                     
                     it("should build a task for valid input") {
                         let parameters: [String: Any] = ["name": "John"]

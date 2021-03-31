@@ -109,7 +109,7 @@ class RestServiceFormDataTests: QuickSpec {
                 }
             }
             
-            context("formData<E: Decodable>") {
+            context("formData<E: Decodable & Error>") {
                 
                 it("should build a task for valid input") {
                     var completed = false

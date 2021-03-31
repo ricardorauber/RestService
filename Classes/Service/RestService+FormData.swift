@@ -81,14 +81,14 @@ extension RestService {
     // MARK: With Custom Error
     
     @discardableResult
-    public func formData<E: Decodable>(debug: Bool? = nil,
-                                       method: HTTPMethod,
-                                       path: String,
-                                       parameters: [FormDataParameter],
-                                       interceptor: RequestInterceptor? = nil,
-                                       customError: E.Type,
-                                       progress: ((Double) -> Void)? = nil,
-                                       completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
+    public func formData<E: Decodable & Error>(debug: Bool? = nil,
+                                               method: HTTPMethod,
+                                               path: String,
+                                               parameters: [FormDataParameter],
+                                               interceptor: RequestInterceptor? = nil,
+                                               customError: E.Type,
+                                               progress: ((Double) -> Void)? = nil,
+                                               completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
         return prepareFormData(debug: debug,
                                method: method,

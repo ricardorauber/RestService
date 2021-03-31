@@ -296,7 +296,7 @@ class RestServiceTests: QuickSpec {
                 }
             }
             
-            context("prepare<E: Decodable>") {
+            context("prepare<E: Decodable & Error>") {
                 
                 it("should be success for a valid response") {
                     let url = URL(string: "https://server.com")!

@@ -99,7 +99,7 @@ class RestServiceRequestTests: QuickSpec {
                     }
                 }
                 
-                context("request<E: Decodable>") {
+                context("request<E: Decodable & Error>") {
                     
                     it("should build a task for valid input") {
                         var completed = false
@@ -245,7 +245,7 @@ class RestServiceRequestTests: QuickSpec {
                     }
                 }
                 
-                context("request<E: Decodable>") {
+                context("request<E: Decodable & Error>") {
                     
                     it("should build a task for valid input") {
                         var completed = false

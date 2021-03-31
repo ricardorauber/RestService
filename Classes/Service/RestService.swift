@@ -151,8 +151,8 @@ extension RestService {
         return .failure(RestServiceError.unknown)
     }
     
-    func prepare<E: Decodable>(response: RestResponse,
-                               customError: E.Type) -> RestTaskResultWithCustomError<E> {
+    func prepare<E: Decodable & Error>(response: RestResponse,
+                                       customError: E.Type) -> RestTaskResultWithCustomError<E> {
         if let data = response.decodableValue(of: E.self) {
             return .customError(data)
         }
@@ -166,9 +166,9 @@ extension RestService {
     }
     
     func prepare<D: Decodable,
-                 E: Decodable>(response: RestResponse,
-                               responseType: D.Type,
-                               customError: E.Type) -> RestTaskResultWithDataAndCustomError<D, E> {
+                 E: Decodable & Error>(response: RestResponse,
+                                       responseType: D.Type,
+                                       customError: E.Type) -> RestTaskResultWithDataAndCustomError<D, E> {
         if let data = response.decodableValue(of: D.self) {
             return .success(data)
         }
