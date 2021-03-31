@@ -1,7 +1,6 @@
 import Foundation
 import Quick
 import Nimble
-import OHHTTPStubs
 @testable import RestService
 
 class RestServiceTests: QuickSpec {
@@ -148,7 +147,13 @@ class RestServiceTests: QuickSpec {
                         headerFields: nil
                     )
                     let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
-                    expect(service.prepare(response: response)) == .success
+                    let result = service.prepare(response: response)
+                    switch result {
+                    case .success:
+                        break
+                    default:
+                        fail()
+                    }
                 }
                 
                 it("should be failure for an invalid response") {
@@ -160,7 +165,13 @@ class RestServiceTests: QuickSpec {
                         headerFields: nil
                     )
                     let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
-                    expect(service.prepare(response: response)) == .failure
+                    let result = service.prepare(response: response)
+                    switch result {
+                    case .failure(_):
+                        break
+                    default:
+                        fail()
+                    }
                 }
             }
             

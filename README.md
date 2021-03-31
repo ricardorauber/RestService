@@ -40,7 +40,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 2.4'
+    pod 'RestService', '~> 2.5'
 end
 ```
 
@@ -101,8 +101,8 @@ service.json(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -132,8 +132,8 @@ service.json(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -158,8 +158,8 @@ service.json(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -203,8 +203,8 @@ service.formData(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -227,8 +227,8 @@ service.formUrlEncoded(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -246,8 +246,8 @@ service.request(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -275,8 +275,8 @@ service.json(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -315,8 +315,8 @@ service.json(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -339,8 +339,8 @@ service.json(
     switch response {
     case .success:
         print("success!")
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -363,8 +363,8 @@ service.json(
     switch response {
     case .success(let person):
         print("success!", person)
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -374,7 +374,7 @@ service.json(
 If your web service has a custom way to reply with an error, let's say, a json object with the error details, you can use another parameter to get the response decoded to a `Codable` object like this:
 
 ```swift
-struct ServerError: Codable {
+struct ServerError: Codable, Error {
     let code: Int
     let message: String
 }
@@ -389,8 +389,8 @@ service.json(
         print("success!")
     case .customError(let error):
         print("server error", error)
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
     }
 }
 ```
@@ -405,7 +405,7 @@ struct Person: Codable {
     let name: String
 }
     
-struct ServerError: Codable {
+struct ServerError: Codable, Error {
     let code: Int
     let message: String
 }
@@ -421,8 +421,25 @@ service.json(
         print("success!", person)
     case .customError(let error):
         print("server error", error)
-    case .failure:
-        print("failure")
+    case .failure(let error):
+        print("failure", error)
+    }
+}
+```
+
+#### Converting the response to `Result<T, E>`
+
+You can also convert the result of the task to the `Result` type:
+
+```swift
+func getProfile(completion: @escaping (Result<Person, Error>) -> Void) {
+    service.json(
+        method: .get,
+        path: "/api/me",
+        responseType: Person.self,
+        customError: ServerError.self) { response in
+        
+        completion(response.getResult())
     }
 }
 ```
@@ -443,8 +460,8 @@ service.json(
         switch response {
         case .success:
             print("success!")
-        case .failure:
-            print("failure")
+        case .failure(let error):
+            print("failure", error)
         }
     }
 )
@@ -470,8 +487,8 @@ service.json(
         switch response {
         case .success:
             print("success!")
-        case .failure:
-            print("failure")
+        case .failure(let error):
+            print("failure", error)
         }
     }
 )
@@ -515,6 +532,7 @@ The creation of this framework was possible thanks to these awesome people:
 * Swift by Sundell: [https://www.swiftbysundell.com/](https://www.swiftbysundell.com/)
 * Hacking with Swift: [https://www.hackingwithswift.com/](https://www.hackingwithswift.com/)
 * Ricardo Rauber: [http://ricardorauber.com/](http://ricardorauber.com/)
+* Matheus Rabelo: [https://matheusrabelo.com/](https://matheusrabelo.com/)
 
 ## Feedback is welcome
 

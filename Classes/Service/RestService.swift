@@ -128,7 +128,10 @@ extension RestService {
         if isValid(response: response) {
             return .success
         }
-        return .failure
+        if let error = response.error {
+            return .failure(error)
+        }
+        return .failure(RestServiceError.unknown)
     }
     
     func prepare<D: Decodable>(response: RestResponse,
@@ -142,7 +145,10 @@ extension RestService {
         if responseType == Data.self, let data = response.data as? D {
             return .success(data)
         }
-        return .failure
+        if let error = response.error {
+            return .failure(error)
+        }
+        return .failure(RestServiceError.unknown)
     }
     
     func prepare<E: Decodable>(response: RestResponse,
@@ -153,7 +159,10 @@ extension RestService {
         if isValid(response: response) {
             return .success
         }
-        return .failure
+        if let error = response.error {
+            return .failure(error)
+        }
+        return .failure(RestServiceError.unknown)
     }
     
     func prepare<D: Decodable,
@@ -172,6 +181,9 @@ extension RestService {
         if responseType == Data.self, let data = response.data as? D {
             return .success(data)
         }
-        return .failure
+        if let error = response.error {
+            return .failure(error)
+        }
+        return .failure(RestServiceError.unknown)
     }
 }

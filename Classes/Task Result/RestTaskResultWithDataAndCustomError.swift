@@ -1,8 +1,23 @@
 import Foundation
 
-public enum RestTaskResultWithDataAndCustomError<D: Codable, E: Codable> {
+public enum RestTaskResultWithDataAndCustomError<D: Codable, E: Codable & Error> {
     
     case success(D)
-    case failure
+    case failure(Error)
     case customError(E)
+}
+
+// MARK: - ResultConvertible
+extension RestTaskResultWithDataAndCustomError: ResultConvertible {
+
+    public func getResult() -> Result<D, Error> {
+        switch self {
+        case .success(let data):
+            return .success(data)
+        case .failure(let error):
+            return .failure(error)
+        case .customError(let error):
+            return .failure(error)
+        }
+    }
 }
