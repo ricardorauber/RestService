@@ -15,8 +15,8 @@ public struct HTTPScheme: RawRepresentable, Equatable, Hashable {
 }
 
 // MARK: - Default values
-public extension HTTPScheme {
+extension HTTPScheme {
 	
-	static let http = HTTPScheme(rawValue: "http")
-	static let https = HTTPScheme(rawValue: "https")
+	public static let http = HTTPScheme(rawValue: "http")
+	public static let https = HTTPScheme(rawValue: "https")
 }

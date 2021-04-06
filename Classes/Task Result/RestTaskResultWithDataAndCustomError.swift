@@ -10,7 +10,7 @@ public enum RestTaskResultWithDataAndCustomError<D: Codable, E: Codable & Error>
 // MARK: - ResultConvertible
 extension RestTaskResultWithDataAndCustomError: ResultConvertible {
 
-    public func getResult() -> Result<D, Error> {
+    public var result: Result<D, Error> {
         switch self {
         case .success(let data):
             return .success(data)

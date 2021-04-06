@@ -61,13 +61,15 @@ open class RestService {
                             resolvingAgainstBaseURL: Bool = true,
                             startTasksAutomatically: Bool = true) {
         
-        if let url = url, let components = URLComponents(url: url, resolvingAgainstBaseURL: resolvingAgainstBaseURL) {
+        if let url = url,
+           let components = URLComponents(url: url, resolvingAgainstBaseURL: resolvingAgainstBaseURL),
+           let host = components.host {
             self.init(session: session,
                       encoder: encoder,
                       decoder: decoder,
                       debug: debug,
                       scheme: HTTPScheme(rawValue: components.scheme ?? "https"),
-                      host: components.host ?? "",
+                      host: host,
                       port: components.port,
                       basePath: components.path,
                       startTasksAutomatically: startTasksAutomatically)
@@ -121,7 +123,7 @@ extension RestService {
 extension RestService {
     
     func isValid(response: RestResponse) -> Bool {
-        response.error == nil && 200..<300 ~= response.statusCode
+        response.error == nil && response.statusCode < 400
     }
     
     func prepare(response: RestResponse) -> RestTaskResult {
@@ -136,13 +138,13 @@ extension RestService {
     
     func prepare<D: Decodable>(response: RestResponse,
                                responseType: D.Type) -> RestTaskResultWithData<D> {
-        if let data = response.decodableValue(of: D.self) {
+        if isValid(response: response), let data = response.decodableValue(of: D.self) {
             return .success(data)
         }
-        if responseType == String.self, let data = response.stringValue() as? D {
+        if isValid(response: response), responseType == String.self, let data = response.stringValue() as? D {
             return .success(data)
         }
-        if responseType == Data.self, let data = response.data as? D {
+        if isValid(response: response), responseType == Data.self, let data = response.data as? D {
             return .success(data)
         }
         if let error = response.error {
@@ -169,16 +171,16 @@ extension RestService {
                  E: Decodable & Error>(response: RestResponse,
                                        responseType: D.Type,
                                        customError: E.Type) -> RestTaskResultWithDataAndCustomError<D, E> {
-        if let data = response.decodableValue(of: D.self) {
+        if isValid(response: response), let data = response.decodableValue(of: D.self) {
             return .success(data)
         }
         if let data = response.decodableValue(of: E.self) {
             return .customError(data)
         }
-        if responseType == String.self, let data = response.stringValue() as? D {
+        if isValid(response: response), responseType == String.self, let data = response.stringValue() as? D {
             return .success(data)
         }
-        if responseType == Data.self, let data = response.data as? D {
+        if isValid(response: response), responseType == Data.self, let data = response.data as? D {
             return .success(data)
         }
         if let error = response.error {

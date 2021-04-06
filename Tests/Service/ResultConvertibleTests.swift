@@ -26,7 +26,7 @@ class ResultConvertibleTests: QuickSpec {
                     var completed = false
                     let task = service.json(method: .get,
                                             path: "") { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .success():
                             break
@@ -46,7 +46,7 @@ class ResultConvertibleTests: QuickSpec {
                     var completed = false
                     let task = service.json(method: .get,
                                             path: "") { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .failure(_):
                             break
@@ -70,7 +70,7 @@ class ResultConvertibleTests: QuickSpec {
                     let task = service.json(method: .get,
                                             path: "",
                                             customError: ServerError.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .success():
                             break
@@ -91,7 +91,7 @@ class ResultConvertibleTests: QuickSpec {
                     let task = service.json(method: .get,
                                             path: "",
                                             customError: ServerError.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .failure(let error):
                             if let _ = error as? ServerError {
@@ -115,7 +115,7 @@ class ResultConvertibleTests: QuickSpec {
                     let task = service.json(method: .get,
                                             path: "",
                                             customError: ServerError.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .failure(_):
                             break
@@ -143,7 +143,7 @@ class ResultConvertibleTests: QuickSpec {
                     let task = service.json(method: .get,
                                             path: "",
                                             responseType: Person.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .success(_):
                             break
@@ -164,7 +164,7 @@ class ResultConvertibleTests: QuickSpec {
                     let task = service.json(method: .get,
                                             path: "",
                                             responseType: Person.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .failure(_):
                             break
@@ -193,7 +193,7 @@ class ResultConvertibleTests: QuickSpec {
                                             path: "",
                                             responseType: Person.self,
                                             customError: ServerError.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .success(_):
                             break
@@ -215,7 +215,7 @@ class ResultConvertibleTests: QuickSpec {
                                             path: "",
                                             responseType: Person.self,
                                             customError: ServerError.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .failure(let error):
                             if let _ = error as? ServerError {
@@ -240,7 +240,7 @@ class ResultConvertibleTests: QuickSpec {
                                             path: "",
                                             responseType: Person.self,
                                             customError: ServerError.self) { response in
-                        let result = response.getResult()
+                        let result = response.result
                         switch result {
                         case .failure(_):
                             break

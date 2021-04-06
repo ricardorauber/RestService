@@ -1,6 +1,6 @@
 import Foundation
 
-public class RestTask {
+open class RestTask {
     
     // MARK: - Properties
     
@@ -29,9 +29,9 @@ public class RestTask {
     
     // MARK: - Request Execution
     
-    public func prepare(request: URLRequest,
-                        progress: @escaping (Double) -> Void,
-                        completion: @escaping (RestResponse) -> Void) {
+    open func prepare(request: URLRequest,
+                      progress: @escaping (Double) -> Void,
+                      completion: @escaping (RestResponse) -> Void) {
         cancel()
         dataTask = session.dataTask(with: request) { data, response, error in
             let response = RestResponse(
@@ -52,15 +52,15 @@ public class RestTask {
         }
     }
     
-    public func suspend() {
+    open func suspend() {
         dataTask?.suspend()
     }
     
-    public func resume() {
+    open func resume() {
         dataTask?.resume()
     }
     
-    public func cancel() {
+    open func cancel() {
         dataTask?.cancel()
         observation?.invalidate()
     }

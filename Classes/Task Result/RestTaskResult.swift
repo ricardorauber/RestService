@@ -9,7 +9,7 @@ public enum RestTaskResult {
 // MARK: - ResultConvertible
 extension RestTaskResult: ResultConvertible {
 
-    public func getResult() -> Result<Void, Error> {
+    public var result: Result<Void, Error> {
         switch self {
         case .success:
             return .success(())

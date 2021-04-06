@@ -9,7 +9,7 @@ public enum RestTaskResultWithData<D: Codable> {
 // MARK: - ResultConvertible
 extension RestTaskResultWithData: ResultConvertible {
 
-    public func getResult() -> Result<D, Error> {
+    public var result: Result<D, Error> {
         switch self {
         case .success(let data):
             return .success(data)

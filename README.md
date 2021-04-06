@@ -40,7 +40,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 2.5'
+    pod 'RestService', '~> 2.6'
 end
 ```
 
@@ -439,7 +439,7 @@ func getProfile(completion: @escaping (Result<Person, Error>) -> Void) {
         responseType: Person.self,
         customError: ServerError.self) { response in
         
-        completion(response.getResult())
+        completion(response.result)
     }
 }
 ```

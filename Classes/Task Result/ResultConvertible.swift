@@ -4,5 +4,5 @@ public protocol ResultConvertible {
     associatedtype T
     associatedtype E: Error
     
-    func getResult() -> Result<T, E>
+    var result: Result<T, E> { get }
 }
