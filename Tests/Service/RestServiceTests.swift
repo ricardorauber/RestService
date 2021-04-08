@@ -96,46 +96,6 @@ class RestServiceTests: QuickSpec {
                 }
             }
             
-            context("isValid") {
-                
-                it("should be true for valid responses") {
-                    let url = URL(string: "https://server.com")!
-                    let urlResponse = HTTPURLResponse(
-                        url: url,
-                        statusCode: 200,
-                        httpVersion: nil,
-                        headerFields: nil
-                    )
-                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
-                    expect(service.isValid(response: response)).to(beTrue())
-                }
-                
-                it("should be false for an invalid status code") {
-                    let url = URL(string: "https://server.com")!
-                    let urlResponse = HTTPURLResponse(
-                        url: url,
-                        statusCode: 400,
-                        httpVersion: nil,
-                        headerFields: nil
-                    )
-                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
-                    expect(service.isValid(response: response)).to(beFalse())
-                }
-                
-                it("should be false when there is an error on the response") {
-                    let url = URL(string: "https://server.com")!
-                    let error = SimpleError(code: "")
-                    let urlResponse = HTTPURLResponse(
-                        url: url,
-                        statusCode: 200,
-                        httpVersion: nil,
-                        headerFields: nil
-                    )
-                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: error)
-                    expect(service.isValid(response: response)).to(beFalse())
-                }
-            }
-            
             context("prepare") {
                 
                 it("should be success for a valid response") {
@@ -156,7 +116,25 @@ class RestServiceTests: QuickSpec {
                     }
                 }
                 
-                it("should be failure for an invalid response") {
+                it("should be failure for a response with error") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: RestServiceError.unknown)
+                    let result = service.prepare(response: response)
+                    switch result {
+                    case .failure(_):
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid empty response") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
                         url: url,
@@ -165,6 +143,26 @@ class RestServiceTests: QuickSpec {
                         headerFields: nil
                     )
                     let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response)
+                    switch result {
+                    case .failure(_):
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object = "mark"
+                    let data = object.data(using: .utf8)
+                    let response = RestResponse(data: data, request: nil, response: urlResponse, error: nil)
                     let result = service.prepare(response: response)
                     switch result {
                     case .failure(_):
@@ -257,6 +255,26 @@ class RestServiceTests: QuickSpec {
                     }
                 }
                 
+                it("should be success for a valid float") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: Float = 10.5
+                    let data = "\(object)".data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Float.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
                 it("should be success for a valid double") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
@@ -277,7 +295,25 @@ class RestServiceTests: QuickSpec {
                     }
                 }
                 
-                it("should be failure for an invalid response") {
+                it("should be failure for a response with error") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: RestServiceError.unknown)
+                    let result = service.prepare(response: response, responseType: Person.self)
+                    switch result {
+                    case .failure(_):
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid empty response") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
                         url: url,
@@ -286,6 +322,68 @@ class RestServiceTests: QuickSpec {
                         headerFields: nil
                     )
                     let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Person.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Person.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid object in a valid response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: [String: Int] = [
+                        "name": 1
+                    ]
+                    let data = try? service.encoder.encode(object)
+                    let response = RestResponse(data: data, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Person.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid object in an invalid response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: [String: Int] = [
+                        "name": 1
+                    ]
+                    let data = try? service.encoder.encode(object)
+                    let response = RestResponse(data: data, request: nil, response: urlResponse, error: nil)
                     let result = service.prepare(response: response, responseType: Person.self)
                     switch result {
                     case .failure:
@@ -316,6 +414,24 @@ class RestServiceTests: QuickSpec {
                     }
                 }
                 
+                it("should be failure for a response with error") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: RestServiceError.unknown)
+                    let result = service.prepare(response: response, customError: SimpleError.self)
+                    switch result {
+                    case .failure(_):
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
                 it("should be a custom error for a matched response") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
@@ -336,6 +452,24 @@ class RestServiceTests: QuickSpec {
                     }
                 }
                 
+                it("should be failure for an invalid empty response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, customError: SimpleError.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
                 it("should be failure for an invalid response") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
@@ -345,6 +479,28 @@ class RestServiceTests: QuickSpec {
                         headerFields: nil
                     )
                     let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, customError: SimpleError.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid object in an invalid response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: [String: Int] = [
+                        "name": 1
+                    ]
+                    let data = try? service.encoder.encode(object)
+                    let response = RestResponse(data: data, request: nil, response: urlResponse, error: nil)
                     let result = service.prepare(response: response, customError: SimpleError.self)
                     switch result {
                     case .failure:
@@ -437,6 +593,26 @@ class RestServiceTests: QuickSpec {
                     }
                 }
                 
+                it("should be success for a valid float") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: Float = 10.5
+                    let data = "\(object)".data(using: .utf8)
+                    let response = RestResponse(data: data!, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Float.self, customError: SimpleError.self)
+                    switch result {
+                    case .success(let responseObject):
+                        expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
                 it("should be success for a valid double") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
@@ -452,6 +628,24 @@ class RestServiceTests: QuickSpec {
                     switch result {
                     case .success(let responseObject):
                         expect(responseObject) == object
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for a response with error") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: RestServiceError.unknown)
+                    let result = service.prepare(response: response, responseType: Person.self, customError: SimpleError.self)
+                    switch result {
+                    case .failure(_):
+                        break
                     default:
                         fail()
                     }
@@ -477,6 +671,24 @@ class RestServiceTests: QuickSpec {
                     }
                 }
                 
+                it("should be failure for an invalid empty response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Person.self, customError: SimpleError.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
                 it("should be failure for an invalid response") {
                     let url = URL(string: "https://server.com")!
                     let urlResponse = HTTPURLResponse(
@@ -486,6 +698,50 @@ class RestServiceTests: QuickSpec {
                         headerFields: nil
                     )
                     let response = RestResponse(data: nil, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Person.self, customError: SimpleError.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid object in a valid response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: [String: Int] = [
+                        "name": 1
+                    ]
+                    let data = try? service.encoder.encode(object)
+                    let response = RestResponse(data: data, request: nil, response: urlResponse, error: nil)
+                    let result = service.prepare(response: response, responseType: Person.self, customError: SimpleError.self)
+                    switch result {
+                    case .failure:
+                        break
+                    default:
+                        fail()
+                    }
+                }
+                
+                it("should be failure for an invalid object in an invalid response") {
+                    let url = URL(string: "https://server.com")!
+                    let urlResponse = HTTPURLResponse(
+                        url: url,
+                        statusCode: 400,
+                        httpVersion: nil,
+                        headerFields: nil
+                    )
+                    let object: [String: Int] = [
+                        "name": 1
+                    ]
+                    let data = try? service.encoder.encode(object)
+                    let response = RestResponse(data: data, request: nil, response: urlResponse, error: nil)
                     let result = service.prepare(response: response, responseType: Person.self, customError: SimpleError.self)
                     switch result {
                     case .failure:

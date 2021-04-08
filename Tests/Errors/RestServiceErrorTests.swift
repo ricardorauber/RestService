@@ -22,6 +22,16 @@ class RestServiceErrorTests: QuickSpec {
                     expect(error.errorDescription) == "something"
                 }
             }
+            
+            context("equatable") {
+            
+                it("should be equal to the same one") {
+                    let error1 = RestServiceError.unknown
+                    let error2 = RestServiceError.unknown
+                    let result = error1 == error2
+                    expect(result).to(beTrue())
+                }
+            }
         }
     }
 }

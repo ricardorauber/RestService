@@ -72,7 +72,7 @@ class ResultConvertibleTests: QuickSpec {
                                             customError: ServerError.self) { response in
                         let result = response.result
                         switch result {
-                        case .success():
+                        case .success:
                             break
                         default:
                             fail()
