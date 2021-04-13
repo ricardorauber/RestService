@@ -19,8 +19,8 @@ let task = service.json(
         switch response {
         case .success(let repositories):
             print("cool!", repositories)
-        case .failure(_):
-            print("oh no!")
+        case .failure(let error):
+            print("oh no!", error)
         }
 }
 ```

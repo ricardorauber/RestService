@@ -18,6 +18,7 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
+                port: port,
                 body: bodyBuilder.buildFormData(method: method, boundary: boundary, parameters: parameters),
                 interceptor: interceptorBuilder.buildFormData(boundary: boundary, interceptor: interceptor))
         else {

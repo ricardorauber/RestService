@@ -17,6 +17,7 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
+                port: port,
                 interceptor: interceptor)
         else {
             return nil
@@ -136,6 +137,7 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
+                port: port,
                 body: body,
                 interceptor: interceptor)
         else {

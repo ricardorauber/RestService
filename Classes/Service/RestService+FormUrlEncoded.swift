@@ -17,6 +17,7 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
+                port: port,
                 interceptor: interceptorBuilder.buildFormUrlEncoded(interceptor: interceptor))
         else {
             return nil
@@ -136,6 +137,7 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
+                port: port,
                 queryItems: queryBuilder.build(method: method, parameters: parameters),
                 body: bodyBuilder.buildFormUrlEncoded(method: method, parameters: parameters),
                 interceptor: interceptorBuilder.buildFormUrlEncoded(interceptor: interceptor))
@@ -268,6 +270,7 @@ extension RestService {
                 method: method,
                 host: host,
                 path: fullPath(with: path),
+                port: port,
                 queryItems: queryBuilder.build(method: method, parameters: parameters),
                 body: bodyBuilder.buildFormUrlEncoded(method: method, parameters: parameters),
                 interceptor: interceptorBuilder.buildFormUrlEncoded(interceptor: interceptor))
