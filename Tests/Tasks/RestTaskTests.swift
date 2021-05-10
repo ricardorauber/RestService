@@ -62,7 +62,6 @@ class RestTaskTests: QuickSpec {
                         progress: { _ in },
                         completion: { _ in })
                     expect(task.dataTask).toNot(beNil())
-                    task.resume()
                     task.suspend()
                     expect(task.dataTask?.state) == .suspended
                 }

@@ -79,8 +79,9 @@ open class RestTask {
     }
     
     func log(request: URLRequest?) {
+        let method = request?.httpMethod
         let url = request?.url?.absoluteString
-        print(" ⚪️ REQUEST: " + (url ?? "-"), "\n")
+        print(" ⚪️ REQUEST: " + (method ?? "-") + " " + (url ?? "-"), "\n")
     }
     
     func log(httpResponse: RestResponse) {

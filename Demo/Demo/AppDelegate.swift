@@ -5,7 +5,7 @@ import RestService
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-    let service = RestService(host: "api.github.com")
+    let service = RestService(debug: true, host: "api.github.com")
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		

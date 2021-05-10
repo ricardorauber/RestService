@@ -498,7 +498,7 @@ And how does it look like? Here is a little sample:
 
 ```
 ==============================================
- ⚪️ REQUEST: https://api.github.com/users/ricardorauber/repos 
+ ⚪️ REQUEST: GET https://api.github.com/users/ricardorauber/repos 
 
 > Headers:
 [
