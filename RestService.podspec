@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
     test_spec.requires_app_host = true
     test_spec.source_files      = 'Tests/**/*'
 
-    test_spec.dependency 'Nimble', '9.0.0'
+    test_spec.dependency 'Nimble', '9.2.0'
     test_spec.dependency 'OHHTTPStubs/Swift', '9.1.0'
-    test_spec.dependency 'Quick', '3.0.0'
+    test_spec.dependency 'Quick', '4.0.0'
   end
 end
