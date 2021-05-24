@@ -6,6 +6,8 @@ open class RestTask {
     
     public var session: URLSession
     public var decoder: JSONDecoder
+    public var retryAttempts: Int
+    public var retryDelay: UInt32
     public var debug: Bool
     public private(set) var dataTask: URLSessionDataTask?
     public private(set) var request: URLRequest?
@@ -16,10 +18,14 @@ open class RestTask {
     
     public init(session: URLSession = .shared,
                 decoder: JSONDecoder = JSONDecoder(),
+                retryAttempts: Int = 0,
+                retryDelay: UInt32 = 0,
                 debug: Bool = false) {
         
         self.session = session
         self.decoder = decoder
+        self.retryAttempts = retryAttempts
+        self.retryDelay = retryDelay
         self.debug = debug
     }
     
@@ -30,6 +36,8 @@ open class RestTask {
     // MARK: - Request Execution
     
     open func prepare(request: URLRequest,
+                      autoResume: Bool,
+                      retryAdapter: @escaping (URLRequest, Int) -> URLRequest,
                       progress: @escaping (Double) -> Void,
                       completion: @escaping (RestResponse) -> Void) {
         cancel()
@@ -45,10 +53,28 @@ open class RestTask {
             if self.debug {
                 self.log(response: response)
             }
+            if (error != nil || response.statusCode >= 400) && self.retryAttempts > 0 {
+                if self.debug {
+                    self.log(retryAttempts: self.retryAttempts)
+                }
+                self.retryAttempts -= 1
+                sleep(self.retryDelay)
+                self.prepare(
+                    request: retryAdapter(request, self.retryAttempts),
+                    autoResume: true,
+                    retryAdapter: retryAdapter,
+                    progress: progress,
+                    completion: completion
+                )
+                return
+            }
             completion(response)
         }
         observation = dataTask?.progress.observe(\.fractionCompleted) { taskProgress, _ in
             progress(taskProgress.fractionCompleted)
+        }
+        if autoResume {
+            dataTask?.resume()
         }
     }
     
@@ -123,5 +149,10 @@ open class RestTask {
         }
         description = String(String(description.dropLast()).dropLast()) + "\n]"
         return description
+    }
+    
+    func log(retryAttempts: Int) {
+        print("> Retrying request: \(retryAttempts) attempts left.")
+        print("-----")
     }
 }

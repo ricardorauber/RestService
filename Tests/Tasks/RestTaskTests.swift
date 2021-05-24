@@ -11,6 +11,7 @@ class RestTaskTests: QuickSpec {
         
         beforeEach {
             task = RestTask()
+            task.debug = true
             let url = URL(string: "https://www.google.com")!
             request = URLRequest(url: url)
         }
@@ -24,6 +25,8 @@ class RestTaskTests: QuickSpec {
                     var completionTicked = false
                     task.prepare(
                         request: request,
+                        autoResume: false,
+                        retryAdapter: { _, _ in request },
                         progress: { _ in
                             progressTicked = true
                         },
@@ -36,9 +39,37 @@ class RestTaskTests: QuickSpec {
                     expect(completionTicked).toEventually(beTrue())
                 }
                 
+                it("should prepare the task correctly with retry") {
+                    var retryTicked = false
+                    var progressTicked = false
+                    var completionTicked = false
+                    request = URLRequest(url: URL(string: "https://www.google.com/oops")!)
+                    task.retryAttempts = 1
+                    task.prepare(
+                        request: request,
+                        autoResume: false,
+                        retryAdapter: { _, _ in
+                            retryTicked = true
+                            return request
+                        },
+                        progress: { _ in
+                            progressTicked = true
+                        },
+                        completion: { _ in
+                            completionTicked = true
+                        }
+                    )
+                    task.resume()
+                    expect(retryTicked).toEventually(beTrue())
+                    expect(progressTicked).toEventually(beTrue())
+                    expect(completionTicked).toEventually(beTrue())
+                }
+                
                 it("should prepare the task without resuming it") {
                     task.prepare(
                         request: request,
+                        autoResume: false,
+                        retryAdapter: { _, _ in request },
                         progress: { _ in },
                         completion: { _ in })
                     expect(task.dataTask).toNot(beNil())
@@ -48,6 +79,8 @@ class RestTaskTests: QuickSpec {
                 it("should resume the dataTask when needed") {
                     task.prepare(
                         request: request,
+                        autoResume: false,
+                        retryAdapter: { _, _ in request },
                         progress: { _ in },
                         completion: { _ in })
                     expect(task.dataTask).toNot(beNil())
@@ -59,6 +92,8 @@ class RestTaskTests: QuickSpec {
                 it("should suspend the dataTask when needed") {
                     task.prepare(
                         request: request,
+                        autoResume: false,
+                        retryAdapter: { _, _ in request },
                         progress: { _ in },
                         completion: { _ in })
                     expect(task.dataTask).toNot(beNil())

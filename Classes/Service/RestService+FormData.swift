@@ -10,6 +10,9 @@ extension RestService {
                          path: String,
                          parameters: [FormDataParameter],
                          interceptor: RequestInterceptor? = nil,
+                         retryAttempts: Int? = nil,
+                         retryDelay: UInt32? = nil,
+                         retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
                          progress: ((Double) -> Void)? = nil,
                          completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -30,6 +33,9 @@ extension RestService {
             debug: debug ?? self.debug,
             request: request,
             autoResume: startTasksAutomatically,
+            retryAttempts: retryAttempts ?? self.retryAttempts,
+            retryDelay: retryDelay ?? self.retryDelay,
+            retryAdapter: retryAdapter,
             progress: progress,
             completion: completion
         )
@@ -43,6 +49,9 @@ extension RestService {
                        path: String,
                        parameters: [FormDataParameter],
                        interceptor: RequestInterceptor? = nil,
+                       retryAttempts: Int? = nil,
+                       retryDelay: UInt32? = nil,
+                       retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
                        progress: ((Double) -> Void)? = nil,
                        completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
@@ -51,6 +60,9 @@ extension RestService {
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
+                               retryAttempts: retryAttempts ?? self.retryAttempts,
+                               retryDelay: retryDelay ?? self.retryDelay,
+                               retryAdapter: retryAdapter,
                                progress: progress) { response in
             completion(self.prepare(response: response))
         }
@@ -65,6 +77,9 @@ extension RestService {
                                      parameters: [FormDataParameter],
                                      interceptor: RequestInterceptor? = nil,
                                      responseType: D.Type,
+                                     retryAttempts: Int? = nil,
+                                     retryDelay: UInt32? = nil,
+                                     retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
                                      progress: ((Double) -> Void)? = nil,
                                      completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
@@ -73,6 +88,9 @@ extension RestService {
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
+                               retryAttempts: retryAttempts ?? self.retryAttempts,
+                               retryDelay: retryDelay ?? self.retryDelay,
+                               retryAdapter: retryAdapter,
                                progress: progress) { response in
             completion(self.prepare(response: response,
                                     responseType: responseType))
@@ -88,6 +106,9 @@ extension RestService {
                                              parameters: [FormDataParameter],
                                              interceptor: RequestInterceptor? = nil,
                                              customError: E.Type,
+                                             retryAttempts: Int? = nil,
+                                             retryDelay: UInt32? = nil,
+                                             retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
                                              progress: ((Double) -> Void)? = nil,
                                              completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
@@ -96,6 +117,9 @@ extension RestService {
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
+                               retryAttempts: retryAttempts ?? self.retryAttempts,
+                               retryDelay: retryDelay ?? self.retryDelay,
+                               retryAdapter: retryAdapter,
                                progress: progress) { response in
             completion(self.prepare(response: response,
                                     customError: customError))
@@ -113,6 +137,9 @@ extension RestService {
                                      interceptor: RequestInterceptor? = nil,
                                      responseType: D.Type,
                                      customError: E.Type,
+                                     retryAttempts: Int? = nil,
+                                     retryDelay: UInt32? = nil,
+                                     retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
                                      progress: ((Double) -> Void)? = nil,
                                      completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
@@ -121,6 +148,9 @@ extension RestService {
                                path: path,
                                parameters: parameters,
                                interceptor: interceptor,
+                               retryAttempts: retryAttempts ?? self.retryAttempts,
+                               retryDelay: retryDelay ?? self.retryDelay,
+                               retryAdapter: retryAdapter,
                                progress: progress) { response in
             completion(self.prepare(response: response,
                                     responseType: responseType,

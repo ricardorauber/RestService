@@ -26,6 +26,8 @@ open class RestService {
     public var port: Int?
     public var basePath: String?
     public var startTasksAutomatically: Bool
+    public var retryAttempts: Int
+    public var retryDelay: UInt32
     
     // MARK: - Initialization
     
@@ -37,7 +39,9 @@ open class RestService {
                 host: String,
                 port: Int? = nil,
                 basePath: String? = nil,
-                startTasksAutomatically: Bool = true) {
+                startTasksAutomatically: Bool = true,
+                retryAttempts: Int = 0,
+                retryDelay: UInt32 = 0) {
         
         self.session = session
         self.encoder = encoder
@@ -48,6 +52,8 @@ open class RestService {
         self.port = port
         self.basePath = basePath
         self.startTasksAutomatically = startTasksAutomatically
+        self.retryAttempts = retryAttempts
+        self.retryDelay = retryDelay
         
         bodyBuilder.encoder = encoder
         queryBuilder.encoder = encoder

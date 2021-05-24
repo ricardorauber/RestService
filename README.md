@@ -40,7 +40,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 2.6'
+    pod 'RestService', '~> 2.7'
 end
 ```
 
@@ -442,6 +442,42 @@ func getProfile(completion: @escaping (Result<Person, Error>) -> Void) {
         completion(response.result)
     }
 }
+```
+
+### Retrying a request
+
+Sometimes the service may not be available at the time of the request for some reason. When this happens, you might need to take a moment and make the same request again to get the desired results. Because of that, there is a way to retry your requests automatically for a number of times with some delay between them (if you wish) and you can also add information on it if necessary!
+
+```swift
+service.json(
+    method: .get,
+    retryAttempts: 3,
+    retryDelay: 1,
+    retryAdapter: { request, attemptsLeft in
+        var request = request
+        request.setValue("something", forHTTPHeaderField: "header field")
+        return request
+    },
+    path: "/api/me") { response in
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure(let error):
+        print("failure", error)
+    }
+}
+```
+
+As you can see above, there are 3 parameters when creating your request:
+- retryAttempts: The number of attempts that `RestService` should retry to make the request. In the example, we have 3, so if the request fails, it will try again 3 more times
+- retryDelay: The time (in seconds) that `RestService`will wait to retry the request
+- retryAdapter: A closure with the request and the amount of attempts left to retry for you to do anything you need with your request
+
+The number of attempts and the delay can be set as default of the whole serice as well:
+
+```swift
+let service = RestService(host: "api.github.com", retryAttempts: 2, retryDelay: 1)
 ```
 
 ### Handling the Task's Progress
