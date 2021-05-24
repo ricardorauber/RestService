@@ -446,7 +446,23 @@ func getProfile(completion: @escaping (Result<Person, Error>) -> Void) {
 
 ### Retrying a request
 
-Sometimes the service may not be available at the time of the request for some reason. When this happens, you might need to wait for a moment and make the same request again to get the desired results. Because of that, there is a way to retry your requests automatically for a number of times with some delay between them (if you wish) and you can also add information on it if necessary!
+Sometimes the service may not be available at the time of the request for some reason. When this happens, you might need to wait for a moment and make the same request again to get the desired results. Because of that, there is a way to retry your requests automatically for a number of times with some delay between them (if you wish) and you can also add some information on it if necessary!
+
+```swift
+service.json(
+    method: .get,
+    retryAttempts: 3,
+    path: "/api/me") { response in
+    
+    switch response {
+    case .success:
+        print("success!")
+    case .failure(let error):
+        print("failure", error)
+    }
+}
+```
+or:
 
 ```swift
 service.json(
