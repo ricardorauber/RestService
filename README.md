@@ -89,6 +89,8 @@ let urlService = RestService(url: URL(string: "https://server.com:3000")!)
 let stringService = RestService(url: "https://server.com:3000")
 ```
 
+---
+
 #### Making a simple JSON request
 
 Now that you have your service created, it's time to make some requests. Let's start with a very simple `GET` request on the `api/users` endpoint:
@@ -252,6 +254,8 @@ service.request(
 }
 ```
 
+---
+
 #### Making requests with an interceptor
 
 Interceptors are a great way to change something on a request just before sending it to the server. That's a really good opportunity to add some headers like an authentication token, for instance. Let's see it in action!
@@ -320,6 +324,8 @@ service.json(
     }
 }
 ```
+
+---
 
 ### Dealing with the response from the server
 
@@ -444,6 +450,8 @@ func getProfile(completion: @escaping (Result<Person, Error>) -> Void) {
 }
 ```
 
+---
+
 ### Retrying a request
 
 Sometimes the service may not be available at the time of the request for some reason. When this happens, you might need to wait for a moment and make the same request again to get the desired results. Because of that, there is a way to retry your requests automatically for a number of times with some delay between them (if you wish) and you can also add some information on it if necessary!
@@ -498,6 +506,8 @@ let service = RestService(host: "api.github.com", retryAttempts: 2, retryDelay: 
 
 `RestService` will retry the requests automatically when it could not make a request or if the response's status code is greater or equal to 400.
 
+---
+
 ### Handling the Task's Progress
 
 A cool thing is that with `RestService` you can handle the progress of any kind of task (not just JSON), so you could update the UI, for instance:
@@ -520,6 +530,8 @@ service.json(
     }
 )
 ```
+
+---
 
 ### Debug / Log
 
@@ -577,6 +589,8 @@ nil
 
 ------------------------------
 ```
+
+---
 
 ## Thanks 👍
 
