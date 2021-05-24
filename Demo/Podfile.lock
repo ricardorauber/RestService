@@ -14,8 +14,8 @@ PODS:
   - OHHTTPStubs/Swift (9.1.0):
     - OHHTTPStubs/Default
   - Quick (4.0.0)
-  - RestService (2.6.3)
-  - RestService/Tests (2.6.3):
+  - RestService (2.7.0)
+  - RestService/Tests (2.7.0):
     - Nimble (= 9.2.0)
     - OHHTTPStubs/Swift (= 9.1.0)
     - Quick (= 4.0.0)
@@ -38,7 +38,7 @@ SPEC CHECKSUMS:
   Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
   Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
-  RestService: dacae2aa2140e8cec1e090e44cf2fdca768da4cb
+  RestService: 21cdb1b36e843a46ba1e6906930b90bf32027c6e
 
 PODFILE CHECKSUM: 1224191ffc8c7768adc05ca0ba758837712a9745
 
