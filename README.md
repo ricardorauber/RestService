@@ -496,6 +496,8 @@ The number of attempts and the delay can be set as default of the whole serice a
 let service = RestService(host: "api.github.com", retryAttempts: 2, retryDelay: 1)
 ```
 
+`RestService` will retry the requests automatically when it could not make a request or if the response's status code is greater or equal to 400.
+
 ### Handling the Task's Progress
 
 A cool thing is that with `RestService` you can handle the progress of any kind of task (not just JSON), so you could update the UI, for instance:
