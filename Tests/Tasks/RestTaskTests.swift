@@ -26,7 +26,7 @@ class RestTaskTests: QuickSpec {
                     task.prepare(
                         request: request,
                         autoResume: false,
-                        retryAdapter: { _, _ in request },
+                        retryAdapter: { _, _, _ in request },
                         progress: { _ in
                             progressTicked = true
                         },
@@ -48,7 +48,7 @@ class RestTaskTests: QuickSpec {
                     task.prepare(
                         request: request,
                         autoResume: false,
-                        retryAdapter: { _, _ in
+                        retryAdapter: { _, _, _ in
                             retryTicked = true
                             return request
                         },
@@ -69,7 +69,7 @@ class RestTaskTests: QuickSpec {
                     task.prepare(
                         request: request,
                         autoResume: false,
-                        retryAdapter: { _, _ in request },
+                        retryAdapter: { _, _, _ in request },
                         progress: { _ in },
                         completion: { _ in })
                     expect(task.dataTask).toNot(beNil())
@@ -80,7 +80,7 @@ class RestTaskTests: QuickSpec {
                     task.prepare(
                         request: request,
                         autoResume: false,
-                        retryAdapter: { _, _ in request },
+                        retryAdapter: { _, _, _ in request },
                         progress: { _ in },
                         completion: { _ in })
                     expect(task.dataTask).toNot(beNil())
@@ -93,7 +93,7 @@ class RestTaskTests: QuickSpec {
                     task.prepare(
                         request: request,
                         autoResume: false,
-                        retryAdapter: { _, _ in request },
+                        retryAdapter: { _, _, _ in request },
                         progress: { _ in },
                         completion: { _ in })
                     expect(task.dataTask).toNot(beNil())

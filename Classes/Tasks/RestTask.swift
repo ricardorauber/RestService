@@ -37,30 +37,34 @@ open class RestTask {
     
     open func prepare(request: URLRequest,
                       autoResume: Bool,
-                      retryAdapter: @escaping (URLRequest, Int) -> URLRequest,
+                      retryAdapter: @escaping (URLRequest, Int, URLResponse?) -> URLRequest?,
                       progress: @escaping (Double) -> Void,
                       completion: @escaping (RestResponse) -> Void) {
         cancel()
+        self.request = request
         dataTask = session.dataTask(with: request) { data, response, error in
-            let response = RestResponse(
+            let restResponse = RestResponse(
                 decoder: self.decoder,
                 data: data,
                 request: request,
                 response: response,
                 error: error
             )
-            self.response = response
+            self.response = restResponse
             if self.debug {
-                self.log(response: response)
+                self.log(response: restResponse)
             }
-            if (error != nil || response.statusCode >= 400) && self.retryAttempts > 0 {
+            if (error != nil || restResponse.statusCode >= 400) && self.retryAttempts > 0 {
                 if self.debug {
                     self.log(retryAttempts: self.retryAttempts)
                 }
                 self.retryAttempts -= 1
                 sleep(self.retryDelay)
+                guard let adaptedRequest = retryAdapter(request, self.retryAttempts, response) else {
+                    return
+                }
                 self.prepare(
-                    request: retryAdapter(request, self.retryAttempts),
+                    request: adaptedRequest,
                     autoResume: true,
                     retryAdapter: retryAdapter,
                     progress: progress,
@@ -68,7 +72,7 @@ open class RestTask {
                 )
                 return
             }
-            completion(response)
+            completion(restResponse)
         }
         observation = dataTask?.progress.observe(\.fractionCompleted) { taskProgress, _ in
             progress(taskProgress.fractionCompleted)

@@ -40,7 +40,7 @@ If you are using CocoaPods, add this to your Podfile and run `pod install`.
 
 ```Ruby
 target 'Your target name' do
-    pod 'RestService', '~> 2.7'
+    pod 'RestService', '~> 2.8'
 end
 ```
 
@@ -477,7 +477,7 @@ service.json(
     method: .get,
     retryAttempts: 3,
     retryDelay: 1,
-    retryAdapter: { request, attemptsLeft in
+    retryAdapter: { request, attemptsLeft, response in
         var request = request
         request.setValue("something", forHTTPHeaderField: "header field")
         return request
@@ -496,7 +496,7 @@ service.json(
 As you can see above, there are 3 parameters when creating your request:
 - retryAttempts: The number of attempts that `RestService` should retry to make the request. In the example, we have 3, so if the request fails, it will try again 3 more times
 - retryDelay: The time (in seconds) that `RestService` will wait to retry the request
-- retryAdapter: A closure with the request and the amount of attempts left to retry for you to do anything you need with your request
+- retryAdapter: A closure with the request, the amount of attempts left to retry for you to do anything you need with your request and the last response (return `nil` in this closure to cancel the process)
 
 The number of attempts and the delay can be set as default of the whole serice as well:
 

@@ -11,7 +11,7 @@ extension RestService {
                                interceptor: RequestInterceptor? = nil,
                                retryAttempts: Int? = nil,
                                retryDelay: UInt32? = nil,
-                               retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                               retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                progress: ((Double) -> Void)? = nil,
                                completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -48,7 +48,7 @@ extension RestService {
                              interceptor: RequestInterceptor? = nil,
                              retryAttempts: Int? = nil,
                              retryDelay: UInt32? = nil,
-                             retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                             retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                              progress: ((Double) -> Void)? = nil,
                              completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
@@ -74,7 +74,7 @@ extension RestService {
                                            responseType: D.Type,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
@@ -101,7 +101,7 @@ extension RestService {
                                                    customError: E.Type,
                                                    retryAttempts: Int? = nil,
                                                    retryDelay: UInt32? = nil,
-                                                   retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                                   retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                                    progress: ((Double) -> Void)? = nil,
                                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
@@ -130,7 +130,7 @@ extension RestService {
                                            customError: E.Type,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
@@ -161,7 +161,7 @@ extension RestService {
                                            interceptor: RequestInterceptor? = nil,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -201,7 +201,7 @@ extension RestService {
                                          interceptor: RequestInterceptor? = nil,
                                          retryAttempts: Int? = nil,
                                          retryDelay: UInt32? = nil,
-                                         retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                         retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                          progress: ((Double) -> Void)? = nil,
                                          completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
@@ -230,7 +230,7 @@ extension RestService {
                                            responseType: D.Type,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
@@ -260,7 +260,7 @@ extension RestService {
                                            customError: E.Type,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
@@ -292,7 +292,7 @@ extension RestService {
                                            customError: E.Type,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         
@@ -324,7 +324,7 @@ extension RestService {
                                interceptor: RequestInterceptor? = nil,
                                retryAttempts: Int? = nil,
                                retryDelay: UInt32? = nil,
-                               retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                               retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                progress: ((Double) -> Void)? = nil,
                                completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -364,7 +364,7 @@ extension RestService {
                              interceptor: RequestInterceptor? = nil,
                              retryAttempts: Int? = nil,
                              retryDelay: UInt32? = nil,
-                             retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                             retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                              progress: ((Double) -> Void)? = nil,
                              completion: @escaping (RestTaskResult) -> Void) -> RestTask? {
         
@@ -392,7 +392,7 @@ extension RestService {
                                            responseType: D.Type,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResultWithData<D>) -> Void) -> RestTask? {
         
@@ -421,7 +421,7 @@ extension RestService {
                                                    customError: E.Type,
                                                    retryAttempts: Int? = nil,
                                                    retryDelay: UInt32? = nil,
-                                                   retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                                   retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                                    progress: ((Double) -> Void)? = nil,
                                                    completion: @escaping (RestTaskResultWithCustomError<E>) -> Void) -> RestTask? {
         
@@ -452,7 +452,7 @@ extension RestService {
                                            customError: E.Type,
                                            retryAttempts: Int? = nil,
                                            retryDelay: UInt32? = nil,
-                                           retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+                                           retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                                            progress: ((Double) -> Void)? = nil,
                                            completion: @escaping (RestTaskResultWithDataAndCustomError<D, E>) -> Void) -> RestTask? {
         

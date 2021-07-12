@@ -9,7 +9,7 @@ struct TaskBuilder {
                autoResume: Bool,
                retryAttempts: Int = 0,
                retryDelay: UInt32 = 0,
-               retryAdapter: ((URLRequest, Int) -> URLRequest)? = nil,
+               retryAdapter: ((URLRequest, Int, URLResponse?) -> URLRequest?)? = nil,
                progress: ((Double) -> Void)? = nil,
                completion: @escaping (RestResponse) -> Void) -> RestTask? {
         
@@ -23,8 +23,8 @@ struct TaskBuilder {
         task.prepare(
             request: request,
             autoResume: autoResume,
-            retryAdapter: { request, retryAttempts in
-                retryAdapter?(request, retryAttempts) ?? request
+            retryAdapter: { request, retryAttempts, response in
+                retryAdapter?(request, retryAttempts, response) ?? request
             },
             progress: { progressValue in
                 progress?(progressValue)
