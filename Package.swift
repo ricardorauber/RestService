@@ -27,7 +27,7 @@ let package = Package(
 			path: "Sources"),
         .testTarget(
             name: "RestServiceTests",
-            dependencies: ["RestService", "Nimble", "OHHTTPStubsSwift", "Quick"],
+            dependencies: ["RestService", "Nimble", "OHHTTPStubs", "Quick"],
 			path: "Tests"),
     ],
 	swiftLanguageVersions: [.v5]
