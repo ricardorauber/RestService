@@ -10,11 +10,11 @@ Pod::Spec.new do |s|
   s.source                = { :git => 'https://github.com/ricardorauber/RestService.git', :tag => s.version }
   s.summary               = 'A light REST service framework for iOS projects'
   s.pod_target_xcconfig   = { 'ENABLE_TESTABILITY' => 'YES' }
-  s.source_files          = 'Classes/**/*'
+  s.source_files          = 'Sources/RestService/**/*'
   
   s.test_spec 'Tests' do |test_spec|
     test_spec.requires_app_host = true
-    test_spec.source_files      = 'Tests/**/*'
+    test_spec.source_files      = 'Tests/RestServicesTests/**/*'
 
     test_spec.dependency 'Nimble', '9.2.0'
     test_spec.dependency 'OHHTTPStubs/Swift', '9.1.0'
